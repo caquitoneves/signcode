@@ -34,15 +34,22 @@ docker/       # docker-compose e Dockerfiles de desenvolvimento
 Pré-requisitos: **Node 22+**, **pnpm** (via `corepack enable`) e **Docker** (para o Postgres).
 
 ```bash
-# 1. instalar dependências
+# 1. dependências
 corepack enable
 pnpm install
 
-# 2. subir o Postgres local
-cp .env.example .env
+# 2. variáveis de ambiente (uma cópia por app)
+cp .env.example .env                          # raiz: Postgres (docker)
+cp apps/api/.env.example apps/api/.env        # api: gere segredos -> openssl rand -base64 48
+cp apps/web/.env.example apps/web/.env.local  # web
+
+# 3. banco (Postgres)
 docker compose up -d
 
-# 3. rodar tudo (web + api)
+# 4. Prisma: gera o client e cria as tabelas (uma vez)
+pnpm --filter @projetox/api prisma:migrate:dev
+
+# 5. rodar tudo (web + api)
 pnpm dev
 ```
 
