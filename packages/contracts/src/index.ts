@@ -92,3 +92,24 @@ export interface LessonDetail {
   videos: LessonVideo[];
   materials: LessonMaterial[];
 }
+
+// ---------- Auth ----------
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  role: string;
+}
+
+export interface AuthResponse {
+  user: AuthUser;
+  csrfToken: string;
+}
+
+export interface AuthMe {
+  id: string;
+  email: string;
+  name: string | null;
+  role: string;
+  createdAt: string;
+}
