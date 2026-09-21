@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { LessonDetail } from '@projetox/contracts';
 import { cn } from '@projetox/ui';
 import { languageLabel, orderLanguages } from '../lib/languages';
+import { LessonComplete } from './lesson-complete';
 import { VideoEmbed } from './video-embed';
 
 const PREF_KEY = 'preferredLessonLanguage';
@@ -87,6 +88,8 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
         ) : null}
         <VideoEmbed video={currentVideo} title={`${title} — ${languageLabel(lang)}`} />
       </section>
+
+      <LessonComplete lessonId={lesson.id} courseSlug={lesson.courseSlug} />
 
       {objectives.length > 0 ? (
         <section aria-labelledby="obj-h" className="flex flex-col gap-2">

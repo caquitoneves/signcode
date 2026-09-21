@@ -28,6 +28,8 @@ model User {
 
   refreshTokens  RefreshToken[]
   passwordResets PasswordResetToken[]
+  enrollments    Enrollment[]
+  lessonProgress LessonProgress[]
 
   @@map("users")
 }
@@ -63,9 +65,7 @@ model PasswordResetToken {
 }
 
 // ==========================================================
-// Conteúdo (Incremento 3)
-// Libras é uma modalidade linguística de 1ª classe: vive em
-// LessonTranslation/LessonVideo via `languageCode`, não acoplada.
+// Conteúdo (Incremento 3) — Libras é 1ª classe via languageCode
 // ==========================================================
 
 enum CourseStatus {
@@ -84,7 +84,8 @@ model Course {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  modules Module[]
+  modules     Module[]
+  enrollments Enrollment[]
 
   @@map("courses")
 }
@@ -120,13 +121,13 @@ model Lesson {
   translations LessonTranslation[]
   videos       LessonVideo[]
   materials    LessonMaterial[]
+  progress     LessonProgress[]
 
   @@unique([moduleId, slug])
   @@index([moduleId])
   @@map("lessons")
 }
 
-// Conteúdo textual por idioma ('pt-BR', 'libras', ...).
 model LessonTranslation {
   id           String   @id @default(cuid())
   lessonId     String
@@ -135,9 +136,9 @@ model LessonTranslation {
   title        String
   summary      String?
   bodyMarkdown String?
-  caption      String? // legenda
-  transcript   String? // transcrição
-  objectives   String[] // objetivos de aprendizagem
+  caption      String?
+  transcript   String?
+  objectives   String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -147,13 +148,12 @@ model LessonTranslation {
   @@map("lesson_translations")
 }
 
-// Vídeo por idioma. Libras => languageCode = 'libras' (vídeo de 1ª classe).
 model LessonVideo {
   id              String @id @default(cuid())
   lessonId        String
   lesson          Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   languageCode    String
-  provider        String // 'youtube' | 'cloudflare' | 'bunny' | 'mux' | ...
+  provider        String
   externalId      String
   durationSeconds Int?
 
@@ -166,15 +166,49 @@ model LessonVideo {
 }
 
 model LessonMaterial {
-  id        String @id @default(cuid())
-  lessonId  String
-  lesson    Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  title     String
-  url       String
-  order     Int    @default(0)
+  id       String @id @default(cuid())
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  title    String
+  url      String
+  order    Int    @default(0)
 
   createdAt DateTime @default(now())
 
   @@index([lessonId])
   @@map("lesson_materials")
+}
+
+// ==========================================================
+// Progresso (Incremento 5)
+// ==========================================================
+
+model Enrollment {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@map("enrollments")
+}
+
+model LessonProgress {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  completedAt DateTime @default(now())
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+  @@map("lesson_progress")
 }

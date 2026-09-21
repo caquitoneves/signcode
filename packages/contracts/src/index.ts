@@ -113,3 +113,12 @@ export interface AuthMe {
   role: string;
   createdAt: string;
 }
+
+// ---------- Progresso ----------
+
+export interface CourseProgress {
+  enrolled: boolean;
+  total: number;
+  completed: number;
+  completedLessonIds: string[];
+}

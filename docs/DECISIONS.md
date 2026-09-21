@@ -87,3 +87,11 @@ e evita construir wiring antes da necessidade (anti-overengineering).
 - **Consequências:** adicionar um idioma é dado novo, sem migração de schema; Course/Module
   multilíngues exigem `CourseTranslation`/`ModuleTranslation` no futuro (aditivo).
 - **Reversibilidade:** média (aditivo).
+
+## ADR-0014 — Progresso e matrícula
+
+- **Decisão:** `Enrollment` (usuário↔curso) e `LessonProgress` (usuário↔aula), ambos com chave
+  única para idempotência. Concluir uma aula **matricula automaticamente** no curso (menos atrito).
+  Endpoints autenticados; mutações protegidas por CSRF. Access token curto é revalidado por
+  refresh silencioso no front.
+- **Reversibilidade:** alta (aditivo).

@@ -15,7 +15,7 @@ revisar -> mostrar alterações -> dizer como testar -> registrar decisões. Par
   Modelo de conteúdo multilíngue (LessonTranslation/LessonVideo), seed de conteúdo, endpoints admin mínimos.
 - **Incremento 4 — Primeiro player de aula** _(concluído)_
   Player acessível (Libras + legenda + transcrição + texto + código); base para PiP/velocidade/preferências.
-- **Incremento 5 — Progress**
+- **Incremento 5 — Progress** _(concluído)_
   Conclusão de aula/módulo/curso, painel de progresso.
 - **Incremento 6 — Exercises**
   Quiz/lacuna, submissão, feedback; abstração Exercise -> Evaluator.
