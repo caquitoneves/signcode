@@ -5,13 +5,13 @@ revisar -> mostrar alterações -> dizer como testar -> registrar decisões. Par
 
 ## Incrementos
 
-- **Incremento 1 — Fundação** _(em andamento)_
+- **Incremento 1 — Fundação** _(concluído)_
   Monorepo, apps/web, apps/api, packages, Docker local, Postgres (compose), TypeScript, lint,
   formatter, Git, README, docs, healthcheck da API, primeira página do front, CI básico.
-- **Incremento 2 — Auth completo**
+- **Incremento 2 — Auth completo** _(concluído)_
   Argon2id, access/refresh rotativo, cookies HttpOnly, CSRF, rate limiting, recuperação de senha,
   invalidação de sessão, RBAC. Prisma com modelos User/Session.
-- **Incremento 3 — Courses -> Modules -> Lessons**
+- **Incremento 3 — Courses -> Modules -> Lessons** _(concluído)_
   Modelo de conteúdo multilíngue (LessonTranslation/LessonVideo), seed de conteúdo, endpoints admin mínimos.
 - **Incremento 4 — Primeiro player de aula**
   Player acessível (Libras + legenda + transcrição + texto + código); base para PiP/velocidade/preferências.

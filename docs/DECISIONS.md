@@ -76,3 +76,14 @@ Postgres entra como serviço de `docker-compose` + Prisma configurado (datasourc
 **sem modelos ainda** e **sem conectar no boot da API**. Os modelos e o `PrismaService` entram no
 Incremento 2 (auth), quando há uso real. Isso mantém o Incremento 1 executável e testável sem banco,
 e evita construir wiring antes da necessidade (anti-overengineering).
+
+## ADR-0013 — Modelo de conteúdo (aula multilíngue; Libras 1ª classe)
+
+- **Contexto:** Libras deve ser modalidade linguística de primeira classe, não acoplada.
+- **Decisão:** o conteúdo humano da AULA vive em `LessonTranslation` (título, resumo, corpo,
+  legenda, transcrição, objetivos) e `LessonVideo`, ambos por `languageCode` ('pt-BR', 'libras', …).
+  Um vídeo em Libras é simplesmente `languageCode = 'libras'`. `Course`/`Module` têm título/descrição
+  em idioma único no MVP (são navegação); tornar-se-ão multilíngues depois com o mesmo padrão.
+- **Consequências:** adicionar um idioma é dado novo, sem migração de schema; Course/Module
+  multilíngues exigem `CourseTranslation`/`ModuleTranslation` no futuro (aditivo).
+- **Reversibilidade:** média (aditivo).
