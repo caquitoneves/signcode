@@ -1,0 +1,9 @@
+{
+  "name": "@projetox/config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Presets de tsconfig compartilhados do monorepo.",
+  "files": [
+    "tsconfig"
+  ]
+}

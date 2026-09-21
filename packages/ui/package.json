@@ -1,0 +1,21 @@
+{
+  "name": "@projetox/ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Componentes e utilitários de UI compartilhados. Cresce com o player de aula.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

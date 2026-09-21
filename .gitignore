@@ -1,0 +1,40 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# builds
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# turbo
+.turbo/
+
+# env
+.env
+.env.*
+!.env.example
+
+# tests
+coverage/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# generated
+apps/api/openapi.json
+packages/contracts/src/generated/
+
+# pasta temporária de limpeza (sandbox sem permissão de exclusão) — apague no Explorer
+_to_delete/
