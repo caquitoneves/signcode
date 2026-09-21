@@ -13,7 +13,7 @@ revisar -> mostrar alterações -> dizer como testar -> registrar decisões. Par
   invalidação de sessão, RBAC. Prisma com modelos User/Session.
 - **Incremento 3 — Courses -> Modules -> Lessons** _(concluído)_
   Modelo de conteúdo multilíngue (LessonTranslation/LessonVideo), seed de conteúdo, endpoints admin mínimos.
-- **Incremento 4 — Primeiro player de aula**
+- **Incremento 4 — Primeiro player de aula** _(concluído)_
   Player acessível (Libras + legenda + transcrição + texto + código); base para PiP/velocidade/preferências.
 - **Incremento 5 — Progress**
   Conclusão de aula/módulo/curso, painel de progresso.

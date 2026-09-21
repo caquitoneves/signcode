@@ -1,45 +1,56 @@
-import { cn } from '@projetox/ui';
+'use client';
+
+import Link from 'next/link';
+import { StateMessage } from '@/components/state-message';
+import { api } from '@/lib/api';
+import { useFetch } from '@/lib/use-fetch';
 
 export default function HomePage() {
-  return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-8 px-6 py-16">
-      <span
-        className={cn(
-          'inline-flex w-fit items-center rounded-full px-3 py-1 text-sm font-medium',
-          'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-200',
-        )}
-      >
-        Incremento 1 — fundação no ar ✓
-      </span>
+  const { data, error, loading } = useFetch(() => api.listCourses(), []);
 
-      <div className="flex flex-col gap-4">
+  return (
+    <main className="mx-auto flex max-w-5xl flex-col gap-12 px-6 py-12">
+      <section className="flex flex-col gap-4">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
           Aprender tecnologia em Libras.
         </h1>
-        <p className="text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
-          Uma plataforma de educação em tecnologia construída para pessoas surdas, com Libras como
-          língua de ensino de primeira classe — não como legenda ou janela de intérprete.
+        <p className="max-w-2xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
+          Educação em tecnologia com Libras como língua de ensino de primeira classe — vídeo,
+          legenda, transcrição e texto de apoio em cada aula. Nada essencial depende de áudio.
         </p>
-      </div>
+      </section>
 
-      <ul className="flex flex-col gap-2 text-neutral-700 dark:text-neutral-300">
-        <li>✓ Libras, português escrito, legenda, transcrição e apoio visual em cada aula.</li>
-        <li>✓ Nenhuma informação essencial depende de áudio.</li>
-        <li>✓ Prática e progresso desde o começo.</li>
-      </ul>
+      <section aria-labelledby="cursos-h" className="flex flex-col gap-4">
+        <h2 id="cursos-h" className="text-xl font-semibold">
+          Cursos
+        </h2>
 
-      <div>
-        <a
-          href="/docs"
-          className={cn(
-            'inline-flex items-center rounded-lg px-5 py-3 font-medium',
-            'bg-indigo-600 text-white transition-colors hover:bg-indigo-700',
-            'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-          )}
-        >
-          Documentação da API
-        </a>
-      </div>
+        {loading ? <StateMessage>Carregando cursos…</StateMessage> : null}
+        {error ? <StateMessage>Não foi possível carregar os cursos. {error}</StateMessage> : null}
+        {data && data.length === 0 ? (
+          <StateMessage>Nenhum curso publicado ainda.</StateMessage>
+        ) : null}
+
+        {data && data.length > 0 ? (
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {data.map((course) => (
+              <li key={course.id}>
+                <Link
+                  href={`/cursos/${course.slug}`}
+                  className="block h-full rounded-xl border border-neutral-200 p-5 transition-colors hover:border-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-neutral-800 dark:hover:border-indigo-500"
+                >
+                  <h3 className="font-semibold">{course.title}</h3>
+                  {course.description ? (
+                    <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
+                      {course.description}
+                    </p>
+                  ) : null}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </section>
     </main>
   );
 }
