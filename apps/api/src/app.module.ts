@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { CoursesModule } from './courses/courses.module';
+import { ExercisesModule } from './exercises/exercises.module';
 import { ProgressModule } from './progress/progress.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { validateEnv } from './config/env.validation';
@@ -20,6 +21,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     CoursesModule,
     ProgressModule,
+    ExercisesModule,
     UsersModule,
     MailModule,
     HealthModule,

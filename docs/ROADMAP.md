@@ -17,7 +17,7 @@ revisar -> mostrar alterações -> dizer como testar -> registrar decisões. Par
   Player acessível (Libras + legenda + transcrição + texto + código); base para PiP/velocidade/preferências.
 - **Incremento 5 — Progress** _(concluído)_
   Conclusão de aula/módulo/curso, painel de progresso.
-- **Incremento 6 — Exercises**
+- **Incremento 6 — Exercises** _(concluído)_
   Quiz/lacuna, submissão, feedback; abstração Exercise -> Evaluator.
 - **Incremento 7 — Dashboard**
   Painel do aluno; primeira experiência fim a fim.

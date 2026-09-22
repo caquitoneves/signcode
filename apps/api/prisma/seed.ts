@@ -34,7 +34,7 @@ async function main(): Promise<void> {
     data: { courseId: course.id, title: 'Como funciona a programação', order: 0 },
   });
 
-  await prisma.lesson.create({
+  const lesson1 = await prisma.lesson.create({
     data: {
       moduleId: modulo1.id,
       slug: 'o-que-e-programacao',
@@ -125,6 +125,34 @@ async function main(): Promise<void> {
           { languageCode: 'libras', provider: 'youtube', externalId: 'PLACEHOLDER_LIBRAS_3' },
         ],
       },
+    },
+  });
+
+  await prisma.exercise.create({
+    data: {
+      lessonId: lesson1.id,
+      order: 0,
+      type: 'MULTIPLE_CHOICE',
+      prompt: 'O que é um programa de computador?',
+      explanation: 'Um programa é um conjunto de instruções que o computador executa em ordem.',
+      options: {
+        create: [
+          { text: 'Uma sequência de instruções', isCorrect: true, order: 0 },
+          { text: 'Um tipo de monitor', isCorrect: false, order: 1 },
+          { text: 'Uma marca de computador', isCorrect: false, order: 2 },
+        ],
+      },
+    },
+  });
+
+  await prisma.exercise.create({
+    data: {
+      lessonId: lesson1.id,
+      order: 1,
+      type: 'FILL_BLANK',
+      prompt: 'Complete: um valor que pode mudar durante a execução chama-se ____.',
+      explanation: 'Chamamos de variável.',
+      acceptedAnswers: ['variável', 'variavel'],
     },
   });
 

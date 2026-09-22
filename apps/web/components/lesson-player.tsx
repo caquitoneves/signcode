@@ -6,6 +6,7 @@ import type { LessonDetail } from '@projetox/contracts';
 import { cn } from '@projetox/ui';
 import { languageLabel, orderLanguages } from '../lib/languages';
 import { LessonComplete } from './lesson-complete';
+import { LessonExercises } from './lesson-exercises';
 import { VideoEmbed } from './video-embed';
 
 const PREF_KEY = 'preferredLessonLanguage';
@@ -159,6 +160,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
           </ul>
         </section>
       ) : null}
+      <LessonExercises lessonId={lesson.id} />
     </article>
   );
 }

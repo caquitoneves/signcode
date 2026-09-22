@@ -29,7 +29,8 @@ model User {
   refreshTokens  RefreshToken[]
   passwordResets PasswordResetToken[]
   enrollments    Enrollment[]
-  lessonProgress LessonProgress[]
+  lessonProgress      LessonProgress[]
+  exerciseSubmissions ExerciseSubmission[]
 
   @@map("users")
 }
@@ -122,6 +123,7 @@ model Lesson {
   videos       LessonVideo[]
   materials    LessonMaterial[]
   progress     LessonProgress[]
+  exercises    Exercise[]
 
   @@unique([moduleId, slug])
   @@index([moduleId])
@@ -211,4 +213,62 @@ model LessonProgress {
   @@index([userId])
   @@index([lessonId])
   @@map("lesson_progress")
+}
+
+// ==========================================================
+// Exercícios (Incremento 6) — Exercise -> Evaluator
+// CODE (execução isolada) entra no futuro como serviço separado.
+// ==========================================================
+
+enum ExerciseType {
+  MULTIPLE_CHOICE
+  FILL_BLANK
+}
+
+model Exercise {
+  id              String       @id @default(cuid())
+  lessonId        String
+  lesson          Lesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  order           Int          @default(0)
+  type            ExerciseType
+  prompt          String
+  explanation     String?
+  acceptedAnswers String[] // usado por FILL_BLANK
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  options     ExerciseOption[]
+  submissions ExerciseSubmission[]
+
+  @@index([lessonId])
+  @@map("exercises")
+}
+
+model ExerciseOption {
+  id         String   @id @default(cuid())
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  text       String
+  isCorrect  Boolean  @default(false)
+  order      Int      @default(0)
+
+  @@index([exerciseId])
+  @@map("exercise_options")
+}
+
+model ExerciseSubmission {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  answer     String // optionId escolhido ou texto respondido
+  isCorrect  Boolean
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([exerciseId])
+  @@map("exercise_submissions")
 }

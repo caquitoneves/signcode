@@ -122,3 +122,23 @@ export interface CourseProgress {
   completed: number;
   completedLessonIds: string[];
 }
+
+// ---------- Exercícios ----------
+
+export interface ExerciseOptionPublic {
+  id: string;
+  text: string;
+}
+
+export interface ExercisePublic {
+  id: string;
+  order: number;
+  type: string;
+  prompt: string;
+  options: ExerciseOptionPublic[];
+}
+
+export interface ExerciseSubmissionResult {
+  correct: boolean;
+  explanation: string | null;
+}
