@@ -41,9 +41,9 @@ export class ProgressController {
     return this.progress.uncompleteLesson(user.id, id);
   }
 
-  @Get('me/enrollments')
-  @ApiOperation({ summary: 'Cursos em que o usuário está matriculado' })
-  myEnrollments(@CurrentUser() user: AuthUser) {
-    return this.progress.listMyEnrollments(user.id);
+  @Get('me/dashboard')
+  @ApiOperation({ summary: 'Painel do aluno: cursos matriculados com progresso' })
+  dashboard(@CurrentUser() user: AuthUser) {
+    return this.progress.getDashboard(user.id);
   }
 }

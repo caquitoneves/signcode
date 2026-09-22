@@ -68,7 +68,6 @@ export class ProgressService {
     if (!lesson || lesson.module.course.status !== CourseStatus.PUBLISHED) {
       throw new NotFoundException('Aula não encontrada');
     }
-    // Concluir uma aula matricula automaticamente no curso.
     await this.prisma.enrollment.upsert({
       where: { userId_courseId: { userId, courseId: lesson.module.courseId } },
       create: { userId, courseId: lesson.module.courseId },
@@ -90,15 +89,48 @@ export class ProgressService {
     return { lessonId, completed: false };
   }
 
-  async listMyEnrollments(userId: string) {
+  /** Painel do aluno: cursos matriculados com progresso consolidado. */
+  async getDashboard(userId: string) {
     const enrollments = await this.prisma.enrollment.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
       select: {
         createdAt: true,
-        course: { select: { id: true, slug: true, title: true, description: true } },
+        course: {
+          select: {
+            id: true,
+            slug: true,
+            title: true,
+            description: true,
+            modules: { select: { lessons: { select: { id: true } } } },
+          },
+        },
       },
     });
-    return enrollments.map((e) => ({ enrolledAt: e.createdAt, course: e.course }));
+
+    const allLessonIds = enrollments.flatMap((e) =>
+      e.course.modules.flatMap((m) => m.lessons.map((l) => l.id)),
+    );
+    const done = await this.prisma.lessonProgress.findMany({
+      where: { userId, lessonId: { in: allLessonIds } },
+      select: { lessonId: true },
+    });
+    const doneSet = new Set(done.map((d) => d.lessonId));
+
+    return enrollments.map((e) => {
+      const lessonIds = e.course.modules.flatMap((m) => m.lessons.map((l) => l.id));
+      const completed = lessonIds.filter((id) => doneSet.has(id)).length;
+      return {
+        enrolledAt: e.createdAt,
+        course: {
+          id: e.course.id,
+          slug: e.course.slug,
+          title: e.course.title,
+          description: e.course.description,
+        },
+        total: lessonIds.length,
+        completed,
+      };
+    });
   }
 }

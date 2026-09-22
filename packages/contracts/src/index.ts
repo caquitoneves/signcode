@@ -142,3 +142,12 @@ export interface ExerciseSubmissionResult {
   correct: boolean;
   explanation: string | null;
 }
+
+// ---------- Painel ----------
+
+export interface DashboardCourse {
+  course: { id: string; slug: string; title: string; description: string | null };
+  total: number;
+  completed: number;
+  enrolledAt: string;
+}

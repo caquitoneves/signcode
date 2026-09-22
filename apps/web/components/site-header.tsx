@@ -26,6 +26,12 @@ export function SiteHeader() {
 
           {loading ? null : user ? (
             <>
+              <Link
+                href="/painel"
+                className="text-neutral-700 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-neutral-200 dark:hover:text-white"
+              >
+                Meu painel
+              </Link>
               <span className="hidden text-neutral-500 sm:inline" aria-label="Conectado como">
                 {user.name ?? user.email}
               </span>

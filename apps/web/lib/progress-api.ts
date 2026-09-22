@@ -1,4 +1,4 @@
-import type { CourseProgress } from '@projetox/contracts';
+import type { CourseProgress, DashboardCourse } from '@projetox/contracts';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3333';
 
@@ -27,4 +27,5 @@ export const progressApi = {
   complete: (lessonId: string) => req(`/lessons/${encodeURIComponent(lessonId)}/complete`, 'POST'),
   uncomplete: (lessonId: string) =>
     req(`/lessons/${encodeURIComponent(lessonId)}/complete`, 'DELETE'),
+  getDashboard: () => req<DashboardCourse[]>('/me/dashboard'),
 };

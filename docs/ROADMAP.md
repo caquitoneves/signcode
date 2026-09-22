@@ -19,7 +19,7 @@ revisar -> mostrar alterações -> dizer como testar -> registrar decisões. Par
   Conclusão de aula/módulo/curso, painel de progresso.
 - **Incremento 6 — Exercises** _(concluído)_
   Quiz/lacuna, submissão, feedback; abstração Exercise -> Evaluator.
-- **Incremento 7 — Dashboard**
+- **Incremento 7 — Dashboard** _(concluído)_
   Painel do aluno; primeira experiência fim a fim.
 
 ## Horizonte de 6 meses (aprox.)
