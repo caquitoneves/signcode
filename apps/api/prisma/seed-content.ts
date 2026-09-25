@@ -1,5 +1,5 @@
 // GERADO A PARTIR DO PACOTE PEDAGÓGICO v1 (Módulos 0, 1 e 2).
-// Conteúdo de apoio das aulas. Vídeos são de exemplo até termos as gravações em Libras.
+// Conteúdo de apoio das aulas (Markdown). Vídeos são de exemplo até termos as gravações em Libras.
 // Editar aqui e rodar `pnpm prisma db seed`.
 
 export interface SeedExerciseOption {
@@ -43,33 +43,33 @@ export const COURSE: SeedCourse = {
     {
       title: 'Bem-vindo à Tecnologia',
       description:
-        'Entender o que é programação, o que faz uma pessoa desenvolvedora, as áreas da tecnologia e como será a jornada de aprendizagem.',
+        'Entender o que é programação, o que faz uma pessoa desenvolvedora, as áreas da tecnologia e como será a sua jornada.',
       lessons: [
         {
           slug: 'bem-vindo-a-programacao',
           title: 'Bem-vindo à programação',
           summary:
-            'Apresentação do curso e da sua jornada. Você não precisa saber programar para começar.',
+            'Apresentação do curso e da sua jornada. Você não precisa saber nada para começar.',
           duration: 300,
           objectives: [
             'Conhecer a plataforma e a jornada',
             'Entender a metodologia do curso',
-            'Reduzir a ansiedade de começar do zero',
+            'Começar sem medo',
           ],
-          body: '## Objetivo\nApresentar o curso e mostrar que qualquer pessoa pode começar.\n\n## A ideia principal\nVocê **não precisa saber programar** para começar a aprender programação.\n\n## Sua jornada\n\n```\nVocê está aqui -> Aprender -> Praticar -> Errar -> Tentar de novo -> Construir -> Publicar -> Evoluir\n```\n\nProgramação não é decorar fórmulas. Você vai aprender a observar problemas, dividir em partes, criar soluções, testar e corrigir.\n\n## Pratique\nResponda para você: **por que você decidiu aprender programação?** Não existe resposta certa.\n\n## Resumo\nAprender programação é uma habilidade que se desenvolve com prática. Comece sem medo.',
+          body: '> **A ideia mais importante deste curso:** você **não precisa saber programar** para começar a aprender programação. Ninguém nasce sabendo — todo mundo começou do zero.\n\n## Sua jornada começa aqui\n\nAprender a programar é como aprender um caminho novo. Você vai passar por estas etapas — várias vezes:\n\n```\n   VOCÊ ESTÁ AQUI\n        │\n     Aprender  ──►  Praticar  ──►  Errar\n        ▲                            │\n        └──────  Tentar de novo  ◄───┘\n                     │\n                 Construir  ──►  Publicar  ──►  Evoluir\n```\n\n> **Errar faz parte.** Cada erro é uma pista que te aproxima da solução. Programadores experientes erram o dia inteiro — a diferença é que aprenderam a gostar de investigar.\n\n## O que você vai desenvolver\n\nNeste curso você **não** vai decorar fórmulas. Você vai treinar 4 habilidades:\n\n- **Observar** um problema com calma\n- **Dividir** ele em partes menores\n- **Criar** uma solução passo a passo\n- **Testar e corrigir** até funcionar\n\n## Pratique\n\nPare 1 minuto e responda para você mesmo:\n\n> **Por que você decidiu aprender programação?**\n\nNão existe resposta certa. Guarde essa motivação — ela vai te ajudar nos dias difíceis.\n\n## Resumo\n\nProgramação é uma **habilidade que se desenvolve com prática**, como dirigir ou cozinhar. Comece devagar, sem pressa e sem medo.',
           exercises: [],
         },
         {
           slug: 'o-que-e-programacao',
           title: 'O que é programação?',
           summary:
-            'Programar é escrever instruções para resolver um problema — mas antes vem pensar na solução.',
+            'Programar é dar instruções para resolver um problema — e tudo começa pensando na solução.',
           duration: 360,
           objectives: [
             'Compreender programação como criação de instruções',
             'Reconhecer algoritmos no dia a dia',
           ],
-          body: '## Conceito\nProgramar é escrever instruções que um computador consegue executar. Antes de escrever código existe uma etapa importante: **pensar na solução**.\n\n## Exemplo do dia a dia\nPreparar um café:\n\n```\n1. Pegar uma xícara\n2. Colocar café\n3. Aquecer água\n4. Colocar água\n5. Misturar\n```\n\nIsso já tem as características de um algoritmo.\n\n## Do problema ao resultado\n\n```\nPROBLEMA -> PASSOS -> INSTRUÇÕES -> RESULTADO\n```\n\n## Pratique\nEscreva pelo menos 5 passos para **preparar-se para sair de casa**. Depois pergunte: se alguém seguir exatamente seus passos, consegue realizar a tarefa?\n\n## Resumo\nUma sequência organizada de instruções pode representar um algoritmo.',
+          body: '> **Em uma frase:** programar é escrever **instruções** que um computador consegue seguir para resolver um problema.\n\n## Antes do código vem o pensamento\n\nO computador é rápido, mas não é esperto: ele faz **exatamente** o que você mandar, na ordem que você mandar. Por isso o passo mais importante não é digitar — é **pensar na solução**.\n\n## Você já cria algoritmos todo dia\n\nUm **algoritmo** é só uma sequência de passos para chegar a um resultado. Fazer um café é um algoritmo:\n\n```\n    ☕ FAZER UM CAFÉ\n   ─────────────────\n   1. Pegar a xícara\n   2. Colocar o café\n   3. Aquecer a água\n   4. Colocar a água\n   5. Misturar\n   ─────────────────\n        ▼\n     Café pronto\n```\n\n## Do problema ao resultado\n\nTodo programa segue este caminho:\n\n```\n  PROBLEMA  ─►  PASSOS  ─►  INSTRUÇÕES  ─►  RESULTADO\n```\n\n## Pratique\n\nEscreva **pelo menos 5 passos** para *preparar-se para sair de casa*.\n\n> **Teste o seu algoritmo:** se outra pessoa seguir **exatamente** os seus passos, ela consegue realizar a tarefa? Se ficar confuso, falta um passo.\n\n## Resumo\n\nUma sequência organizada de instruções é um **algoritmo** — e é a base de toda programação.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -82,7 +82,7 @@ export const COURSE: SeedCourse = {
                   correct: true,
                 },
                 {
-                  text: 'Digitar rápido no teclado',
+                  text: 'Digitar muito rápido no teclado',
                   correct: false,
                 },
                 {
@@ -97,10 +97,10 @@ export const COURSE: SeedCourse = {
           slug: 'o-que-e-codigo',
           title: 'O que é código?',
           summary:
-            'Diferenciar ideia, algoritmo e código — o código é só a forma final da solução.',
+            'Ideia, algoritmo e código são coisas diferentes — o código é a forma final da solução.',
           duration: 360,
           objectives: ['Diferenciar ideia, algoritmo e código'],
-          body: '## Conceito\n\n```\nIDEIA -> ALGORITMO -> CÓDIGO -> COMPUTADOR\n```\n\n## Exemplo\n- **Ideia:** quero mostrar uma mensagem.\n- **Algoritmo:** escrever uma mensagem na tela.\n- **Código:**\n\n```javascript\nconsole.log("Olá!");\n```\n\n## Ponto importante\nO código **não é** a ideia. Código é uma forma de transformar a solução em instruções que uma linguagem de programação entende.\n\n## Resumo\nPrimeiro a ideia, depois o algoritmo (os passos), e só então o código.',
+          body: '> **Cuidado com uma confusão comum:** código **não** é a mesma coisa que a ideia. O código é só o último passo.\n\n## Os três degraus\n\n```\n  💡 IDEIA        "quero mostrar uma mensagem"\n      │\n  📋 ALGORITMO    "escrever a mensagem na tela"\n      │\n  💻 CÓDIGO       console.log("Olá!")\n      │\n  🖥️ COMPUTADOR   mostra:  Olá!\n```\n\n## Vendo na prática\n\nA mesma ideia, descendo os degraus:\n\n- **Ideia:** quero cumprimentar quem abrir meu programa.\n- **Algoritmo:** escrever a frase "Olá!" na tela.\n- **Código:**\n\n```javascript\nconsole.log("Olá!");\n```\n\n> **Dica:** `console.log(...)` é o jeito do JavaScript de "escrever na tela" para o programador ver. Você vai usar muito isso.\n\n## Resumo\n\nPrimeiro a **ideia**, depois o **algoritmo** (os passos) e só então o **código**. Pular direto para o código é o que mais trava quem está começando.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -108,15 +108,15 @@ export const COURSE: SeedCourse = {
               explanation: 'Primeiro a ideia, depois o algoritmo (os passos) e por fim o código.',
               options: [
                 {
-                  text: 'Ideia -> Algoritmo -> Código',
+                  text: 'Ideia → Algoritmo → Código',
                   correct: true,
                 },
                 {
-                  text: 'Código -> Ideia -> Algoritmo',
+                  text: 'Código → Ideia → Algoritmo',
                   correct: false,
                 },
                 {
-                  text: 'Código -> Algoritmo -> Ideia',
+                  text: 'Código → Algoritmo → Ideia',
                   correct: false,
                 },
               ],
@@ -126,19 +126,20 @@ export const COURSE: SeedCourse = {
         {
           slug: 'o-que-faz-uma-pessoa-desenvolvedora',
           title: 'O que faz uma pessoa desenvolvedora?',
-          summary: 'Desmistificar a profissão: desenvolver é muito mais do que digitar código.',
+          summary:
+            'Desmistificando a profissão: desenvolver é resolver problemas, não só digitar código.',
           duration: 360,
           objectives: ['Entender o ciclo de trabalho de quem desenvolve software'],
-          body: '## O ciclo do desenvolvimento\n\n```\nEntender o problema -> Planejar -> Programar -> Testar -> Encontrar erros -> Corrigir -> Melhorar -> Entregar\n```\n\n## Importante\nUma pessoa desenvolvedora não passa o dia inteiro digitando código. Ela também:\n\n- consulta documentação;\n- pesquisa e testa;\n- conversa com outras pessoas;\n- lê código e corrige problemas;\n- aprende constantemente.\n\n## Pratique\nQual parte dessa profissão parece mais interessante para você?\n\n## Resumo\nDesenvolver é resolver problemas — programar é só uma das etapas.',
+          body: '> **Mito:** "programador passa o dia inteiro digitando código sem parar." **Realidade:** a maior parte do tempo é pensando, lendo e testando.\n\n## O ciclo do desenvolvimento\n\n```\n  Entender o problema\n        ▼\n     Planejar\n        ▼\n     Programar\n        ▼\n      Testar  ──►  Achou erro?  ──►  Corrigir\n        ▼               ▲                │\n     Melhorar           └────────────────┘\n        ▼\n     Entregar\n```\n\n## Um dia de quem desenvolve\n\nNo dia a dia, uma pessoa desenvolvedora:\n\n- **conversa** com outras pessoas para entender o problema\n- **pesquisa** e consulta documentação (ninguém decora tudo!)\n- **lê** código que já existe\n- **testa** e **corrige** o que quebrou\n- **aprende** algo novo o tempo todo\n\n> **Curiosidade:** grande parte do trabalho é *ler* código, não escrever. Saber ler é tão importante quanto saber escrever.\n\n## Pratique\n\nQual dessas partes da profissão parece **mais interessante** para você? Não há resposta errada.\n\n## Resumo\n\nDesenvolver é, acima de tudo, **resolver problemas**. Programar é apenas uma das etapas.',
           exercises: [],
         },
         {
           slug: 'areas-da-tecnologia',
           title: 'Áreas da tecnologia',
-          summary: 'Conhecer as possibilidades sem precisar escolher uma carreira agora.',
+          summary: 'Um mapa das possibilidades — sem precisar escolher uma carreira agora.',
           duration: 420,
           objectives: ['Reconhecer as principais áreas da tecnologia'],
-          body: '## Áreas\n- **Frontend** — cria a interface que a pessoa usuária utiliza.\n- **Backend** — cuida da lógica e dos serviços por trás da aplicação.\n- **Full Stack** — atua em frontend e backend.\n- **Mobile** — cria aplicativos para celulares.\n- **Dados** — análise e interpretação de dados.\n- **IA** — sistemas de inteligência artificial.\n- **Cloud / DevOps** — infraestrutura, automação e operação.\n- **Segurança** — protege sistemas e informações.\n\n## Pratique\nComplete: "Quero conhecer melhor...". Não é uma escolha definitiva.\n\n## Resumo\nExistem muitos caminhos. Você não precisa decidir agora.',
+          body: '> **Relaxa:** você **não** precisa escolher uma área agora. Este é só um mapa para você saber que existem muitos caminhos.\n\n## O mapa das áreas\n\n| Área | O que faz |\n| --- | --- |\n| **Frontend** | Cria a interface que a pessoa usa (telas, botões) |\n| **Backend** | Cuida da lógica e dos serviços por trás da tela |\n| **Full Stack** | Atua no frontend **e** no backend |\n| **Mobile** | Cria aplicativos para celular |\n| **Dados** | Analisa e interpreta grandes quantidades de dados |\n| **IA** | Constrói sistemas de inteligência artificial |\n| **Cloud / DevOps** | Cuida da infraestrutura e da automação |\n| **Segurança** | Protege sistemas e informações |\n\n## Uma forma de imaginar\n\n```\n      🖥️ FRONTEND            ⚙️ BACKEND\n   (o que você vê)      (o que acontece por trás)\n        │                       │\n        └──────── conversam ────┘\n                  entre si\n```\n\n## Pratique\n\nComplete a frase: *"Quero conhecer melhor a área de ______."* É só curiosidade — pode mudar quando quiser.\n\n## Resumo\n\nExistem muitos caminhos na tecnologia. Comece pela base (este curso) e escolha sua direção mais adiante.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -164,19 +165,19 @@ export const COURSE: SeedCourse = {
         {
           slug: 'como-vamos-aprender',
           title: 'Como vamos aprender',
-          summary: 'O método de estudo do curso: assistir não é aprender — é preciso praticar.',
+          summary: 'O método do curso: assistir não é aprender — só a prática fixa o conhecimento.',
           duration: 300,
           objectives: ['Entender o método de estudo do curso'],
-          body: '## O método\n\n```\nAULA -> ENTENDER -> EXEMPLO -> PRATICAR -> DESAFIO -> EXPLICAR -> AVANÇAR\n```\n\n## Mensagem principal\nAssistir à aula **não** significa aprender. Aprender programação exige escrever, testar e errar.\n\n## Pratique\nExplique para outra pessoa: o que é programação? Se não conseguir explicar, volte ao conteúdo.\n\n## Resumo\nPrática e explicação são a prova de que você aprendeu.',
+          body: '> **A verdade que ninguém conta:** assistir a uma aula **não** é aprender. Aprender acontece quando você escreve, erra e conserta com as próprias mãos.\n\n## O nosso ciclo de aprendizagem\n\n```\n  AULA ─► ENTENDER ─► EXEMPLO ─► PRATICAR ─► DESAFIO ─► EXPLICAR ─► AVANÇAR\n                                    ▲                        │\n                                    └──── se travar, volta ──┘\n```\n\n## Por que "explicar" está no ciclo?\n\nSe você consegue **explicar** um conceito para outra pessoa, você realmente aprendeu. Se não consegue, ainda falta algo — e tudo bem, é só voltar.\n\n> **Dica de ouro:** depois de cada aula, tente explicar o assunto em voz alta (ou em Libras) como se estivesse ensinando alguém. É o melhor teste que existe.\n\n## Pratique\n\nExplique, com suas palavras, para uma pessoa próxima: **o que é programação?**\n\n## Resumo\n\nEste curso é feito para **praticar**, não só assistir. Reserve tempo para escrever e testar.',
           exercises: [],
         },
         {
           slug: 'seu-primeiro-objetivo',
           title: 'Seu primeiro objetivo',
-          summary: 'Criar um compromisso pessoal simples — o começo do seu perfil de aprendizagem.',
+          summary: 'Um compromisso pessoal simples — o começo do seu perfil de aprendizagem.',
           duration: 300,
           objectives: ['Definir um objetivo pessoal de aprendizagem'],
-          body: '## Atividade\nResponda para você:\n\n```\nMeu nome:\nPor que quero aprender tecnologia?\nO que gostaria de construir?\nQuanto tempo consigo estudar por semana?\nO que quero conseguir fazer ao terminar este curso?\n```\n\n## Resultado\nEsse é o primeiro registro do seu perfil de aprendizagem — vamos retomá-lo ao longo do curso.',
+          body: '> **Quem tem um objetivo claro desiste menos.** Vamos criar o seu agora.\n\n## Preencha o seu mapa\n\nResponda com calma — pode anotar no papel ou no celular:\n\n```\n  Meu nome: ______________________________\n\n  Por que quero aprender tecnologia?\n  ________________________________________\n\n  O que eu gostaria de construir um dia?\n  ________________________________________\n\n  Quanto tempo consigo estudar por semana?\n  ________________________________________\n\n  O que quero conseguir fazer ao terminar?\n  ________________________________________\n```\n\n> **Guarde essas respostas.** No fim do curso vamos comparar: você vai se surpreender com o quanto avançou.\n\n## Resumo\n\nEsse é o primeiro registro do seu **perfil de aprendizagem**. Um objetivo claro é o seu combustível.',
           exercises: [],
         },
       ],
@@ -184,15 +185,15 @@ export const COURSE: SeedCourse = {
     {
       title: 'Como o Computador Funciona',
       description:
-        'Criar um modelo mental simples de computador, software, arquivos, programas, internet, cliente/servidor e banco de dados.',
+        'Um modelo mental simples de computador, software, arquivos, internet, cliente/servidor e banco de dados.',
       lessons: [
         {
           slug: 'hardware-e-software',
           title: 'Hardware e software',
-          summary: 'Diferenciar a parte física (hardware) das instruções e programas (software).',
+          summary: 'A diferença entre a parte física (hardware) e os programas (software).',
           duration: 300,
           objectives: ['Diferenciar hardware e software'],
-          body: '## Conceito\n- **Hardware** = parte física.\n- **Software** = programas e instruções.\n\n## Exemplos\n- Hardware: teclado, mouse, monitor, processador, memória, SSD.\n- Software: navegador, sistema operacional, editor de código, aplicativos.\n\n## Resumo\nHardware você toca; software são as instruções que rodam nele.',
+          body: '> **Regra fácil:** se você consegue **tocar**, é hardware. Se são **instruções** rodando, é software.\n\n## Os dois lados do computador\n\n```\n        💻 COMPUTADOR\n     ┌───────────────────┐\n     │  HARDWARE          │  parte física (você toca)\n     │  SOFTWARE          │  programas (instruções)\n     └───────────────────┘\n```\n\n## Exemplos lado a lado\n\n| Hardware (físico) | Software (programa) |\n| --- | --- |\n| Teclado, mouse | Navegador |\n| Monitor | Sistema operacional |\n| Processador, memória | Editor de código |\n| SSD (armazenamento) | Aplicativos |\n\n## Pratique\n\nOlhe ao seu redor: aponte **3 hardwares** e **3 softwares** que você usa agora.\n\n## Resumo\n\n**Hardware** é o corpo; **software** são as instruções que dão vida a ele.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -214,56 +215,55 @@ export const COURSE: SeedCourse = {
         {
           slug: 'sistema-operacional',
           title: 'Sistema operacional',
-          summary: 'Entender o papel do sistema operacional como camada entre você e o hardware.',
+          summary: 'O maestro que coordena tudo entre você e o hardware.',
           duration: 300,
           objectives: ['Entender o papel do sistema operacional'],
-          body: '## Conceito\nO sistema operacional coordena tudo entre você e o hardware.\n\n```\nUSUÁRIO -> APLICAÇÃO -> SISTEMA OPERACIONAL -> HARDWARE\n```\n\n## Exemplos\nWindows, macOS, Linux, Android, iOS.\n\n## Resumo\nQuando você abre um app, existem várias camadas entre a ação e o hardware.',
+          body: '> **Pense num maestro:** o sistema operacional (SO) organiza tudo para os programas e o hardware trabalharem juntos, sem bagunça.\n\n## As camadas\n\n```\n   👤 VOCÊ\n      ▼\n   📱 APLICAÇÃO        (o app que você abriu)\n      ▼\n   🧭 SISTEMA OPERACIONAL   (Windows, macOS, Linux, Android, iOS)\n      ▼\n   🔌 HARDWARE         (a parte física)\n```\n\n## Exemplos de sistemas operacionais\n\n- No computador: **Windows**, **macOS**, **Linux**\n- No celular: **Android**, **iOS**\n\n> **Curiosidade:** quando você toca num app do celular, sua ação passa por várias camadas até chegar ao hardware — tudo em uma fração de segundo.\n\n## Resumo\n\nO **sistema operacional** é o intermediário entre você e a máquina.',
           exercises: [],
         },
         {
           slug: 'arquivos-e-pastas',
           title: 'Arquivos e pastas',
-          summary: 'Criar familiaridade com arquivos, pastas, extensões e caminhos.',
+          summary: 'Como a informação fica guardada e organizada no computador.',
           duration: 360,
           objectives: ['Entender arquivos, pastas, extensões e caminhos'],
-          body: '## Conceito\nArquivos guardam informação; pastas organizam arquivos; a extensão indica o tipo.\n\n## Exemplo\n\n```\nmeu-projeto/\n  index.html\n  style.css\n  script.js\n```\n\n## Pratique\nImagine a estrutura de arquivos de um **projeto de portfólio**. Quais arquivos você criaria?',
+          body: '> **Analogia:** o computador é um armário. **Arquivos** são as folhas; **pastas** são as gavetas que organizam as folhas.\n\n## Anatomia de um arquivo\n\n```\n   script.js\n   ───────  ──\n   nome      extensão (diz o tipo do arquivo)\n```\n\n- **.html** → uma página\n- **.css** → o estilo/visual\n- **.js** → o comportamento (JavaScript)\n\n## Uma pasta de projeto\n\n```\n   meu-projeto/\n   ├── index.html\n   ├── style.css\n   └── script.js\n```\n\n## Pratique\n\nImagine a estrutura de um **projeto de portfólio**. Quais arquivos você criaria dentro da pasta?\n\n```\n   portfolio/\n   ├── ?\n   ├── ?\n   └── ?\n```\n\n## Resumo\n\n**Arquivo** guarda a informação, **pasta** organiza, **extensão** diz o tipo.',
           exercises: [],
         },
         {
           slug: 'programas-e-aplicativos',
           title: 'Programas e aplicativos',
-          summary: 'Diferentes programas executam diferentes funções.',
+          summary: 'Cada programa foi criado para uma função diferente.',
           duration: 300,
           objectives: ['Perceber que cada programa tem uma função'],
-          body: '## Exemplos\n\n```\nChrome  -> navegar\nVS Code -> escrever código\nGit     -> controlar versões\nSpotify -> reproduzir música\n```\n\n## Pratique\nEscolha três aplicativos que você usa todo dia e explique a função de cada um.',
+          body: '> **Cada ferramenta, uma função** — como numa cozinha: faca corta, panela cozinha.\n\n## Ferramentas de quem programa\n\n```\n   🧭 Chrome   ─►  navegar na internet\n   📝 VS Code  ─►  escrever código\n   🌿 Git      ─►  controlar versões do projeto\n   🎵 Spotify  ─►  ouvir música\n```\n\n> **Você vai conhecer o VS Code e o Git mais para frente** — são as ferramentas do dia a dia de quem programa.\n\n## Pratique\n\nEscolha **três aplicativos** que você usa todo dia e escreva a função de cada um.\n\n## Resumo\n\nSoftware é feito de programas — e cada programa resolve um tipo de tarefa.',
           exercises: [],
         },
         {
           slug: 'navegador',
           title: 'Navegador',
-          summary: 'O navegador interpreta a web e mostra a interface na tela.',
+          summary: 'O programa que transforma código da web em páginas na sua tela.',
           duration: 300,
           objectives: ['Entender o papel do navegador'],
-          body: '## Conceito\nO navegador interpreta recursos da web e apresenta uma interface.\n\n```\nSITE (HTML, CSS, JavaScript) -> NAVEGADOR -> TELA\n```\n\n## Exemplos\nChrome, Edge, Firefox, Safari.',
+          body: '> **O navegador é um tradutor:** ele pega HTML, CSS e JavaScript e transforma tudo na página bonita que você vê.\n\n## O que o navegador faz\n\n```\n   SITE\n   ├── HTML         (estrutura)\n   ├── CSS          (visual)\n   └── JavaScript   (comportamento)\n        ▼\n     🧭 NAVEGADOR   (interpreta tudo)\n        ▼\n     🖥️ TELA        (a página pronta)\n```\n\n## Exemplos\n\nChrome, Edge, Firefox, Safari — todos fazem o mesmo trabalho básico.\n\n> **Importante para nós:** o seu primeiro site vai rodar **dentro do navegador**. Ele é o seu palco.\n\n## Resumo\n\nO navegador **interpreta** os arquivos da web e **desenha** a página na tela.',
           exercises: [],
         },
         {
           slug: 'internet',
           title: 'Internet',
-          summary: 'Um modelo mental básico: dispositivos se comunicando por redes.',
+          summary: 'Uma rede gigante que conecta dispositivos no mundo todo.',
           duration: 300,
           objectives: ['Criar um modelo mental básico da internet'],
-          body: '## Conceito\nA internet permite que dispositivos se comuniquem por redes.\n\n```\nCOMPUTADOR  <->  INTERNET  <->  SERVIDOR\n```\n\n## Por enquanto\nNão vamos nos aprofundar em TCP/IP, DNS ou roteamento. O objetivo é ter a base.',
+          body: '> **Imagine uma rede de estradas** ligando computadores do mundo inteiro. É isso que a internet é.\n\n## O básico\n\n```\n   💻 SEU COMPUTADOR\n        ▲   │\n        │   ▼\n      🌐 INTERNET\n        ▲   │\n        │   ▼\n   🗄️ SERVIDOR  (um computador que guarda o site)\n```\n\nQuando você acessa algo, seu computador **pede** e outro computador (o servidor) **responde**.\n\n> **Por enquanto, sem complicar:** não precisamos falar de TCP/IP, DNS ou roteadores. O objetivo é só ter a imagem na cabeça.\n\n## Resumo\n\nA internet permite que dispositivos **conversem** entre si por uma rede.',
           exercises: [],
         },
         {
           slug: 'cliente-e-servidor',
           title: 'Cliente e servidor',
-          summary:
-            'Um dos conceitos mais importantes do desenvolvimento web: requisição e resposta.',
+          summary: 'Um dos conceitos mais importantes da web: quem pede e quem responde.',
           duration: 360,
           objectives: ['Entender o modelo cliente/servidor'],
-          body: '## Conceito\n\n```\nCLIENTE (navegador)\n   | requisição\n   v\nSERVIDOR\n   | resposta\n   v\nCLIENTE\n```\n\n## Exemplo\nAo acessar `exemplo.com`, o navegador faz uma solicitação; o servidor processa e responde.\n\n## Pratique\nNesse exemplo, quem é o cliente? Quem é o servidor?',
+          body: '> **Pense num restaurante:** você (cliente) faz o pedido; a cozinha (servidor) prepara e entrega. A web funciona igual.\n\n## Requisição e resposta\n\n```\n   🧑 CLIENTE (navegador)\n        │  1. requisição ("me mostra a página")\n        ▼\n   🗄️ SERVIDOR\n        │  2. resposta ("aqui está")\n        ▼\n   🧑 CLIENTE  →  mostra a página\n```\n\n## Exemplo real\n\nAo digitar `exemplo.com`, o navegador **faz uma solicitação**. O servidor **processa** e **responde** com a página.\n\n## Pratique\n\nNo restaurante, quem é o **cliente** e quem é o **servidor**? E ao abrir um site?\n\n## Resumo\n\n**Cliente** pede, **servidor** responde. Guarde bem isso — é a base de toda a web.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -289,19 +289,19 @@ export const COURSE: SeedCourse = {
         {
           slug: 'o-caminho-de-uma-pagina',
           title: 'O caminho de uma página',
-          summary: 'Juntar os conceitos: o que acontece quando você acessa um site.',
+          summary: 'Juntando tudo: o que acontece, passo a passo, quando você abre um site.',
           duration: 420,
           objectives: ['Descrever o caminho de uma requisição web'],
-          body: '## O caminho completo\n\n```\nVocê -> Navegador -> Internet -> Servidor -> Aplicação -> Banco de dados\n     -> Servidor -> Internet -> Navegador -> Tela\n```\n\n## Pratique\nExplique, com suas palavras, o que acontece quando você entra em uma rede social.',
+          body: '> **Tudo isso acontece em menos de 1 segundo** quando você abre uma rede social. Vamos ver em câmera lenta.\n\n## A viagem de ida e volta\n\n```\n   👤 Você\n    ▼  clica / digita o endereço\n   🧭 Navegador\n    ▼\n   🌐 Internet\n    ▼\n   🗄️ Servidor\n    ▼  precisa de dados?\n   💾 Banco de dados\n    ▲  devolve os dados\n   🗄️ Servidor\n    ▲  monta a resposta\n   🌐 Internet\n    ▲\n   🧭 Navegador\n    ▲\n   🖥️ Tela  →  página pronta!\n```\n\n## Pratique\n\nExplique, com suas palavras, essa viagem quando você abre uma **rede social**.\n\n## Resumo\n\nUma página é uma **viagem de ida e volta**: pedido → servidor → (banco) → resposta → tela.',
           exercises: [],
         },
         {
           slug: 'o-que-e-banco-de-dados',
           title: 'O que é banco de dados?',
-          summary: 'Onde as informações ficam armazenadas e organizadas — sem SQL ainda.',
+          summary: 'Onde as informações ficam guardadas e organizadas — sem SQL ainda.',
           duration: 360,
           objectives: ['Entender para que serve um banco de dados'],
-          body: '## Conceito\nUm banco de dados armazena e organiza informações.\n\n## Exemplo\n\n```\nUSUÁRIOS\nID | Nome | Email\n1  | Ana  | ana@email...\n2  | João | joao@email...\n```\n\n## Pratique\nQuais informações uma **plataforma de cursos** poderia guardar? (por exemplo: nome, email, curso, progresso, aulas concluídas).',
+          body: '> **Pense numa planilha turbinada:** o banco de dados guarda informações organizadas para o programa consultar depois.\n\n## Como os dados ficam organizados\n\n```\n   TABELA: USUÁRIOS\n   ┌────┬───────┬──────────────────┐\n   │ ID │ Nome  │ Email            │\n   ├────┼───────┼──────────────────┤\n   │ 1  │ Ana   │ ana@email...     │\n   │ 2  │ João  │ joao@email...    │\n   └────┴───────┴──────────────────┘\n```\n\nCada **linha** é um registro; cada **coluna** é um tipo de informação.\n\n## Pratique\n\nQuais informações uma **plataforma de cursos** (como esta!) precisaria guardar?\n\n> **Resposta possível:** nome, email, curso, progresso, aulas concluídas. Repare: são as mesmas coisas que você vê no seu painel.\n\n## Resumo\n\nBanco de dados serve para **armazenar e organizar** informações que o sistema usa.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -326,11 +326,11 @@ export const COURSE: SeedCourse = {
         },
         {
           slug: 'revisao-modulo-1',
-          title: 'Revisão',
-          summary: 'Fixar os conceitos do módulo com classificação e um desafio de completar.',
+          title: 'Revisão do módulo',
+          summary: 'Fixando os conceitos com classificação e um desafio de completar.',
           duration: 300,
           objectives: ['Revisar hardware, software, servidor e banco de dados'],
-          body: '## Classifique\n- Chrome -> software\n- Teclado -> hardware\n- Windows -> sistema operacional\n- Servidor -> sistema que fornece recursos\n- Banco de dados -> armazenamento e organização\n\n## Desafio\nComplete: ao acessar um site, meu ____ envia uma solicitação, que passa pela internet até o servidor.',
+          body: '> **Hora de checar:** se você acertar a maior parte, o Módulo 1 está dominado.\n\n## Classifique cada um\n\n| Item | O que é |\n| --- | --- |\n| Chrome | Software |\n| Teclado | Hardware |\n| Windows | Sistema operacional |\n| Servidor | Computador que fornece recursos |\n| Banco de dados | Armazenamento e organização de dados |\n\n## Desafio: complete a frase\n\n```\n   Ao acessar um site, meu _______ envia uma solicitação,\n   que passa pela internet até o _______,\n   que pode consultar um _______ e devolver a resposta.\n```\n\n> **Confira mentalmente** antes de ver a resposta no exercício abaixo.\n\n## Resumo\n\nVocê já tem um **modelo mental** de como o computador e a web funcionam. É base suficiente para começar a programar.',
           exercises: [
             {
               type: 'FILL_BLANK',
@@ -345,7 +345,7 @@ export const COURSE: SeedCourse = {
     {
       title: 'Lógica de Programação',
       description:
-        'Desenvolver o pensamento computacional: algoritmos, sequência, decisões, repetições, fluxogramas, pseudocódigo, decomposição e debugging.',
+        'O coração do curso: pensar como programador com algoritmos, decisões, repetições, fluxogramas, pseudocódigo e debugging.',
       lessons: [
         {
           slug: 'o-que-e-logica',
@@ -353,25 +353,25 @@ export const COURSE: SeedCourse = {
           summary: 'Lógica é organizar o pensamento para resolver problemas.',
           duration: 300,
           objectives: ['Entender lógica como organização do raciocínio'],
-          body: '## Conceito\nLógica é organizar o pensamento para resolver um problema.\n\n## Exemplo\nChegar a um lugar:\n\n```\nOnde estou? -> Para onde vou? -> Qual caminho? -> Qual transporte? -> Cheguei?\n```\n\n## Resumo\nProgramação começa com problema e raciocínio, não com código.',
+          body: '> **Boa notícia:** você já usa lógica todos os dias. Vamos só deixá-la mais organizada.\n\n## Lógica no dia a dia\n\nPara chegar a um lugar, seu cérebro faz assim:\n\n```\n   Onde estou?  ─►  Para onde vou?  ─►  Qual caminho?\n        ─►  Qual transporte?  ─►  Cheguei?\n```\n\nIsso é raciocínio lógico: uma sequência de perguntas e decisões.\n\n> **Guarde isto:** programação começa com **problema + raciocínio**, não com código.\n\n## Resumo\n\nLógica é **organizar o pensamento** para resolver um problema, passo a passo.',
           exercises: [],
         },
         {
           slug: 'algoritmos',
           title: 'Algoritmos',
-          summary: 'Criar sequências de passos para resolver tarefas.',
+          summary: 'Sequências de passos para resolver qualquer tarefa.',
           duration: 360,
           objectives: ['Criar algoritmos simples com início, passos e resultado'],
-          body: '## Exemplo\n\n```\nALGORITMO - FAZER CAFÉ\n1. Pegar xícara\n2. Pegar café\n3. Aquecer água\n4. Colocar café\n5. Adicionar água\n6. Misturar\n```\n\n## Pratique\nCrie o algoritmo para **escovar os dentes**. Ele deve ter início, passos e resultado.',
+          body: '> **Algoritmo** é só uma **receita**: uma lista de passos que leva a um resultado.\n\n## Anatomia de um algoritmo\n\n```\n   ☕ FAZER CAFÉ\n   ── início ──\n   1. Pegar a xícara\n   2. Pegar o café\n   3. Aquecer a água\n   4. Colocar o café\n   5. Adicionar a água\n   6. Misturar\n   ── fim ──\n        ▼\n   Resultado: café pronto\n```\n\nTodo bom algoritmo tem **início**, **passos** e **resultado**.\n\n## Pratique\n\nCrie o algoritmo para **escovar os dentes**. Comece pelo início e termine no resultado.\n\n> **Desafio extra:** dê seu algoritmo para outra pessoa seguir ao pé da letra. Faltou algum passo?\n\n## Resumo\n\nAlgoritmo = receita de passos, com começo, meio e fim.',
           exercises: [],
         },
         {
           slug: 'sequencia',
           title: 'Sequência',
-          summary: 'A ordem das instruções muda o resultado.',
+          summary: 'A ordem dos passos muda (ou quebra) o resultado.',
           duration: 300,
           objectives: ['Perceber a importância da ordem das instruções'],
-          body: '## Conceito\nComputadores executam instruções em ordem. A ordem importa.\n\n## Exemplo\nErrado:\n\n```\n1. Colocar o sapato\n2. Colocar a meia\n```\n\nCerto:\n\n```\n1. Colocar a meia\n2. Colocar o sapato\n```',
+          body: '> **A ordem importa!** O computador segue seus passos exatamente na ordem escrita.\n\n## Um exemplo que todo mundo entende\n\n```\n   ❌ ERRADO             ✅ CERTO\n   1. Colocar o sapato   1. Colocar a meia\n   2. Colocar a meia     2. Colocar o sapato\n```\n\nNo primeiro caso, o resultado fica errado — a meia por cima do sapato!\n\n> **Na programação é igual:** trocar a ordem de duas linhas pode mudar completamente o que o programa faz.\n\n## Pratique\n\nColoque estes passos na ordem certa: *misturar*, *quebrar os ovos*, *bater*, *pegar a tigela*.\n\n## Resumo\n\nSequência é a **ordem** dos passos — e ela decide o resultado.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -393,28 +393,28 @@ export const COURSE: SeedCourse = {
         {
           slug: 'entrada-processamento-saida',
           title: 'Entrada, processamento e saída',
-          summary: 'Um dos modelos fundamentais da programação.',
+          summary: 'O modelo que descreve quase todo programa.',
           duration: 360,
           objectives: ['Identificar entrada, processamento e saída'],
-          body: '## Modelo\n\n```\nENTRADA -> PROCESSAMENTO -> SAÍDA\n```\n\n## Exemplo\nCalculadora:\n\n```\nEntrada: 10 + 5\nProcessamento: somar\nSaída: 15\n```\n\n## Pratique\nIdentifique entrada/processamento/saída em: login, calculadora, cadastro, compra online.',
+          body: '> **Quase tudo em programação** segue este trio: recebe algo, faz algo, devolve algo.\n\n## O modelo\n\n```\n   ENTRADA  ─►  PROCESSAMENTO  ─►  SAÍDA\n   (dados)      (transformação)     (resultado)\n```\n\n## Exemplo: uma calculadora\n\n```\n   ENTRADA:        10 + 5\n   PROCESSAMENTO:  somar\n   SAÍDA:          15\n```\n\n## Pratique\n\nIdentifique **entrada / processamento / saída** em cada caso:\n\n| Situação | Entrada | Processamento | Saída |\n| --- | --- | --- | --- |\n| Login | email e senha | conferir | entra ou erro |\n| Compra online | ? | ? | ? |\n\nComplete as linhas que faltam.\n\n## Resumo\n\nTodo programa tende a **receber (entrada)**, **transformar (processamento)** e **devolver (saída)**.',
           exercises: [],
         },
         {
           slug: 'decisoes',
           title: 'Decisões',
-          summary: 'Programas tomam decisões com base em condições.',
+          summary: 'Programas escolhem caminhos com base em condições.',
           duration: 360,
           objectives: ['Entender decisões (se/senão)'],
-          body: '## Exemplo do dia a dia\n\n```\nSE estiver chovendo\n    levar guarda-chuva\nSENÃO\n    não levar\n```\n\n## Visual\n\n```\n        Está chovendo?\n         /        \\\n       SIM        NÃO\n        |          |\n  Guarda-chuva     -\n```',
+          body: '> **Programas tomam decisões** o tempo todo — igual a você quando olha para o céu antes de sair.\n\n## No dia a dia\n\n```\n   SE estiver chovendo\n       levar guarda-chuva\n   SENÃO\n       sair normalmente\n```\n\n## Visualizando a decisão\n\n```\n            Está chovendo?\n             /          \\\n           SIM          NÃO\n            ▼            ▼\n      Guarda-chuva   Sair normal\n```\n\n> **Toda decisão tem 2 caminhos:** o que fazer quando a resposta é **sim** e quando é **não**.\n\n## Resumo\n\nDecisão = escolher um caminho com base em uma condição (**se... senão...**).',
           exercises: [],
         },
         {
           slug: 'condicoes',
           title: 'Condições',
-          summary: 'Condições são perguntas que resultam em verdadeiro ou falso.',
+          summary: 'Perguntas que só têm duas respostas: verdadeiro ou falso.',
           duration: 360,
           objectives: ['Entender condições como verdadeiro/falso'],
-          body: '## Conceito\nUma condição é uma pergunta com resposta verdadeiro ou falso.\n\n## Exemplos\n\n```\nidade >= 18\nsenha está correta?\nusuário está logado?\n```\n\n## Pratique\n"10 é maior que 5" -> verdadeiro. "2 é maior que 8" -> falso. Crie três condições do seu dia a dia.',
+          body: '> **Condição** é uma pergunta cuja resposta é sempre **verdadeiro** ou **falso** — nunca "mais ou menos".\n\n## Exemplos de condições\n\n```\n   idade >= 18          →  verdadeiro ou falso?\n   a senha está certa?  →  verdadeiro ou falso?\n   o produto acabou?    →  verdadeiro ou falso?\n```\n\n## Verdadeiro ou falso?\n\n| Condição | Resposta |\n| --- | --- |\n| 10 é maior que 5 | verdadeiro |\n| 2 é maior que 8 | falso |\n| 7 é igual a 7 | verdadeiro |\n\n## Pratique\n\nEscreva **três condições** do seu dia a dia que só possam ser verdadeiras ou falsas.\n\n## Resumo\n\nCondições devolvem **verdadeiro/falso** e alimentam as decisões do programa.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -436,55 +436,55 @@ export const COURSE: SeedCourse = {
         {
           slug: 'repeticao',
           title: 'Repetição',
-          summary: 'Quando uma tarefa precisa acontecer várias vezes.',
+          summary: 'Quando a mesma tarefa precisa acontecer várias vezes.',
           duration: 360,
           objectives: ['Entender quando usar repetição'],
-          body: '## Exemplo\n\n```\nRepetir 5 vezes:\n    mostrar "Olá"\n```\n\n## No dia a dia\nContar pessoas, processar vários produtos, mostrar vários nomes, repetir tentativas.\n\n## Pratique\nDescreva uma instrução para mostrar os números de 1 até 10.',
+          body: '> **Preguiça inteligente:** se algo se repete, o computador faz por você. Nunca copie-e-cole a mesma coisa 100 vezes.\n\n## A ideia\n\n```\n   Repetir 5 vezes:\n       mostrar "Olá"\n```\n\nResultado:\n\n```\n   Olá\n   Olá\n   Olá\n   Olá\n   Olá\n```\n\n## Onde aparece no dia a dia\n\n- contar pessoas numa fila\n- processar todos os produtos de um carrinho\n- mostrar todos os nomes de uma lista\n- tentar de novo até dar certo\n\n## Pratique\n\nDescreva uma instrução de repetição para **mostrar os números de 1 até 10**.\n\n## Resumo\n\nRepetição = fazer a mesma tarefa **várias vezes** sem reescrever tudo.',
           exercises: [],
         },
         {
           slug: 'contadores',
           title: 'Contadores',
-          summary: 'A ideia de contar durante uma repetição.',
+          summary: 'Guardar e atualizar um número enquanto o programa repete.',
           duration: 300,
           objectives: ['Entender a ideia de contador'],
-          body: '## Exemplo\n\n```\ncontador = 0\na cada pessoa:\n    contador = contador + 1\n```\n\n## Aplicações\nNúmero de alunos, quantidade de tarefas, número de tentativas, itens de um carrinho.',
+          body: '> **Contador** é como um marcador de gols: começa em zero e sobe a cada acontecimento.\n\n## Como funciona\n\n```\n   contador = 0\n   a cada pessoa que entra:\n       contador = contador + 1\n```\n\nDepois de 3 pessoas, `contador` vale **3**.\n\n## Onde usamos\n\n- número de alunos numa turma\n- quantidade de tarefas concluídas\n- número de tentativas de login\n- itens no carrinho de compras\n\n> **Dica:** quase toda repetição anda de mãos dadas com um contador.\n\n## Resumo\n\nContador = um número que você **atualiza** enquanto repete algo.',
           exercises: [],
         },
         {
           slug: 'fluxogramas',
           title: 'Fluxogramas',
-          summary: 'Representar algoritmos visualmente.',
+          summary: 'Desenhar o algoritmo para enxergar a solução.',
           duration: 360,
           objectives: ['Ler e criar fluxogramas simples'],
-          body: '## Símbolos\n\n```\n( ) Início/Fim\n[ ] Processo\n<> Decisão\n->  Fluxo\n```\n\n## Exemplo\n\n```\nINÍCIO -> Informar idade -> idade >= 18?\n   SIM -> Adulto\n   NÃO -> Menor de idade\n-> FIM\n```\n\n## Pratique\nCrie um fluxograma para **fazer login**.',
+          body: '> **Um desenho vale mais que mil linhas:** o fluxograma mostra o caminho do programa de forma visual.\n\n## Os símbolos básicos\n\n```\n   (  )  Início / Fim\n   [  ]  Processo (uma ação)\n   < >   Decisão (uma pergunta)\n   ─►    Fluxo (para onde vai)\n```\n\n## Exemplo: verificar a idade\n\n```\n        ( Início )\n            ▼\n     [ Informar idade ]\n            ▼\n       < idade >= 18? >\n        /          \\\n      SIM           NÃO\n       ▼             ▼\n   [ Adulto ]   [ Menor de idade ]\n        \\          /\n          ▼      ▼\n          ( Fim )\n```\n\n## Pratique\n\nDesenhe um fluxograma para **fazer login** (pensa: qual é a decisão?).\n\n## Resumo\n\nFluxograma = o **mapa visual** do seu algoritmo.',
           exercises: [],
         },
         {
           slug: 'pseudocodigo',
           title: 'Pseudocódigo',
-          summary: 'Escrever a solução perto da linguagem humana, antes do código.',
+          summary: 'Escrever a solução em linguagem quase humana, antes do código real.',
           duration: 360,
           objectives: ['Escrever soluções em pseudocódigo'],
-          body: '## Exemplo\n\n```\nINÍCIO\n  pedir idade\n  SE idade >= 18\n      mostrar "Você é maior de idade"\n  SENÃO\n      mostrar "Você é menor de idade"\nFIM\n```\n\n## Importante\nPseudocódigo não segue uma linguagem específica. É uma ferramenta de raciocínio.',
+          body: '> **Ponte entre a ideia e o código:** o pseudocódigo é escrito quase como você fala, mas já com estrutura.\n\n## Exemplo\n\n```\n   INÍCIO\n     pedir a idade\n     SE idade >= 18\n         mostrar "Você é maior de idade"\n     SENÃO\n         mostrar "Você é menor de idade"\n   FIM\n```\n\n## Por que usar?\n\n- Você organiza a lógica **sem se preocupar** com regras de uma linguagem\n- Fica fácil revisar antes de programar\n- Serve para **qualquer** linguagem depois\n\n> **Dica:** pseudocódigo não tem regra fixa. O importante é ficar **claro** para um humano ler.\n\n## Resumo\n\nPseudocódigo = rascunho da solução em linguagem quase humana.',
           exercises: [],
         },
         {
           slug: 'decomposicao-de-problemas',
           title: 'Decomposição de problemas',
-          summary: 'Quebrar problemas grandes em problemas menores.',
+          summary: 'A habilidade mais valiosa: quebrar um problema grande em partes pequenas.',
           duration: 420,
           objectives: ['Quebrar um problema grande em partes menores'],
-          body: '## Conceito\nNão comece com "como faço uma plataforma inteira?". Divida:\n\n```\nCadastro\nLogin\nCursos\nMódulos\nAulas\nProgresso\nPerfil\n```\n\nDepois divida de novo:\n\n```\nCadastro\n  nome\n  email\n  senha\n```\n\n## Pratique\nDivida o problema "criar uma lista de tarefas" em partes menores.',
+          body: '> **Não tente comer o bolo inteiro de uma vez.** Todo problema grande vira fácil quando dividido em pedaços.\n\n## Do gigante ao pequeno\n\nNão comece com *"como faço uma plataforma inteira?"*. Divida:\n\n```\n   PLATAFORMA DE CURSOS\n   ├── Cadastro\n   ├── Login\n   ├── Cursos\n   ├── Módulos\n   ├── Aulas\n   ├── Progresso\n   └── Perfil\n```\n\nE divida de novo cada parte:\n\n```\n   Cadastro\n   ├── nome\n   ├── email\n   └── senha\n```\n\n> **Curiosidade:** foi exatamente assim que **esta plataforma** foi construída — parte por parte.\n\n## Pratique\n\nQuebre o problema **"criar uma lista de tarefas"** em partes menores.\n\n> Possíveis partes: adicionar tarefa, listar tarefas, concluir tarefa, excluir tarefa.\n\n## Resumo\n\nDecompor = transformar 1 problema difícil em vários problemas fáceis.',
           exercises: [],
         },
         {
           slug: 'debugging',
           title: 'Debugging',
-          summary: 'Erro faz parte. Debugging é investigar e corrigir.',
+          summary: 'Erro faz parte. Debugging é o processo calmo de investigar e corrigir.',
           duration: 360,
           objectives: ['Entender erro como parte normal e o processo de debugging'],
-          body: '## Conceito\n- **Bug**: comportamento incorreto ou inesperado.\n- **Debugging**: investigar e corrigir o problema.\n\n## Processo\n\n```\nERRO -> Observar -> Reproduzir -> Investigar -> Hipótese -> Testar -> Corrigir -> Testar de novo\n```\n\n## Pratique\nEste algoritmo tem um problema. Qual?\n\n```\n1. Abrir porta\n2. Entrar no carro\n3. Colocar cinto\n4. Ligar carro\n5. Colocar chave na ignição\n```',
+          body: '> **Erro não é fracasso — é informação.** Todo programador convive com erros o dia inteiro.\n\n## Dois nomes importantes\n\n- **Bug** 🐛 → um comportamento errado ou inesperado do programa\n- **Debugging** 🔍 → o processo de investigar e corrigir o bug\n\n## O processo (como um detetive)\n\n```\n   ERRO\n    ▼\n   Observar  ─►  Reproduzir  ─►  Investigar\n    ▼\n   Criar hipótese  ─►  Testar  ─►  Corrigir  ─►  Testar de novo\n```\n\n## Pratique\n\nEste algoritmo tem um bug. Consegue encontrar?\n\n```\n   1. Abrir a porta\n   2. Entrar no carro\n   3. Colocar o cinto\n   4. Ligar o carro\n   5. Colocar a chave na ignição\n```\n\n> **Dica:** leia como se fosse um robô seguindo ao pé da letra. Onde ele trava?\n\n## Resumo\n\nDebugging é investigar com calma — não é sinal de que você é ruim, é parte do trabalho.',
           exercises: [
             {
               type: 'MULTIPLE_CHOICE',
@@ -501,7 +501,7 @@ export const COURSE: SeedCourse = {
                   correct: false,
                 },
                 {
-                  text: 'Não há problema',
+                  text: 'Não há problema nenhum',
                   correct: false,
                 },
               ],
@@ -511,10 +511,10 @@ export const COURSE: SeedCourse = {
         {
           slug: 'desafio-final-logica',
           title: 'Desafio final: sistema de acesso',
-          summary: 'Aplicar tudo: criar o algoritmo, o fluxograma e o pseudocódigo de um login.',
+          summary: 'Junte tudo: crie o algoritmo, o fluxograma e o pseudocódigo de um login.',
           duration: 600,
           objectives: ['Aplicar sequência, condição e resultado em um problema real'],
-          body: '## Desafio\nCrie um algoritmo para verificar se uma pessoa pode entrar em um sistema.\n\n## Dados\n\n```\nemail\nsenha\n```\n\n## Regras\n\n```\nSE email estiver correto E senha estiver correta\n    permitir acesso\nSENÃO\n    mostrar mensagem de erro\n```\n\n## Entregáveis\n1. Algoritmo escrito\n2. Fluxograma\n3. Pseudocódigo\n\n## Critério\nNão é sobre "ficar bonito". Avalie: sequência, clareza, condição, resultado e sua capacidade de explicar a solução.',
+          body: '> **Chegou a hora de juntar tudo** o que você aprendeu neste módulo. Sem código ainda — só raciocínio.\n\n## O desafio\n\nCrie a solução para: **verificar se uma pessoa pode entrar em um sistema.**\n\n## Os dados de entrada\n\n```\n   email\n   senha\n```\n\n## As regras\n\n```\n   SE o email estiver correto E a senha estiver correta\n       permitir o acesso\n   SENÃO\n       mostrar uma mensagem de erro\n```\n\n## O que você deve entregar\n\n1. **Algoritmo** escrito em passos\n2. **Fluxograma** com a decisão\n3. **Pseudocódigo** da solução\n\n> **Como você será avaliado (não é sobre "ficar bonito"):** sequência, clareza, a condição certa, o resultado e — o mais importante — a sua **capacidade de explicar** a solução.\n\n## Resumo\n\nSe você consegue resolver isto em algoritmo + fluxograma + pseudocódigo, **você está pronto para escrever código de verdade** no próximo módulo.',
           exercises: [],
         },
       ],
