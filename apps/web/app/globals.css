@@ -24,6 +24,7 @@
 body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
+  overflow-x: hidden;
 }
 
 /* Escala de fonte definida no onboarding (acessibilidade). */
@@ -67,16 +68,19 @@ html[data-font-scale='xlarge'] {
   position: relative;
   isolation: isolate;
 }
+.aurora {
+  overflow-x: clip;
+}
 .aurora::before {
   content: '';
   position: absolute;
-  inset: -20% -10% auto -10%;
+  inset: 0 0 auto 0;
   height: 60vh;
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(40% 50% at 20% 10%, rgba(20, 184, 166, 0.18), transparent 70%),
-    radial-gradient(35% 45% at 85% 0%, rgba(16, 148, 136, 0.14), transparent 70%);
+    radial-gradient(40% 50% at 20% 6%, rgba(20, 184, 166, 0.2), transparent 70%),
+    radial-gradient(35% 45% at 85% 0%, rgba(16, 148, 136, 0.16), transparent 70%);
   filter: blur(8px);
 }
 

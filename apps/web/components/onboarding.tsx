@@ -40,26 +40,26 @@ function OptionCard({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        'flex w-full items-start gap-3 rounded-2xl border p-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
+        'flex h-full w-full flex-col gap-3 rounded-2xl border p-6 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
         active
-          ? 'border-brand bg-brand/10 text-ink'
+          ? 'border-brand bg-brand/10 text-ink glow-brand'
           : 'border-edge bg-elevated text-muted hover:border-brand/50 hover:text-ink',
       )}
     >
-      <span
-        className={cn(
-          'mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl',
-          active ? 'bg-brand/20 text-brand' : 'bg-card text-muted',
-        )}
-        aria-hidden="true"
-      >
-        {icon}
+      <span className="flex items-center justify-between">
+        <span
+          className={cn(
+            'flex h-11 w-11 items-center justify-center rounded-xl',
+            active ? 'bg-brand/20 text-brand' : 'bg-card text-muted',
+          )}
+          aria-hidden="true"
+        >
+          {icon}
+        </span>
+        {active ? <Check className="h-5 w-5 text-brand" aria-hidden="true" /> : null}
       </span>
-      <span className="flex flex-col gap-0.5">
-        <span className="font-semibold text-ink">{title}</span>
-        <span className="text-sm">{desc}</span>
-      </span>
-      {active ? <Check className="ml-auto h-5 w-5 text-brand" aria-hidden="true" /> : null}
+      <span className="text-lg font-semibold text-ink">{title}</span>
+      <span className="text-sm leading-relaxed">{desc}</span>
     </button>
   );
 }
@@ -86,12 +86,12 @@ function ToggleRow({
       className="flex w-full items-center gap-3 rounded-2xl border border-edge bg-elevated p-4 text-left transition-colors hover:border-brand/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
     >
       <span
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-card text-brand"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card text-brand"
         aria-hidden="true"
       >
         {icon}
       </span>
-      <span className="flex flex-col gap-0.5">
+      <span className="flex min-w-0 flex-col gap-0.5">
         <span className="font-semibold text-ink">{title}</span>
         <span className="text-sm text-muted">{desc}</span>
       </span>
@@ -134,10 +134,10 @@ export function Onboarding() {
   }
 
   return (
-    <main className="aurora min-h-[calc(100vh-3.5rem)]">
-      <div className="mx-auto flex max-w-2xl flex-col gap-8 px-6 py-12">
+    <main className="aurora flex min-h-[calc(100vh-3.5rem)] flex-col lg:h-[calc(100vh-3.5rem)] lg:overflow-hidden">
+      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-6 py-6">
         {/* Indicador de passos */}
-        <ol className="flex items-center gap-2" aria-label="Progresso do onboarding">
+        <ol className="flex items-center gap-3" aria-label="Progresso do onboarding">
           {STEPS.map((label, i) => (
             <li key={label} className="flex flex-1 flex-col gap-1.5">
               <span
@@ -158,26 +158,42 @@ export function Onboarding() {
           ))}
         </ol>
 
-        <div key={step} className="animate-fade-up">
+        {/* Conteúdo — centralizado verticalmente no espaço restante */}
+        <div key={step} className="flex flex-1 animate-fade-up items-center">
           {step === 0 ? (
-            <section className="flex flex-col gap-5 text-center">
-              <div className="flex items-center justify-center gap-2">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/15 text-brand ring-1 ring-brand/40">
-                  <Hand className="h-6 w-6" aria-hidden="true" />
+            <section className="grid w-full items-center gap-10 lg:grid-cols-2">
+              <div className="flex flex-col gap-5 text-center lg:text-left">
+                <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/15 text-brand ring-1 ring-brand/40 lg:mx-0">
+                  <Hand className="h-7 w-7" aria-hidden="true" />
                 </span>
+                <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
+                  {first ? (
+                    <>
+                      Boas-vindas,
+                      <br />
+                      <span className="text-brand">{first}</span>!
+                    </>
+                  ) : (
+                    <>
+                      Boas-vindas ao
+                      <br />
+                      <span className="text-brand">aprender em Libras</span>!
+                    </>
+                  )}
+                </h1>
+                <p className="text-lg leading-relaxed text-muted">
+                  Aqui você aprende tecnologia com Libras como língua principal — não como uma
+                  janelinha no canto. Assista às boas-vindas em Libras ao lado.
+                </p>
+                <p className="flex items-center justify-center gap-2 text-sm text-muted lg:justify-start">
+                  <LibrasBadge /> vídeo de exemplo — será substituído pelo intérprete oficial
+                </p>
               </div>
-              <h1 className="text-3xl font-bold tracking-tight">
-                {first ? `Boas-vindas, ${first}!` : 'Boas-vindas!'}
-              </h1>
-              <p className="mx-auto max-w-md text-muted">
-                Aqui você aprende tecnologia com Libras como língua principal — não como uma
-                janelinha no canto. Assista às boas-vindas em Libras:
-              </p>
-              <div className="mx-auto w-full max-w-md">
+              <div className="mx-auto w-full max-w-xl">
                 <div className="overflow-hidden rounded-2xl border border-edge bg-black shadow-lg glow-brand">
                   <video
                     src={WELCOME_VIDEO}
-                    className="aspect-video w-full"
+                    className="aspect-video max-h-[52vh] w-full"
                     controls
                     autoPlay
                     muted
@@ -187,45 +203,50 @@ export function Onboarding() {
                     aria-label="Vídeo de boas-vindas em Libras"
                   />
                 </div>
-                <p className="mt-2 flex items-center justify-center gap-1.5 text-xs text-muted">
-                  <LibrasBadge /> vídeo de exemplo — será substituído pelo intérprete oficial
-                </p>
               </div>
             </section>
           ) : null}
 
           {step === 1 ? (
-            <section className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1 text-center">
-                <h1 className="text-2xl font-bold tracking-tight">Qual sua língua principal?</h1>
-                <p className="text-muted">Isso ajusta a experiência ao seu jeito de aprender.</p>
+            <section className="flex w-full flex-col gap-8">
+              <div className="flex flex-col gap-2 text-center">
+                <h1 className="text-3xl font-bold tracking-tight lg:text-4xl">
+                  Qual sua língua principal?
+                </h1>
+                <p className="text-lg text-muted">
+                  Isso ajusta a experiência ao seu jeito de aprender.
+                </p>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="grid gap-5 sm:grid-cols-2">
                 <OptionCard
                   active={prefs.language === 'libras'}
                   onClick={() => setPrefs({ language: 'libras', interpreterDefault: true })}
-                  icon={<Hand className="h-5 w-5" />}
+                  icon={<Hand className="h-6 w-6" />}
                   title="Libras"
-                  desc="Intérprete de Libras sempre visível por padrão nas aulas."
+                  desc="Intérprete de Libras sempre visível por padrão nas aulas. Ideal para quem tem Libras como primeira língua."
                 />
                 <OptionCard
                   active={prefs.language === 'pt-BR'}
                   onClick={() => setPrefs({ language: 'pt-BR' })}
-                  icon={<Languages className="h-5 w-5" />}
+                  icon={<Languages className="h-6 w-6" />}
                   title="Português escrito"
-                  desc="Foco no conteúdo em português, com Libras disponível quando quiser."
+                  desc="Foco no conteúdo em português, com o intérprete de Libras disponível sempre que quiser."
                 />
               </div>
             </section>
           ) : null}
 
           {step === 2 ? (
-            <section className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1 text-center">
-                <h1 className="text-2xl font-bold tracking-tight">Ajuste a acessibilidade</h1>
-                <p className="text-muted">Você pode mudar tudo isso depois, quando quiser.</p>
+            <section className="flex w-full flex-col gap-8">
+              <div className="flex flex-col gap-2 text-center">
+                <h1 className="text-3xl font-bold tracking-tight lg:text-4xl">
+                  Ajuste a acessibilidade
+                </h1>
+                <p className="text-lg text-muted">
+                  Você pode mudar tudo isso depois, quando quiser.
+                </p>
               </div>
-              <div className="flex flex-col gap-3">
+              <div className="grid gap-4 lg:grid-cols-2">
                 <ToggleRow
                   checked={prefs.interpreterDefault}
                   onChange={(v) => setPrefs({ interpreterDefault: v })}
@@ -247,7 +268,7 @@ export function Onboarding() {
                   title="Reduzir animações"
                   desc="Menos movimento na interface."
                 />
-                <Card className="flex flex-col gap-3 p-4">
+                <Card className="flex flex-col justify-center gap-3 p-4">
                   <span className="flex items-center gap-2 font-semibold text-ink">
                     <Type className="h-5 w-5 text-brand" aria-hidden="true" />
                     Tamanho da fonte
@@ -276,17 +297,17 @@ export function Onboarding() {
           ) : null}
 
           {step === 3 ? (
-            <section className="flex flex-col items-center gap-5 text-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/15 text-brand ring-1 ring-brand/40">
-                <PartyPopper className="h-7 w-7" aria-hidden="true" />
+            <section className="mx-auto flex w-full max-w-xl flex-col items-center gap-6 text-center">
+              <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/15 text-brand ring-1 ring-brand/40">
+                <PartyPopper className="h-8 w-8" aria-hidden="true" />
               </span>
-              <h1 className="text-3xl font-bold tracking-tight">Tudo pronto!</h1>
-              <p className="mx-auto max-w-md text-muted">
+              <h1 className="text-4xl font-bold tracking-tight">Tudo pronto!</h1>
+              <p className="text-lg text-muted">
                 Sua experiência está configurada. Vamos começar por{' '}
                 <span className="text-ink">Programação do Zero</span>.
               </p>
-              <Card className="w-full max-w-md p-4 text-left">
-                <ul className="flex flex-col gap-2 text-sm">
+              <Card className="w-full p-5 text-left">
+                <ul className="flex flex-col gap-2.5 text-sm">
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-brand" aria-hidden="true" />
                     Língua principal: {prefs.language === 'libras' ? 'Libras' : 'Português escrito'}
@@ -315,28 +336,29 @@ export function Onboarding() {
           ) : (
             <span />
           )}
-          {step < last ? (
-            <Button onClick={() => setStep((s) => s + 1)}>
-              Continuar
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          ) : (
-            <Button onClick={finish}>
-              Começar a aprender
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          )}
+          <div className="flex items-center gap-3">
+            {step < last ? (
+              <button
+                type="button"
+                onClick={finish}
+                className="text-sm text-muted transition-colors hover:text-ink focus-visible:underline focus-visible:outline-none"
+              >
+                Pular por agora
+              </button>
+            ) : null}
+            {step < last ? (
+              <Button onClick={() => setStep((s) => s + 1)}>
+                Continuar
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            ) : (
+              <Button onClick={finish}>
+                Começar a aprender
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
-
-        {step < last ? (
-          <button
-            type="button"
-            onClick={finish}
-            className="mx-auto text-sm text-muted transition-colors hover:text-ink focus-visible:outline-none focus-visible:underline"
-          >
-            Pular por agora
-          </button>
-        ) : null}
       </div>
     </main>
   );
