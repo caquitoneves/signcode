@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { BookOpen, Hand, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
+import { BookOpen, Code2, Hand, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
 import { useAuth } from '../lib/auth-context';
 import { Button } from './ui';
 
@@ -30,6 +30,14 @@ export function SiteHeader() {
           >
             <BookOpen className="h-4 w-4" aria-hidden="true" />
             Cursos
+          </Link>
+
+          <Link
+            href="/pratica"
+            className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:inline-flex"
+          >
+            <Code2 className="h-4 w-4" aria-hidden="true" />
+            Praticar
           </Link>
 
           {loading ? null : user ? (
