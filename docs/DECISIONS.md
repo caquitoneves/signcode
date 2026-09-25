@@ -107,3 +107,30 @@ e evita construir wiring antes da necessidade (anti-overengineering).
   iframes fica como evolução (hoje ambos iniciam juntos via autoplay; conteúdo/Libras mudos,
   professor com áudio). Migração muda a restrição única de vídeo — em dev, usar `migrate reset`.
 - **Reversibilidade:** média (schema + player).
+
+## ADR-0016 — Player HTML5 sincronizado (atualiza ADR-0015)
+
+- **Contexto:** iframes do YouTube não permitem sincronizar reprodução nem detectar o fim da aula,
+  e o layout de "três telas" ficou desproporcional. A referência de UX aprovada (Gran) é
+  **um vídeo grande** (professor pode estar dentro dele) + **intérprete de Libras em PiP** móvel
+  e redimensionável.
+- **Decisão:** para `provider != youtube` o player usa `<video>` nativo. Um hook `useSyncedVideos`
+  faz play/pause/seek/velocidade do vídeo principal propagarem para o intérprete (mudo), com
+  correção de deriva; o fim avança para a próxima aula quando a reprodução automática está ligada.
+  YouTube segue suportado (iframe) como fallback sem sincronia.
+- **Consequências:** sincronia real e auto-avanço sem custo, usando MP4s (Cloudflare R2). Autoplay
+  com som é bloqueado pelo navegador, então a aula sincronizada inicia pausada com controles.
+- **Reversibilidade:** alta (troca de string de provider/URL; lógica isolada no hook).
+
+## ADR-0017 — Editor de prática client-side (JS) e IA adiada para pós-piloto
+
+- **Contexto:** curso de programação exige prática de código; o fundador está sozinho e minimiza
+  custo. Cursos modernos ensinam a usar IA. Piloto com 30 alunos para validar a hipótese central
+  (surdos aprendem tecnologia significativamente melhor).
+- **Decisão:** o editor de prática do piloto **executa no navegador** (JavaScript em Web Worker),
+  sem servidor de execução — grátis e sem risco de rodar código de terceiros. "Programação do Zero"
+  será em **JavaScript** para viabilizar isso. **Nenhuma feature de IA** entra no piloto; ensinar a
+  usar IA é tratado como **conteúdo** das aulas. Tutor de IA e sandbox multi-linguagem vão ao backlog.
+- **Consequências:** prática real com custo operacional ~zero; limita a execução a JS no piloto
+  (outras linguagens exigiriam execução externa — ver BACKLOG). Sem custo recorrente de tokens.
+- **Reversibilidade:** alta (o editor é um módulo; execução externa e IA são aditivos).
