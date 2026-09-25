@@ -32,3 +32,32 @@ resolver o primeiro exercício, feedback qualitativo positivo sobre aprender em 
 
 Validação -> MVP -> primeiros usuários -> retenção -> disposição a pagar -> primeiros clientes -> escala.
 Investimento é progressivo e baseado em evidência, não em fé.
+
+## Plano do piloto (Módulos 0, 1 e 2)
+
+Não produzir os 12 módulos antes de testar. Produzir M0–2, rodar com alguns alunos surdos e
+observar antes de seguir para o Módulo 3.
+
+Cronograma sugerido: Semana 1 (M0), Semana 2 (M1), Semana 3 (M2), Semana 4 (projeto + entrevista
+curta). Self-paced — não é obrigatório terminar no prazo.
+
+### Perguntas de teste com aluno real (evitar só "você gostou?")
+
+Compreensão (o que entendeu?), dificuldade (onde travou?), clareza (o que ficou confuso?), Libras
+(a explicação ficou natural?), visual (qual demonstração ajudou mais?), exercício (conseguiu sem
+copiar?), linguagem (algum termo estranho?), ritmo (rápido/lento/adequado?), confiança (consegue
+explicar para outra pessoa?).
+
+### Métricas do piloto
+
+Taxa de conclusão; tempo por aula; tentativas por exercício; taxa de acerto; abandono; pontos de
+dificuldade; pedidos de ajuda; retorno ao conteúdo; capacidade de explicar o conceito.
+
+Métrica-chave: **"consegue fazer sem copiar?"** — reproduzir o código do professor não é
+necessariamente aprendizagem.
+
+### Critério para avançar (liberar o Módulo 3)
+
+Só avançar com evidência de que: os alunos entenderam os conceitos; os exercícios fazem sentido; os
+vídeos estão adequados; a Libras está natural; os termos técnicos foram validados; a dificuldade
+está calibrada; os alunos resolvem problemas simples sozinhos.

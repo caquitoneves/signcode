@@ -134,3 +134,16 @@ e evita construir wiring antes da necessidade (anti-overengineering).
 - **Consequências:** prática real com custo operacional ~zero; limita a execução a JS no piloto
   (outras linguagens exigiriam execução externa — ver BACKLOG). Sem custo recorrente de tokens.
 - **Reversibilidade:** alta (o editor é um módulo; execução externa e IA são aditivos).
+
+## ADR-0018 — Currículo "Programação do Zero", modelo de jornada e piloto M0–2
+
+- **Contexto:** definir o primeiro produto de conteúdo a partir de pesquisa de referências
+  (Rocketseat, Alura, Codecademy, freeCodeCamp, SignLab). Fundador solo, foco em validar a
+  metodologia Libras-first.
+- **Decisão:** adotar o modelo **jornada -> módulos/aulas -> prática -> projeto -> portfólio ->
+  carreira**; primeiro curso "Programação do Zero" em **JavaScript**, 12 módulos no mapa, mas
+  **produzir e validar apenas os Módulos 0, 1 e 2** no piloto (~30 aulas). Libras tratada como
+  parte da explicação (não tradução). Detalhes em `CURRICULO.md`. Conteúdo M0–2 no seed.
+- **Consequências:** o seed passa a carregar conteúdo pedagógico real; próximos módulos só entram
+  após evidência de aprendizagem (ver `VALIDATION.md`). Sem mudança de schema.
+- **Reversibilidade:** alta (conteúdo é dado; o mapa de trilhas é orientação, não código).

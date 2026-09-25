@@ -29,3 +29,23 @@ Não implementamos tudo no primeiro dia, mas a experiência **nasce** com essa v
 - Contraste mínimo WCAG AA; alvos de toque adequados no mobile.
 - Legendas e transcrições sempre disponíveis; controles com rótulos claros.
 - Preferências de acessibilidade guardadas no perfil do aluno.
+
+## Regra pedagógica: Libras-first (não é tradução)
+
+Libras faz parte da construção da explicação, não é uma janela adicional sobre uma aula em
+português. Fluxo de cada conceito: Conceito -> Explicação visual -> Libras -> Demonstração ->
+Código -> Prática. Sinais técnicos devem ser validados por pessoas surdas usuárias de Libras.
+
+## Checklist de acessibilidade por aula (antes de publicar)
+
+Vídeo: Libras presente; enquadramento e iluminação adequados; mãos e expressões visíveis; fundo
+limpo; velocidade confortável; pausas entre conceitos.
+
+Conteúdo: texto em português; transcrição; exemplos visuais; código copiável; imagens descritas
+quando necessário; linguagem simples.
+
+Exercícios: instrução clara; exemplo quando necessário; feedback visual; permitir nova tentativa;
+explicar a resposta.
+
+Interface: navegação por teclado; contraste suficiente; foco visível; responsivo; controles de
+vídeo acessíveis; sem depender de áudio (feedback sempre visual).

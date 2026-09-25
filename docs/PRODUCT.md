@@ -52,3 +52,11 @@ app mobile nativo, certificados, gamificação, analytics avançado, multi-tenan
 
 Visitantes, cadastros, início do curso, 1ª aula concluída, retorno semanal,
 conclusão de módulo/curso, exercícios concluídos, satisfação, intenção/conversão de pagamento.
+
+## Posicionamento de conteúdo (jornada e trilhas)
+
+O produto não é um catálogo solto de vídeos, e sim uma **jornada**: cada curso tem ordem planejada
+e, ao concluir, recomenda a próxima trilha (Programação do Zero -> Fundamentos Web -> Frontend/
+Backend -> Full Stack -> Cloud/DevOps · IA -> Carreira). O diferencial é ser **Libras-first** desde
+a concepção. O detalhamento do currículo e do piloto está em `CURRICULO.md`; a estratégia de
+validação em `VALIDATION.md`.
