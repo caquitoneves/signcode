@@ -26,6 +26,7 @@ import { progressApi } from '@/lib/progress-api';
 import { useSyncedVideos } from '@/lib/use-synced-videos';
 import { InterpreterPiP } from './interpreter-pip';
 import { LessonComplete } from './lesson-complete';
+import { Markdown } from './markdown';
 import { LessonExercises } from './lesson-exercises';
 import { LessonSidebar } from './lesson-sidebar';
 import { Button, Card, LibrasBadge, SectionHeading } from './ui';
@@ -343,9 +344,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
               <div id="txt-h">
                 <SectionHeading icon={<BookOpen className="h-5 w-5" />}>Conteúdo</SectionHeading>
               </div>
-              <div className="whitespace-pre-wrap leading-relaxed text-ink/90">
-                {support.bodyMarkdown}
-              </div>
+              <Markdown content={support.bodyMarkdown} />
             </section>
           ) : null}
 
