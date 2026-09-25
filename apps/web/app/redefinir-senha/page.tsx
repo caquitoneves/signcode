@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState, type FormEvent } from 'react';
+import { AuthShell } from '@/components/auth-shell';
 import { Field, FormError, SubmitButton } from '@/components/form';
 import { authApi } from '@/lib/auth-api';
 
@@ -52,16 +53,17 @@ function ResetForm() {
 
 export default function RedefinirSenhaPage() {
   return (
-    <main className="mx-auto flex max-w-sm flex-col gap-6 px-6 py-12">
-      <h1 className="text-2xl font-bold tracking-tight">Redefinir senha</h1>
-      <Suspense fallback={<p>Carregando…</p>}>
-        <ResetForm />
-      </Suspense>
-      <p className="text-sm">
-        <Link href="/entrar" className="text-indigo-600 hover:underline dark:text-indigo-400">
+    <AuthShell
+      title="Redefinir senha"
+      footer={
+        <Link href="/entrar" className="font-medium text-brand hover:underline">
           Voltar para entrar
         </Link>
-      </p>
-    </main>
+      }
+    >
+      <Suspense fallback={<p className="text-muted">Carregando…</p>}>
+        <ResetForm />
+      </Suspense>
+    </AuthShell>
   );
 }

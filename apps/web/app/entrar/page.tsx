@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
+import { AuthShell } from '@/components/auth-shell';
 import { Field, FormError, SubmitButton } from '@/components/form';
 import { useAuth } from '@/lib/auth-context';
 
@@ -29,8 +30,18 @@ export default function EntrarPage() {
   }
 
   return (
-    <main className="mx-auto flex max-w-sm flex-col gap-6 px-6 py-12">
-      <h1 className="text-2xl font-bold tracking-tight">Entrar</h1>
+    <AuthShell
+      title="Entrar"
+      subtitle="Bem-vindo de volta"
+      footer={
+        <span>
+          Não tem conta?{' '}
+          <Link href="/cadastro" className="font-medium text-brand hover:underline">
+            Criar conta
+          </Link>
+        </span>
+      }
+    >
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <Field
           id="email"
@@ -52,21 +63,10 @@ export default function EntrarPage() {
         />
         <FormError message={error} />
         <SubmitButton loading={loading}>Entrar</SubmitButton>
-      </form>
-      <div className="flex flex-col gap-1 text-sm text-neutral-600 dark:text-neutral-300">
-        <Link
-          href="/recuperar-senha"
-          className="text-indigo-600 hover:underline dark:text-indigo-400"
-        >
+        <Link href="/recuperar-senha" className="text-center text-sm text-muted hover:text-brand">
           Esqueci minha senha
         </Link>
-        <span>
-          Não tem conta?{' '}
-          <Link href="/cadastro" className="text-indigo-600 hover:underline dark:text-indigo-400">
-            Criar conta
-          </Link>
-        </span>
-      </div>
-    </main>
+      </form>
+    </AuthShell>
   );
 }

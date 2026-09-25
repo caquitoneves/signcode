@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className="min-h-screen bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-50">
+      <body className="min-h-screen bg-canvas text-ink antialiased">
         <AuthProvider>
           <SiteHeader />
-          {children}
+          <div className="min-h-[calc(100vh-3.5rem)]">{children}</div>
         </AuthProvider>
       </body>
     </html>

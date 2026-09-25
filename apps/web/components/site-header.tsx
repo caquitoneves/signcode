@@ -1,26 +1,34 @@
 'use client';
 
 import Link from 'next/link';
+import { BookOpen, Hand, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
 import { useAuth } from '../lib/auth-context';
+import { Button } from './ui';
 
 export function SiteHeader() {
   const { user, loading, logout } = useAuth();
 
   return (
-    <header className="border-b border-neutral-200 dark:border-neutral-800">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
+    <header className="sticky top-0 z-20 border-b border-edge bg-canvas/80 backdrop-blur">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-semibold tracking-tight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="group flex items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         >
-          Aprender <span className="text-indigo-600 dark:text-indigo-400">em Libras</span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand ring-1 ring-brand/40">
+            <Hand className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <span className="font-semibold tracking-tight">
+            Aprender <span className="text-brand">em Libras</span>
+          </span>
         </Link>
 
-        <nav className="flex items-center gap-4 text-sm">
+        <nav className="flex items-center gap-1 text-sm">
           <Link
             href="/"
-            className="text-neutral-600 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-neutral-300 dark:hover:text-white"
+            className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:inline-flex"
           >
+            <BookOpen className="h-4 w-4" aria-hidden="true" />
             Cursos
           </Link>
 
@@ -28,34 +36,36 @@ export function SiteHeader() {
             <>
               <Link
                 href="/painel"
-                className="text-neutral-700 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-neutral-200 dark:hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               >
+                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
                 Meu painel
               </Link>
-              <span className="hidden text-neutral-500 sm:inline" aria-label="Conectado como">
+              <span
+                className="hidden max-w-[12rem] truncate px-2 text-muted md:inline"
+                title={user.email}
+              >
                 {user.name ?? user.email}
               </span>
-              <button
-                type="button"
-                onClick={() => void logout()}
-                className="rounded-md px-3 py-1.5 font-medium text-neutral-700 hover:bg-neutral-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
-              >
+              <Button variant="ghost" size="sm" onClick={() => void logout()}>
+                <LogOut className="h-4 w-4" aria-hidden="true" />
                 Sair
-              </button>
+              </Button>
             </>
           ) : (
             <>
               <Link
                 href="/entrar"
-                className="text-neutral-700 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:text-neutral-200"
+                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               >
+                <LogIn className="h-4 w-4" aria-hidden="true" />
                 Entrar
               </Link>
-              <Link
-                href="/cadastro"
-                className="rounded-md bg-indigo-600 px-3 py-1.5 font-medium text-white hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Criar conta
+              <Link href="/cadastro">
+                <Button size="sm">
+                  <UserPlus className="h-4 w-4" aria-hidden="true" />
+                  Criar conta
+                </Button>
               </Link>
             </>
           )}

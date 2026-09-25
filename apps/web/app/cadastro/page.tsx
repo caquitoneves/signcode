@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
+import { AuthShell } from '@/components/auth-shell';
 import { Field, FormError, SubmitButton } from '@/components/form';
 import { useAuth } from '@/lib/auth-context';
 
@@ -30,8 +31,18 @@ export default function CadastroPage() {
   }
 
   return (
-    <main className="mx-auto flex max-w-sm flex-col gap-6 px-6 py-12">
-      <h1 className="text-2xl font-bold tracking-tight">Criar conta</h1>
+    <AuthShell
+      title="Criar conta"
+      subtitle="Comece a aprender em Libras"
+      footer={
+        <span>
+          Já tem conta?{' '}
+          <Link href="/entrar" className="font-medium text-brand hover:underline">
+            Entrar
+          </Link>
+        </span>
+      }
+    >
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <Field
           id="name"
@@ -62,12 +73,6 @@ export default function CadastroPage() {
         <FormError message={error} />
         <SubmitButton loading={loading}>Criar conta</SubmitButton>
       </form>
-      <p className="text-sm text-neutral-600 dark:text-neutral-300">
-        Já tem conta?{' '}
-        <Link href="/entrar" className="text-indigo-600 hover:underline dark:text-indigo-400">
-          Entrar
-        </Link>
-      </p>
-    </main>
+    </AuthShell>
   );
 }

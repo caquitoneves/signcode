@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
+import { AuthShell } from '@/components/auth-shell';
 import { Field, FormError, FormSuccess, SubmitButton } from '@/components/form';
 import { authApi } from '@/lib/auth-api';
 
@@ -26,8 +27,15 @@ export default function RecuperarSenhaPage() {
   }
 
   return (
-    <main className="mx-auto flex max-w-sm flex-col gap-6 px-6 py-12">
-      <h1 className="text-2xl font-bold tracking-tight">Recuperar senha</h1>
+    <AuthShell
+      title="Recuperar senha"
+      subtitle="Enviaremos um link por e-mail"
+      footer={
+        <Link href="/entrar" className="font-medium text-brand hover:underline">
+          Voltar para entrar
+        </Link>
+      }
+    >
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <Field
           id="email"
@@ -46,11 +54,6 @@ export default function RecuperarSenhaPage() {
         />
         <SubmitButton loading={loading}>Enviar link</SubmitButton>
       </form>
-      <p className="text-sm">
-        <Link href="/entrar" className="text-indigo-600 hover:underline dark:text-indigo-400">
-          Voltar para entrar
-        </Link>
-      </p>
-    </main>
+    </AuthShell>
   );
 }

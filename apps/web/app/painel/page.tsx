@@ -1,9 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import { ArrowRight, GraduationCap, LayoutDashboard } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import type { DashboardCourse } from '@projetox/contracts';
+import { EmptyArt } from '@/components/illustrations';
 import { StateMessage } from '@/components/state-message';
+import { Button, Card, ProgressBar } from '@/components/ui';
 import { useAuth } from '@/lib/auth-context';
 import { progressApi } from '@/lib/progress-api';
 
@@ -39,14 +42,17 @@ export default function PainelPage() {
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-10">
-      <h1 className="text-3xl font-bold tracking-tight">Meu painel</h1>
+      <h1 className="flex items-center gap-2 text-3xl font-bold tracking-tight">
+        <LayoutDashboard className="h-7 w-7 text-brand" aria-hidden="true" />
+        Meu painel
+      </h1>
 
       {authLoading || loading ? <StateMessage>Carregando…</StateMessage> : null}
 
       {!authLoading && !loading && !user ? (
         <StateMessage>
           Entre para ver seu painel.{' '}
-          <Link href="/entrar" className="text-indigo-600 hover:underline dark:text-indigo-400">
+          <Link href="/entrar" className="font-medium text-brand hover:underline">
             Entrar
           </Link>
         </StateMessage>
@@ -55,12 +61,16 @@ export default function PainelPage() {
       {error ? <StateMessage>{error}</StateMessage> : null}
 
       {user && items && items.length === 0 ? (
-        <StateMessage>
-          Você ainda não está matriculado em nenhum curso.{' '}
-          <Link href="/" className="text-indigo-600 hover:underline dark:text-indigo-400">
-            Ver cursos
+        <Card className="flex flex-col items-center gap-4 p-10 text-center">
+          <EmptyArt />
+          <div className="flex flex-col gap-1">
+            <p className="font-medium">Você ainda não está matriculado em nenhum curso.</p>
+            <p className="text-sm text-muted">Escolha um curso e comece a aprender.</p>
+          </div>
+          <Link href="/">
+            <Button>Ver cursos</Button>
           </Link>
-        </StateMessage>
+        </Card>
       ) : null}
 
       {user && items && items.length > 0 ? (
@@ -68,46 +78,35 @@ export default function PainelPage() {
           {items.map((item) => {
             const pct = percent(item);
             return (
-              <li
-                key={item.course.id}
-                className="flex flex-col gap-3 rounded-xl border border-neutral-200 p-5 dark:border-neutral-800"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex flex-col gap-1">
-                    <h2 className="font-semibold">{item.course.title}</h2>
-                    {item.course.description ? (
-                      <p className="text-sm text-neutral-600 dark:text-neutral-300">
-                        {item.course.description}
-                      </p>
-                    ) : null}
-                  </div>
-                  <Link
-                    href={`/cursos/${item.course.slug}`}
-                    className="shrink-0 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    Continuar
-                  </Link>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <div className="flex justify-between text-sm text-neutral-600 dark:text-neutral-300">
-                    <span>
-                      {item.completed} de {item.total} aulas
+              <li key={item.course.id}>
+                <Card className="flex flex-col gap-4 p-5">
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30">
+                      <GraduationCap className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <span>{pct}%</span>
+                    <div className="flex flex-1 flex-col gap-1">
+                      <h2 className="font-semibold">{item.course.title}</h2>
+                      {item.course.description ? (
+                        <p className="text-sm text-muted">{item.course.description}</p>
+                      ) : null}
+                    </div>
+                    <Link href={`/cursos/${item.course.slug}`}>
+                      <Button size="sm">
+                        Continuar
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </Button>
+                    </Link>
                   </div>
-                  <div
-                    className="h-2 w-full overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800"
-                    role="progressbar"
-                    aria-valuemin={0}
-                    aria-valuemax={item.total}
-                    aria-valuenow={item.completed}
-                  >
-                    <div
-                      className="h-full bg-green-600 transition-all"
-                      style={{ width: `${pct}%` }}
-                    />
+                  <div className="flex flex-col gap-1">
+                    <div className="flex justify-between text-sm text-muted">
+                      <span>
+                        {item.completed} de {item.total} aulas
+                      </span>
+                      <span className="font-medium text-brand">{pct}%</span>
+                    </div>
+                    <ProgressBar value={item.completed} max={item.total} />
                   </div>
-                </div>
+                </Card>
               </li>
             );
           })}

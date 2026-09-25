@@ -1,3 +1,4 @@
+import { VideoOff } from 'lucide-react';
 import type { LessonVideo } from '@projetox/contracts';
 
 function embedSrc(video: LessonVideo): string | null {
@@ -7,32 +8,25 @@ function embedSrc(video: LessonVideo): string | null {
   return null;
 }
 
-export function VideoEmbed({ video, title }: { video: LessonVideo | null; title: string }) {
-  if (!video) {
-    return (
-      <div
-        role="status"
-        className="flex aspect-video w-full items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 text-neutral-500 dark:border-neutral-700 dark:bg-neutral-900"
-      >
-        Vídeo indisponível para este idioma.
-      </div>
-    );
-  }
+function Placeholder({ label }: { label: string }) {
+  return (
+    <div
+      role="status"
+      className="flex aspect-video w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-edge bg-elevated text-muted"
+    >
+      <VideoOff className="h-8 w-8" aria-hidden="true" />
+      <span className="text-sm">{label}</span>
+    </div>
+  );
+}
 
+export function VideoEmbed({ video, title }: { video: LessonVideo | null; title: string }) {
+  if (!video) return <Placeholder label="Vídeo indisponível para este idioma." />;
   const src = embedSrc(video);
-  if (!src) {
-    return (
-      <div
-        role="status"
-        className="flex aspect-video w-full items-center justify-center rounded-xl border border-dashed border-neutral-300 bg-neutral-100 text-neutral-500 dark:border-neutral-700 dark:bg-neutral-900"
-      >
-        Provedor de vídeo não suportado ({video.provider}).
-      </div>
-    );
-  }
+  if (!src) return <Placeholder label={`Provedor não suportado (${video.provider}).`} />;
 
   return (
-    <div className="aspect-video w-full overflow-hidden rounded-xl bg-black shadow">
+    <div className="aspect-video w-full overflow-hidden rounded-2xl border border-edge bg-black shadow-xl">
       <iframe
         src={src}
         title={title}

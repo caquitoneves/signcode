@@ -1,7 +1,8 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { cn } from '@projetox/ui';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Button } from './ui';
 
 export function Field(props: {
   id: string;
@@ -15,7 +16,7 @@ export function Field(props: {
 }) {
   const { id, label, type = 'text', value, onChange, required, autoComplete, minLength } = props;
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className="text-sm font-medium">
         {label}
       </label>
@@ -27,7 +28,7 @@ export function Field(props: {
         required={required}
         autoComplete={autoComplete}
         minLength={minLength}
-        className="rounded-md border border-neutral-300 bg-white px-3 py-2 text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-50"
+        className="rounded-lg border border-edge bg-elevated px-3 py-2 text-ink placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
       />
     </div>
   );
@@ -35,16 +36,9 @@ export function Field(props: {
 
 export function SubmitButton({ children, loading }: { children: ReactNode; loading?: boolean }) {
   return (
-    <button
-      type="submit"
-      disabled={loading}
-      className={cn(
-        'rounded-md bg-indigo-600 px-4 py-2 font-medium text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60',
-        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
-      )}
-    >
+    <Button type="submit" disabled={loading} className="w-full">
       {loading ? 'Enviando…' : children}
-    </button>
+    </Button>
   );
 }
 
@@ -53,9 +47,10 @@ export function FormError({ message }: { message: string | null }) {
   return (
     <p
       role="alert"
-      className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950/60 dark:text-red-300"
+      className="flex items-start gap-2 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-300"
     >
-      {message}
+      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+      <span>{message}</span>
     </p>
   );
 }
@@ -65,9 +60,10 @@ export function FormSuccess({ message }: { message: string | null }) {
   return (
     <p
       role="status"
-      className="rounded-md bg-green-50 px-3 py-2 text-sm text-green-700 dark:bg-green-950/60 dark:text-green-300"
+      className="flex items-start gap-2 rounded-lg border border-brand/40 bg-brand/10 px-3 py-2 text-sm text-brand"
     >
-      {message}
+      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+      <span>{message}</span>
     </p>
   );
 }
