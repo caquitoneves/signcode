@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   ArrowRight,
@@ -22,6 +23,7 @@ import { cn } from '@projetox/ui';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth-context';
 import { progressApi } from '@/lib/progress-api';
+import { useSyncedVideos } from '@/lib/use-synced-videos';
 import { InterpreterPiP } from './interpreter-pip';
 import { LessonComplete } from './lesson-complete';
 import { LessonExercises } from './lesson-exercises';
@@ -60,6 +62,7 @@ function ToolButton({
 
 export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
   const { user } = useAuth();
+  const router = useRouter();
 
   const support =
     lesson.translations.find((t) => t.languageCode === 'pt-BR') ?? lesson.translations[0] ?? null;
@@ -72,6 +75,10 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
     null;
   const interpreter = lesson.videos.find((v) => v.role === 'INTERPRETER') ?? null;
 
+  // Vídeos <video> sincronizáveis (provider != youtube): play/pause/seek/velocidade
+  // do vídeo principal propagam para o intérprete, e o fim avança a aula.
+  const synced = Boolean(content) && content?.provider !== 'youtube';
+
   const [course, setCourse] = useState<CourseTree | null>(null);
   const [done, setDone] = useState<Set<string>>(new Set());
   const [dim, setDim] = useState(false);
@@ -81,6 +88,15 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
   const [tool, setTool] = useState<Tool>('none');
   const [isFullscreen, setIsFullscreen] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
+
+  const flat = course ? course.modules.flatMap((m) => m.lessons) : [];
+  const idx = flat.findIndex((l) => l.id === lesson.id);
+  const prev = idx > 0 ? (flat[idx - 1] ?? null) : null;
+  const next = idx >= 0 && idx < flat.length - 1 ? (flat[idx + 1] ?? null) : null;
+
+  const { setMain, setFollower } = useSyncedVideos(() => {
+    if (autoplay && next) router.push(`/aulas/${next.id}`);
+  });
 
   useEffect(() => {
     try {
@@ -146,11 +162,6 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
     }
   }
 
-  const flat = course ? course.modules.flatMap((m) => m.lessons) : [];
-  const idx = flat.findIndex((l) => l.id === lesson.id);
-  const prev = idx > 0 ? (flat[idx - 1] ?? null) : null;
-  const next = idx >= 0 && idx < flat.length - 1 ? (flat[idx + 1] ?? null) : null;
-
   return (
     <>
       {dim ? (
@@ -178,14 +189,17 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
             <VideoEmbed
               video={content}
               title={`${title} — aula`}
-              autoplay
+              autoplay={!synced}
               muted={false}
+              controls={synced}
+              videoRef={synced ? setMain : undefined}
               className={isFullscreen ? 'max-h-[86vh]' : undefined}
             />
             {interpreter && showInterpreter ? (
               <InterpreterPiP
                 video={interpreter}
                 title={`${title} — intérprete de Libras`}
+                videoRef={synced ? setFollower : undefined}
                 onClose={() => {
                   setShowInterpreter(false);
                   persist('showInterpreter', false);

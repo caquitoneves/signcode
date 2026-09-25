@@ -10,10 +10,12 @@ export function InterpreterPiP({
   video,
   title,
   onClose,
+  videoRef,
 }: {
   video: LessonVideo;
   title: string;
   onClose: () => void;
+  videoRef?: (el: HTMLVideoElement | null) => void;
 }) {
   const [pos, setPos] = useState<{ x: number; y: number }>({ x: 24, y: 24 });
   const [width, setWidth] = useState(280);
@@ -86,7 +88,7 @@ export function InterpreterPiP({
       </div>
 
       <div className="relative">
-        <VideoEmbed video={video} title={title} autoplay muted />
+        <VideoEmbed video={video} title={title} autoplay={!videoRef} muted videoRef={videoRef} />
         <div
           role="slider"
           aria-label="Redimensionar intérprete"

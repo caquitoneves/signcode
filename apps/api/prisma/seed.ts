@@ -65,20 +65,22 @@ async function main(): Promise<void> {
           {
             role: 'CONTENT',
             languageCode: 'pt-BR',
-            provider: 'youtube',
-            externalId: 'jNQXAC9IVRw',
+            provider: 'file',
+            externalId: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
           },
           {
             role: 'INSTRUCTOR',
             languageCode: 'pt-BR',
-            provider: 'youtube',
-            externalId: 'dQw4w9WgXcQ',
+            provider: 'file',
+            externalId:
+              'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
           },
           {
             role: 'INTERPRETER',
             languageCode: 'libras',
-            provider: 'youtube',
-            externalId: '9bZkp7q19f0',
+            provider: 'file',
+            externalId:
+              'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
           },
         ],
       },
@@ -112,14 +114,15 @@ async function main(): Promise<void> {
           {
             role: 'CONTENT',
             languageCode: 'pt-BR',
-            provider: 'youtube',
-            externalId: 'jNQXAC9IVRw',
+            provider: 'file',
+            externalId: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
           },
           {
             role: 'INTERPRETER',
             languageCode: 'libras',
-            provider: 'youtube',
-            externalId: '9bZkp7q19f0',
+            provider: 'file',
+            externalId:
+              'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
           },
         ],
       },
@@ -152,20 +155,22 @@ async function main(): Promise<void> {
           {
             role: 'CONTENT',
             languageCode: 'pt-BR',
-            provider: 'youtube',
-            externalId: 'jNQXAC9IVRw',
+            provider: 'file',
+            externalId: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
           },
           {
             role: 'INSTRUCTOR',
             languageCode: 'pt-BR',
-            provider: 'youtube',
-            externalId: 'dQw4w9WgXcQ',
+            provider: 'file',
+            externalId:
+              'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
           },
           {
             role: 'INTERPRETER',
             languageCode: 'libras',
-            provider: 'youtube',
-            externalId: '9bZkp7q19f0',
+            provider: 'file',
+            externalId:
+              'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
           },
         ],
       },
