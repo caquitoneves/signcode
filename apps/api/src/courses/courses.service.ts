@@ -10,6 +10,7 @@ import type { UpdateLessonDto } from './dto/update-lesson.dto';
 import type { UpsertLessonTranslationDto } from './dto/upsert-lesson-translation.dto';
 import type { UpsertLessonVideoDto } from './dto/upsert-lesson-video.dto';
 import type { CreateLessonMaterialDto } from './dto/create-lesson-material.dto';
+import type { VideoRole } from './video-roles';
 
 @Injectable()
 export class CoursesService {
@@ -118,12 +119,18 @@ export class CoursesService {
     });
   }
 
-  async upsertVideo(lessonId: string, languageCode: string, dto: UpsertLessonVideoDto) {
+  async upsertVideo(lessonId: string, role: VideoRole, dto: UpsertLessonVideoDto) {
     await this.ensureLesson(lessonId);
+    const data = {
+      languageCode: dto.languageCode,
+      provider: dto.provider,
+      externalId: dto.externalId,
+      durationSeconds: dto.durationSeconds ?? null,
+    };
     return this.prisma.lessonVideo.upsert({
-      where: { lessonId_languageCode: { lessonId, languageCode } },
-      create: { lessonId, languageCode, ...dto },
-      update: { ...dto },
+      where: { lessonId_role: { lessonId, role } },
+      create: { lessonId, role, ...data },
+      update: data,
     });
   }
 

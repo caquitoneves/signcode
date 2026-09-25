@@ -24,6 +24,7 @@ import { UpsertLessonTranslationDto } from './dto/upsert-lesson-translation.dto'
 import { UpsertLessonVideoDto } from './dto/upsert-lesson-video.dto';
 import { CreateLessonMaterialDto } from './dto/create-lesson-material.dto';
 import { isSupportedLanguage } from './languages';
+import { isVideoRole } from './video-roles';
 
 @ApiTags('admin-content')
 @ApiBearerAuth()
@@ -81,15 +82,19 @@ export class AdminContentController {
     return this.courses.upsertTranslation(id, lang, dto);
   }
 
-  @Put('lessons/:id/videos/:lang')
-  @ApiOperation({ summary: 'Cria/atualiza o vídeo de uma aula por idioma (libras é 1ª classe)' })
+  @Put('lessons/:id/videos/:role')
+  @ApiOperation({
+    summary: 'Cria/atualiza o vídeo de uma aula por papel (CONTENT | INSTRUCTOR | INTERPRETER)',
+  })
   upsertVideo(
     @Param('id') id: string,
-    @Param('lang') lang: string,
+    @Param('role') role: string,
     @Body() dto: UpsertLessonVideoDto,
   ) {
-    this.assertLang(lang);
-    return this.courses.upsertVideo(id, lang, dto);
+    if (!isVideoRole(role)) {
+      throw new BadRequestException(`Papel de vídeo inválido: ${role}`);
+    }
+    return this.courses.upsertVideo(id, role, dto);
   }
 
   @Post('lessons/:id/materials')

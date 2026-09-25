@@ -3,9 +3,10 @@ import { CourseStatus, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 /**
- * Seed do curso "Programação do Zero".
- * Conteúdo textual/vídeos são PLACEHOLDERS — o conteúdo real (roteiro + vídeos em
- * Libras) vem da Trilha B (validação). Idempotente: recria os módulos do curso.
+ * Seed "Programação do Zero".
+ * Vídeos são PLACEHOLDERS. Cada aula pode ter 3 telas simultâneas:
+ * CONTENT (monitor/conteúdo), INSTRUCTOR (professor) e INTERPRETER (Libras).
+ * Idempotente: recria os módulos do curso.
  */
 async function main(): Promise<void> {
   const course = await prisma.course.upsert({
@@ -13,7 +14,7 @@ async function main(): Promise<void> {
     update: {
       title: 'Programação do Zero',
       description:
-        'Do zero até construir um pequeno projeto funcional. Aulas em Libras, com legenda, transcrição e texto de apoio.',
+        'Do zero até construir um pequeno projeto funcional. Conteúdo, professor e intérprete de Libras lado a lado.',
       status: CourseStatus.PUBLISHED,
       order: 0,
     },
@@ -21,13 +22,12 @@ async function main(): Promise<void> {
       slug: 'programacao-do-zero',
       title: 'Programação do Zero',
       description:
-        'Do zero até construir um pequeno projeto funcional. Aulas em Libras, com legenda, transcrição e texto de apoio.',
+        'Do zero até construir um pequeno projeto funcional. Conteúdo, professor e intérprete de Libras lado a lado.',
       status: CourseStatus.PUBLISHED,
       order: 0,
     },
   });
 
-  // Recria os módulos (cascade remove aulas/traduções/vídeos/materiais).
   await prisma.module.deleteMany({ where: { courseId: course.id } });
 
   const modulo1 = await prisma.module.create({
@@ -62,8 +62,24 @@ async function main(): Promise<void> {
       },
       videos: {
         create: [
-          { languageCode: 'libras', provider: 'youtube', externalId: 'PLACEHOLDER_LIBRAS_1' },
-          { languageCode: 'pt-BR', provider: 'youtube', externalId: 'PLACEHOLDER_PT_1' },
+          {
+            role: 'CONTENT',
+            languageCode: 'pt-BR',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_CONTENT_1',
+          },
+          {
+            role: 'INSTRUCTOR',
+            languageCode: 'pt-BR',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_PROFESSOR_1',
+          },
+          {
+            role: 'INTERPRETER',
+            languageCode: 'libras',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_LIBRAS_1',
+          },
         ],
       },
       materials: {
@@ -93,7 +109,18 @@ async function main(): Promise<void> {
       },
       videos: {
         create: [
-          { languageCode: 'libras', provider: 'youtube', externalId: 'PLACEHOLDER_LIBRAS_2' },
+          {
+            role: 'CONTENT',
+            languageCode: 'pt-BR',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_CONTENT_2',
+          },
+          {
+            role: 'INTERPRETER',
+            languageCode: 'libras',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_LIBRAS_2',
+          },
         ],
       },
     },
@@ -122,7 +149,24 @@ async function main(): Promise<void> {
       },
       videos: {
         create: [
-          { languageCode: 'libras', provider: 'youtube', externalId: 'PLACEHOLDER_LIBRAS_3' },
+          {
+            role: 'CONTENT',
+            languageCode: 'pt-BR',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_CONTENT_3',
+          },
+          {
+            role: 'INSTRUCTOR',
+            languageCode: 'pt-BR',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_PROFESSOR_3',
+          },
+          {
+            role: 'INTERPRETER',
+            languageCode: 'libras',
+            provider: 'youtube',
+            externalId: 'PLACEHOLDER_LIBRAS_3',
+          },
         ],
       },
     },
@@ -156,7 +200,7 @@ async function main(): Promise<void> {
     },
   });
 
-  console.log(`Seed concluído: curso "${course.title}" com módulos e aulas.`);
+  console.log(`Seed concluído: curso "${course.title}" com módulos, aulas (3 telas) e exercícios.`);
 }
 
 main()

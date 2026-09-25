@@ -1,7 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, MaxLength, Min } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString, MaxLength, Min } from 'class-validator';
+import { SUPPORTED_LANGUAGES } from '../languages';
 
 export class UpsertLessonVideoDto {
+  @ApiProperty({ enum: SUPPORTED_LANGUAGES })
+  @IsIn(SUPPORTED_LANGUAGES as unknown as string[])
+  languageCode!: string;
+
   @ApiProperty({
     example: 'youtube',
     description: "Provedor: 'youtube' | 'cloudflare' | 'bunny' | 'mux'",

@@ -69,6 +69,7 @@ export interface LessonTranslation {
 
 export interface LessonVideo {
   languageCode: string;
+  role: string;
   provider: string;
   externalId: string;
   durationSeconds: number | null;

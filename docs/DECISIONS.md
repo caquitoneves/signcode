@@ -95,3 +95,15 @@ e evita construir wiring antes da necessidade (anti-overengineering).
   Endpoints autenticados; mutações protegidas por CSRF. Access token curto é revalidado por
   refresh silencioso no front.
 - **Reversibilidade:** alta (aditivo).
+
+## ADR-0015 — Player de três telas (conteúdo + professor + intérprete)
+
+- **Contexto:** a diferenciação do produto é ver, ao mesmo tempo, o conteúdo (monitor), o professor
+  e o intérprete de Libras — não alternar entre idiomas.
+- **Decisão:** `LessonVideo` ganha `role` (CONTENT | INSTRUCTOR | INTERPRETER), único por
+  (lesson, role). O player exibe as telas **simultâneas** ao abrir; professor e intérprete podem ser
+  **ocultados** (preferência salva no navegador). Removido o toggle de idioma do vídeo.
+- **Consequências:** uma aula pode ter até 3 vídeos. A sincronização fina de reprodução entre os
+  iframes fica como evolução (hoje ambos iniciam juntos via autoplay; conteúdo/Libras mudos,
+  professor com áudio). Migração muda a restrição única de vídeo — em dev, usar `migrate reset`.
+- **Reversibilidade:** média (schema + player).
