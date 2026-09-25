@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { SiteHeader } from '@/components/site-header';
 import { AuthProvider } from '@/lib/auth-context';
+import { PrefsProvider } from '@/lib/prefs-context';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -13,10 +14,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <body className="min-h-screen bg-canvas text-ink antialiased">
-        <AuthProvider>
-          <SiteHeader />
-          <div className="min-h-[calc(100vh-3.5rem)]">{children}</div>
-        </AuthProvider>
+        <PrefsProvider>
+          <AuthProvider>
+            <SiteHeader />
+            <div className="min-h-[calc(100vh-3.5rem)]">{children}</div>
+          </AuthProvider>
+        </PrefsProvider>
       </body>
     </html>
   );

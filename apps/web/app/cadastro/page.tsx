@@ -22,7 +22,8 @@ export default function CadastroPage() {
     setLoading(true);
     try {
       await register(email, password, name || undefined);
-      router.push('/');
+      // conta nova -> onboarding acessível
+      router.push('/onboarding');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Não foi possível criar a conta');
     } finally {
