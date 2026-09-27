@@ -1,7 +1,7 @@
 /**
- * Marca abstrata "Aprender em Libras": um leque de traços coloridos sobre um
- * arco-base — evoca uma mão acenando/sinalizando em movimento, sem desenhar
- * uma mão realista. Cores fixas da identidade.
+ * Marca "Aprender em Libras": colchetes de código (< >) abraçando um leque
+ * abstrato de traços coloridos (evoca mão acenando/sinalizando, sem mão
+ * realista). Cores fixas da identidade.
  */
 export function LogoMark({
   className,
@@ -12,14 +12,16 @@ export function LogoMark({
 }) {
   return (
     <svg viewBox="0 0 48 48" className={className} role="img" aria-label={title}>
-      <g strokeWidth="4" strokeLinecap="round" fill="none">
-        {/* arco-base (palma / aceno) */}
-        <path d="M11 30 Q 24 41 37 30" stroke="#6366f1" />
-        {/* leque de traços (dedos / movimento) */}
-        <path d="M16 29 L13 15" stroke="#ef4444" />
-        <path d="M21.5 29 L20 10" stroke="#fbbf24" />
-        <path d="M27 29 L28.5 11" stroke="#10b981" />
-        <path d="M32.5 29 L35.5 16" stroke="#a78bfa" />
+      {/* colchetes de código */}
+      <g strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M15 13 L7 24 L15 35" stroke="#6366f1" />
+        <path d="M33 13 L41 24 L33 35" stroke="#10b981" />
+      </g>
+      {/* leque abstrato (mão / movimento) */}
+      <g strokeWidth="3.6" strokeLinecap="round" fill="none">
+        <path d="M20 31 L17.5 16" stroke="#ef4444" />
+        <path d="M24 31 L24 13" stroke="#fbbf24" />
+        <path d="M28 31 L30.5 16" stroke="#a78bfa" />
       </g>
     </svg>
   );
