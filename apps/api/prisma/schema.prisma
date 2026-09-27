@@ -31,6 +31,10 @@ model User {
   enrollments    Enrollment[]
   lessonProgress      LessonProgress[]
   exerciseSubmissions ExerciseSubmission[]
+  challengeSubmissions ChallengeSubmission[]
+  projectSubmissions   ProjectSubmission[]
+  checkpointAttempts   CheckpointAttempt[]
+  assessmentResponses  AssessmentResponse[]
 
   @@map("users")
 }
@@ -87,6 +91,8 @@ model Course {
 
   modules     Module[]
   enrollments Enrollment[]
+  assessment  Assessment?
+  projects    Project[]
 
   @@map("courses")
 }
@@ -102,7 +108,10 @@ model Module {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  lessons Lesson[]
+  lessons     Lesson[]
+  challenges  Challenge[]
+  projects    Project[]
+  checkpoint  Checkpoint?
 
   @@index([courseId])
   @@map("modules")
@@ -124,6 +133,7 @@ model Lesson {
   materials    LessonMaterial[]
   progress     LessonProgress[]
   exercises    Exercise[]
+  challenges   Challenge[]
 
   @@unique([moduleId, slug])
   @@index([moduleId])
@@ -278,4 +288,226 @@ model ExerciseSubmission {
   @@index([userId])
   @@index([exerciseId])
   @@map("exercise_submissions")
+}
+
+
+// ==========================================================
+// Experiência de aprendizagem (Incremento 8)
+// Tipos de conteúdo além da aula: Desafio, Projeto, Checkpoint, Diagnóstico.
+// ==========================================================
+
+enum ProjectKind {
+  MINI
+  FINAL
+}
+
+enum AssessmentPhase {
+  BEFORE
+  AFTER
+}
+
+enum AssessmentQuestionKind {
+  SINGLE_CHOICE
+  TEXT
+  SCALE
+}
+
+// Desafio de código como entidade de 1ª classe (item do módulo e/ou ligado a uma aula).
+model Challenge {
+  id           String  @id @default(cuid())
+  moduleId     String
+  module       Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  lessonId     String?
+  lesson       Lesson? @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  order        Int     @default(0)
+  title        String
+  instructions String
+  starterCode  String
+  tests        Json // [{ description, assert }]
+  languageCode String  @default("js")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissions ChallengeSubmission[]
+
+  @@index([moduleId])
+  @@index([lessonId])
+  @@map("challenges")
+}
+
+model ChallengeSubmission {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challengeId String
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  code        String
+  passed      Boolean
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([challengeId])
+  @@map("challenge_submissions")
+}
+
+// Projeto (mini durante o curso, ou o projeto final) — vai para o portfólio.
+model Project {
+  id           String      @id @default(cuid())
+  kind         ProjectKind @default(MINI)
+  moduleId     String?
+  module       Module?     @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  courseId     String?
+  course       Course?     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  order        Int         @default(0)
+  title        String
+  brief        String // Markdown
+  requirements String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissions ProjectSubmission[]
+
+  @@index([moduleId])
+  @@index([courseId])
+  @@map("projects")
+}
+
+model ProjectSubmission {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  repoUrl   String?
+  liveUrl   String?
+  notes     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, projectId])
+  @@index([userId])
+  @@index([projectId])
+  @@map("project_submissions")
+}
+
+// Checkpoint de fim de módulo (quiz + explicação das respostas).
+model Checkpoint {
+  id          String  @id @default(cuid())
+  moduleId    String  @unique
+  module      Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questions CheckpointQuestion[]
+  attempts  CheckpointAttempt[]
+
+  @@map("checkpoints")
+}
+
+model CheckpointQuestion {
+  id           String @id @default(cuid())
+  checkpointId String
+  checkpoint   Checkpoint @relation(fields: [checkpointId], references: [id], onDelete: Cascade)
+  order        Int    @default(0)
+  prompt       String
+  explanation  String?
+
+  options CheckpointOption[]
+
+  @@index([checkpointId])
+  @@map("checkpoint_questions")
+}
+
+model CheckpointOption {
+  id         String  @id @default(cuid())
+  questionId String
+  question   CheckpointQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  order      Int     @default(0)
+  text       String
+  isCorrect  Boolean @default(false)
+
+  @@index([questionId])
+  @@map("checkpoint_options")
+}
+
+model CheckpointAttempt {
+  id           String @id @default(cuid())
+  userId       String
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  checkpointId String
+  checkpoint   Checkpoint @relation(fields: [checkpointId], references: [id], onDelete: Cascade)
+  score        Int
+  total        Int
+  passed       Boolean
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([checkpointId])
+  @@map("checkpoint_attempts")
+}
+
+// Avaliação diagnóstica do curso ("Antes de começar"), aplicada antes e depois (piloto).
+model Assessment {
+  id          String  @id @default(cuid())
+  courseId    String  @unique
+  course      Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questions AssessmentQuestion[]
+  responses AssessmentResponse[]
+
+  @@map("assessments")
+}
+
+model AssessmentQuestion {
+  id           String @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  order        Int    @default(0)
+  kind         AssessmentQuestionKind @default(SINGLE_CHOICE)
+  prompt       String
+
+  options AssessmentOption[]
+
+  @@index([assessmentId])
+  @@map("assessment_questions")
+}
+
+model AssessmentOption {
+  id         String @id @default(cuid())
+  questionId String
+  question   AssessmentQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  order      Int    @default(0)
+  text       String
+
+  @@index([questionId])
+  @@map("assessment_options")
+}
+
+model AssessmentResponse {
+  id           String @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phase        AssessmentPhase @default(BEFORE)
+  answers      Json // { [questionId]: optionId | texto | escala }
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, assessmentId, phase])
+  @@index([assessmentId])
+  @@map("assessment_responses")
 }

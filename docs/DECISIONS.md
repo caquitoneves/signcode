@@ -160,3 +160,19 @@ e evita construir wiring antes da necessidade (anti-overengineering).
   `GlossaryVideo` no backend quando houver volume. Produção de vídeo é o custo — por isso é por
   termo (reutilizável), não por frase.
 - **Reversibilidade:** alta (marcação é opcional; termo sem vídeo mostra o texto normal).
+
+## ADR-0020 — Camada de experiência: modelos próprios (Challenge, Project, Checkpoint, Assessment)
+
+- **Contexto:** transformar o curso de "player de vídeos" em experiência de aprendizagem
+  (diagnóstico → aula → prática → desafio → projeto → checkpoint → progressão). Decisão do fundador
+  por modelos separados (em vez do campo `kind` mais leve que eu havia recomendado).
+- **Decisão:** novos modelos, todos aditivos: `Challenge` (+`ChallengeSubmission`), `Project`
+  (MINI/FINAL, +`ProjectSubmission`), `Checkpoint` (+`CheckpointQuestion`/`CheckpointOption`/
+  `CheckpointAttempt`) e `Assessment` (diagnóstico do curso, +`AssessmentQuestion`/`Option`/
+  `AssessmentResponse` com fase BEFORE/AFTER para o piloto). `Exercise` (múltipla escolha/completar)
+  e os desafios de código inline continuam existindo. Sequência do módulo = Lessons + Challenges +
+  Projects (mini) + Checkpoint, ordenados por `order`; Assessment e Project FINAL no nível do curso.
+- **Consequências:** cobre todos os tipos de conteúdo e captura dados do piloto (antes×depois,
+  tentativas). Custo: mais tabelas, API e telas para manter — a ser construído em incrementos
+  (banco → API → tipos → front → conteúdo). Requer `prisma migrate dev` na máquina do dev.
+- **Reversibilidade:** média (aditivo no schema; nada removido). Trade-off de complexidade aceito.
