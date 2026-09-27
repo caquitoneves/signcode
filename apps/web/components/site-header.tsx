@@ -11,12 +11,14 @@ import { Button } from './ui';
 function NavLink({
   href,
   active,
+  light,
   icon,
   children,
   className,
 }: {
   href: string;
   active: boolean;
+  light: boolean;
   icon: ReactNode;
   children: ReactNode;
   className?: string;
@@ -28,8 +30,12 @@ function NavLink({
       className={cn(
         'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
         active
-          ? 'bg-brand/10 font-medium text-brand'
-          : 'text-muted hover:bg-elevated hover:text-ink',
+          ? light
+            ? 'bg-brand/10 font-medium text-brand-strong'
+            : 'bg-brand/10 font-medium text-brand'
+          : light
+            ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            : 'text-muted hover:bg-elevated hover:text-ink',
         className,
       )}
     >
@@ -42,6 +48,7 @@ function NavLink({
 export function SiteHeader() {
   const { user, loading, logout } = useAuth();
   const pathname = usePathname() ?? '/';
+  const light = pathname === '/';
 
   const isCourses =
     pathname === '/' || pathname.startsWith('/cursos') || pathname.startsWith('/aulas');
@@ -49,7 +56,12 @@ export function SiteHeader() {
   const isPainel = pathname.startsWith('/painel');
 
   return (
-    <header className="sticky top-0 z-20 border-b border-edge bg-canvas/80 backdrop-blur">
+    <header
+      className={cn(
+        'sticky top-0 z-20 border-b backdrop-blur',
+        light ? 'border-slate-200 bg-white/85' : 'border-edge bg-canvas/80',
+      )}
+    >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"
@@ -58,7 +70,7 @@ export function SiteHeader() {
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand ring-1 ring-brand/40">
             <Hand className="h-5 w-5" aria-hidden="true" />
           </span>
-          <span className="font-semibold tracking-tight">
+          <span className={cn('font-semibold tracking-tight', light ? 'text-slate-900' : '')}>
             Aprender <span className="text-brand">em Libras</span>
           </span>
         </Link>
@@ -67,6 +79,7 @@ export function SiteHeader() {
           <NavLink
             href="/"
             active={isCourses}
+            light={light}
             icon={<BookOpen className="h-4 w-4" aria-hidden="true" />}
             className="hidden sm:inline-flex"
           >
@@ -75,6 +88,7 @@ export function SiteHeader() {
           <NavLink
             href="/pratica"
             active={isPratica}
+            light={light}
             icon={<Code2 className="h-4 w-4" aria-hidden="true" />}
             className="hidden sm:inline-flex"
           >
@@ -86,26 +100,40 @@ export function SiteHeader() {
               <NavLink
                 href="/painel"
                 active={isPainel}
+                light={light}
                 icon={<LayoutDashboard className="h-4 w-4" aria-hidden="true" />}
               >
                 Meu painel
               </NavLink>
               <span
-                className="hidden max-w-[12rem] truncate px-2 text-muted md:inline"
+                className={cn(
+                  'hidden max-w-[12rem] truncate px-2 md:inline',
+                  light ? 'text-slate-500' : 'text-muted',
+                )}
                 title={user.email}
               >
                 {user.name ?? user.email}
               </span>
-              <Button variant="ghost" size="sm" onClick={() => void logout()}>
+              <button
+                type="button"
+                onClick={() => void logout()}
+                className={cn(
+                  'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
+                  light
+                    ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                    : 'text-muted hover:bg-elevated hover:text-ink',
+                )}
+              >
                 <LogOut className="h-4 w-4" aria-hidden="true" />
                 Sair
-              </Button>
+              </button>
             </>
           ) : (
             <>
               <NavLink
                 href="/entrar"
                 active={pathname.startsWith('/entrar')}
+                light={light}
                 icon={<LogIn className="h-4 w-4" aria-hidden="true" />}
               >
                 Entrar
