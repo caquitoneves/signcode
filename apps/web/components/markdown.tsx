@@ -1,10 +1,11 @@
 'use client';
 
 import { Lightbulb } from 'lucide-react';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { isValidElement, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { LibrasTerm } from './libras-term';
+import { LessonChallenge } from './lesson-challenge';
 
 function textOf(children: ReactNode): string {
   if (typeof children === 'string') return children;
@@ -67,11 +68,27 @@ export function Markdown({ content }: { content: string }) {
             </div>
           ),
           hr: () => <hr className="my-2 border-edge" />,
-          pre: ({ children }) => (
-            <pre className="overflow-x-auto rounded-xl border border-edge bg-elevated/70 p-4 font-mono text-sm leading-relaxed text-ink/90 shadow-inner">
-              {children}
-            </pre>
-          ),
+          pre: ({ children }) => {
+            const child = Array.isArray(children) ? children[0] : children;
+            const cls =
+              isValidElement(child) &&
+              typeof (child.props as { className?: string }).className === 'string'
+                ? (child.props as { className?: string }).className!
+                : '';
+            if (cls.includes('language-challenge') && isValidElement(child)) {
+              const raw = textOf((child.props as { children?: ReactNode }).children);
+              try {
+                return <LessonChallenge data={JSON.parse(raw)} />;
+              } catch {
+                // conteúdo inválido -> cai no bloco de código normal
+              }
+            }
+            return (
+              <pre className="overflow-x-auto rounded-xl border border-edge bg-elevated/70 p-4 font-mono text-sm leading-relaxed text-ink/90 shadow-inner">
+                {children}
+              </pre>
+            );
+          },
           code: ({ className, children, ...props }: ComponentPropsWithoutRef<'code'>) => {
             const raw = textOf(children);
             const isBlock = raw.includes('\n') || /language-/.test(className ?? '');
