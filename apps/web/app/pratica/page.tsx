@@ -11,7 +11,7 @@ const STARTER = `// Crie uma função chamada "soma" que recebe dois números
 // Depois, teste chamando: console.log(soma(2, 3))
 
 function soma(a, b) {
-  // escreva seu código aqui
+  // escreva sua solução aqui
 }
 `;
 
