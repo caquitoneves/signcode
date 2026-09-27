@@ -30,6 +30,12 @@ export class CoursesService {
     const course = await this.prisma.course.findUnique({
       where: { slug },
       include: {
+        assessment: { select: { id: true, title: true } },
+        projects: {
+          where: { kind: 'FINAL' },
+          orderBy: { order: 'asc' },
+          select: { id: true, title: true, order: true },
+        },
         modules: {
           orderBy: { order: 'asc' },
           include: {
@@ -43,6 +49,16 @@ export class CoursesService {
                 translations: { select: { languageCode: true, title: true, summary: true } },
               },
             },
+            challenges: {
+              orderBy: { order: 'asc' },
+              select: { id: true, title: true, order: true },
+            },
+            projects: {
+              where: { kind: 'MINI' },
+              orderBy: { order: 'asc' },
+              select: { id: true, title: true, order: true },
+            },
+            checkpoint: { select: { id: true, title: true } },
           },
         },
       },
@@ -50,7 +66,31 @@ export class CoursesService {
     if (!course || course.status !== CourseStatus.PUBLISHED) {
       throw new NotFoundException('Curso não encontrado');
     }
-    return course;
+
+    // Transforma para o contrato CourseTree (miniProject único, checkpoint por último).
+    const finalProject = course.projects[0] ?? null;
+    return {
+      id: course.id,
+      slug: course.slug,
+      title: course.title,
+      description: course.description,
+      status: course.status,
+      order: course.order,
+      assessment: course.assessment ?? null,
+      finalProject: finalProject ? { id: finalProject.id, title: finalProject.title } : null,
+      modules: course.modules.map((m) => ({
+        id: m.id,
+        title: m.title,
+        description: m.description,
+        order: m.order,
+        lessons: m.lessons,
+        challenges: m.challenges,
+        miniProject: m.projects[0] ?? null,
+        checkpoint: m.checkpoint
+          ? { id: m.checkpoint.id, title: m.checkpoint.title, order: 9999 }
+          : null,
+      })),
+    };
   }
 
   async getLesson(id: string) {
