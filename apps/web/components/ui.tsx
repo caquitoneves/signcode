@@ -8,7 +8,7 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'success';
 type Size = 'sm' | 'md';
 
 const BASE =
-  'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:pointer-events-none disabled:opacity-60';
+  'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-[color,background-color,border-color,box-shadow,transform] duration-150 hover:-translate-y-px active:translate-y-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:pointer-events-none disabled:opacity-60';
 
 const VARIANTS: Record<Variant, string> = {
   primary: 'bg-brand text-brand-fg hover:bg-brand-strong',

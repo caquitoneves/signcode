@@ -254,12 +254,12 @@ export default function PainelPage() {
               <GraduationCap className="h-5 w-5 text-brand" aria-hidden="true" />
               Meus cursos
             </h2>
-            <ul className="grid gap-4 md:grid-cols-2">
+            <ul className="stagger-children grid gap-4 md:grid-cols-2">
               {items.map((item) => {
                 const pct = percent(item.completed, item.total);
                 return (
                   <li key={item.course.id}>
-                    <Card className="flex h-full flex-col gap-4 p-5 transition-colors hover:border-brand/40">
+                    <Card className="lift flex h-full flex-col gap-4 p-5 transition-colors hover:border-brand/40">
                       <div className="flex items-start gap-3">
                         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30">
                           <GraduationCap className="h-5 w-5" aria-hidden="true" />
@@ -303,11 +303,11 @@ export default function PainelPage() {
               <Compass className="h-5 w-5 text-brand" aria-hidden="true" />
               Explorar novos cursos
             </h2>
-            <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <ul className="stagger-children grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {recommended.map((c) => (
                 <li key={c.id}>
                   <Link href={`/cursos/${c.slug}`} className="group block h-full">
-                    <Card className="flex h-full flex-col gap-3 p-5 transition-colors group-hover:border-brand/50">
+                    <Card className="lift flex h-full flex-col gap-3 p-5 transition-colors group-hover:border-brand/50">
                       <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-elevated text-brand">
                         <BookOpen className="h-5 w-5" aria-hidden="true" />
                       </span>

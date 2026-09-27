@@ -78,7 +78,10 @@ export default function HomePage() {
         </section>
 
         {/* Diferenciais */}
-        <section aria-label="Diferenciais" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <section
+          aria-label="Diferenciais"
+          className="stagger-children grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {FEATURES.map((f) => (
             <Card key={f.title} className="flex flex-col gap-3 p-5">
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30">
@@ -128,11 +131,11 @@ export default function HomePage() {
           ) : null}
 
           {data && data.length > 0 ? (
-            <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="stagger-children grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {data.map((course) => (
                 <li key={course.id}>
                   <Link href={`/cursos/${course.slug}`} className="group block h-full">
-                    <Card className="flex h-full flex-col gap-4 p-6 transition-colors group-hover:border-brand/60">
+                    <Card className="lift flex h-full flex-col gap-4 p-6 transition-colors group-hover:border-brand/60">
                       <div className="flex items-center justify-between">
                         <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand/15 text-brand ring-1 ring-brand/30">
                           <GraduationCap className="h-6 w-6" aria-hidden="true" />
