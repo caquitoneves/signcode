@@ -118,7 +118,7 @@ const METODO = [
     icon: Hand,
     title: 'Libras em primeiro lugar',
     desc: 'A aula nasce em Libras — não é legenda nem janelinha de canto.',
-    cls: 'text-teal-700 bg-brand/10',
+    cls: 'text-brand-strong bg-brand/10',
   },
   {
     icon: MonitorPlay,
@@ -184,14 +184,14 @@ export default function HomePage() {
         <div className="pointer-events-none absolute -right-20 top-0 h-72 w-72 rounded-full bg-coral/10 blur-3xl" />
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 lg:grid-cols-2">
           <div className="flex flex-col gap-6">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-teal-700 shadow-sm">
+            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-brand-strong shadow-sm">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               Turma piloto — vagas limitadas
             </span>
             <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-              Aprender tecnologia
+              Seu futuro também
               <br />
-              <span className="text-brand">em Libras.</span>
+              <span className="text-brand">fala em Libras.</span>
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-slate-600">
               Uma escola de programação pensada para pessoas surdas desde o primeiro dia — com
@@ -290,7 +290,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2 flex items-center gap-3 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-teal-700">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand-strong">
                 <Hand className="h-6 w-6" aria-hidden="true" />
               </span>
               <p className="font-semibold">Libras como língua de ensino de primeira classe</p>
@@ -322,7 +322,7 @@ export default function HomePage() {
               className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-transform hover:-translate-y-1"
             >
               <div className="flex items-center justify-between">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/10 text-teal-700">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/10 text-brand-strong">
                   <f.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="text-2xl font-extrabold text-slate-200">{i + 1}</span>
@@ -405,7 +405,7 @@ export default function HomePage() {
 
       {/* CURSOS */}
       <section id="cursos" className="mx-auto max-w-6xl px-6 pb-8">
-        <p className="text-sm font-semibold uppercase tracking-widest text-teal-700">Cursos</p>
+        <p className="text-sm font-semibold uppercase tracking-widest text-brand-strong">Cursos</p>
         <h2 className="mt-2 text-4xl font-extrabold tracking-tight">Comece por aqui</h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {(courses ?? []).map((c) => (
@@ -415,17 +415,17 @@ export default function HomePage() {
               className="group flex h-full flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-transform hover:-translate-y-1"
             >
               <div className="flex items-center justify-between">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-teal-700">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand-strong">
                   <GraduationCap className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-semibold text-teal-700">
+                <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-semibold text-brand-strong">
                   <Hand className="h-3.5 w-3.5" aria-hidden="true" />
                   Libras
                 </span>
               </div>
               <h3 className="text-lg font-bold">{c.title}</h3>
               {c.description ? <p className="text-sm text-slate-600">{c.description}</p> : null}
-              <span className="mt-auto inline-flex items-center gap-1 pt-1 text-sm font-semibold text-teal-700">
+              <span className="mt-auto inline-flex items-center gap-1 pt-1 text-sm font-semibold text-brand-strong">
                 Ver curso
                 <ArrowRight
                   className="h-4 w-4 transition-transform group-hover:translate-x-0.5"

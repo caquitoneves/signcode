@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 /* Tema escuro (Rocketseat vibe) com accent teal. */
 @theme {
@@ -8,13 +9,16 @@
   --color-edge: #e2e8f0;
   --color-ink: #0f172a;
   --color-muted: #64748b;
-  --color-brand: #14b8a6;
-  --color-brand-strong: #0f9488;
-  --color-brand-fg: #04110f;
-  --color-coral: #fb7185;
+  --color-brand: #4f46e5;
+  --color-brand-strong: #4338ca;
+  --color-brand-fg: #ffffff;
+  --color-emerald: #10b981;
+  --color-coral: #ff6b6b;
   --color-amber: #fbbf24;
   --color-sky: #38bdf8;
   --color-violet: #a78bfa;
+
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 
   --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-fade-in: fade-in 0.4s ease both;
@@ -31,6 +35,7 @@ body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
   overflow-x: hidden;
+  font-family: var(--font-sans);
 }
 
 /* Escala de fonte definida no onboarding (acessibilidade). */
