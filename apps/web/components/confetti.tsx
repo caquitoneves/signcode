@@ -12,7 +12,7 @@ interface Piece {
   size: number;
 }
 
-const COLORS = ['#14b8a6', '#0f9488', '#34d399', '#e7eef5', '#5eead4'];
+const COLORS = ['#14b8a6', '#fb7185', '#38bdf8', '#fbbf24', '#a78bfa'];
 
 /** Chuva de confete ao concluir algo. Dispara quando `fire` vira true; respeita reduzir movimento. */
 export function Confetti({ fire }: { fire: boolean }) {

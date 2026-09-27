@@ -2,12 +2,12 @@
 
 /* Tema escuro (Rocketseat vibe) com accent teal. */
 @theme {
-  --color-canvas: #0a0e13;
-  --color-card: #10151d;
-  --color-elevated: #161d27;
-  --color-edge: #232e3b;
-  --color-ink: #e7eef5;
-  --color-muted: #93a1b1;
+  --color-canvas: #f8fafc;
+  --color-card: #ffffff;
+  --color-elevated: #f1f5f9;
+  --color-edge: #e2e8f0;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
   --color-brand: #14b8a6;
   --color-brand-strong: #0f9488;
   --color-brand-fg: #04110f;
@@ -24,7 +24,7 @@
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
@@ -177,7 +177,7 @@ html[data-font-scale='xlarge'] {
 }
 .lift:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 14px 30px -18px rgba(15, 23, 42, 0.18);
 }
 
 /* Fundo imersivo com brilho suave (decorativo, não interfere na leitura). */
@@ -196,9 +196,10 @@ html[data-font-scale='xlarge'] {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(40% 50% at 20% 6%, rgba(20, 184, 166, 0.2), transparent 70%),
-    radial-gradient(35% 45% at 85% 0%, rgba(16, 148, 136, 0.16), transparent 70%);
-  filter: blur(8px);
+    radial-gradient(40% 50% at 15% 4%, rgba(20, 184, 166, 0.1), transparent 70%),
+    radial-gradient(35% 45% at 88% 0%, rgba(56, 189, 248, 0.1), transparent 70%),
+    radial-gradient(30% 40% at 60% 0%, rgba(251, 113, 133, 0.08), transparent 70%);
+  filter: blur(6px);
 }
 
 /* Superfície de vidro para cartões em destaque. */
