@@ -12,9 +12,9 @@ import { useAuth } from '@/lib/auth-context';
 import { experienceApi } from '@/lib/experience-api';
 import { useFetch } from '@/lib/use-fetch';
 
-function markSeen(slug: string): void {
+function markDone(slug: string): void {
   try {
-    window.localStorage.setItem(`projetox:diag-seen:${slug}`, '1');
+    window.localStorage.setItem(`projetox:diag-done:${slug}`, '1');
   } catch {
     // ignora
   }
@@ -33,17 +33,12 @@ function DiagnosticoInner() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
 
-  function skip(): void {
-    markSeen(slug);
-    router.replace(next);
-  }
-
   async function submit(): Promise<void> {
     if (!data) return;
     setBusy(true);
     try {
       await experienceApi.respondAssessment(data.id, 'BEFORE', answers);
-      markSeen(slug);
+      markDone(slug);
       router.replace(next);
     } catch {
       setBusy(false);
@@ -142,13 +137,6 @@ function DiagnosticoInner() {
                 {busy ? 'Enviando…' : 'Enviar e começar'}
                 <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
               </Button>
-              <button
-                type="button"
-                onClick={skip}
-                className="text-sm text-muted transition-colors hover:text-ink focus-visible:underline focus-visible:outline-none"
-              >
-                Pular por agora
-              </button>
             </div>
           </>
         ) : null}
