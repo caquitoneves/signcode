@@ -1,4 +1,4 @@
-// GERADO A PARTIR DO PACOTE PEDAGÓGICO v1 (Módulos 0, 1 e 2).
+// GERADO A PARTIR DO PACOTE PEDAGÓGICO v1 (+ camada de experiência).
 // Conteúdo de apoio das aulas (Markdown). Vídeos são de exemplo até termos as gravações em Libras.
 // Editar aqui e rodar `pnpm prisma db seed`.
 
@@ -22,16 +22,50 @@ export interface SeedLesson {
   body: string;
   exercises: SeedExercise[];
 }
+export interface SeedCheckpointQuestion {
+  prompt: string;
+  explanation?: string;
+  options: { text: string; correct: boolean }[];
+}
+export interface SeedCheckpoint {
+  title: string;
+  description?: string;
+  questions: SeedCheckpointQuestion[];
+}
+export interface SeedMiniProject {
+  title: string;
+  brief: string;
+  requirements: string[];
+}
 export interface SeedModule {
   title: string;
   description: string;
   lessons: SeedLesson[];
+  checkpoint?: SeedCheckpoint;
+  miniProject?: SeedMiniProject;
+}
+export interface SeedAssessmentQuestion {
+  kind: 'SINGLE_CHOICE' | 'TEXT' | 'SCALE';
+  prompt: string;
+  options?: { text: string }[];
+}
+export interface SeedAssessment {
+  title: string;
+  description?: string;
+  questions: SeedAssessmentQuestion[];
+}
+export interface SeedFinalProject {
+  title: string;
+  brief: string;
+  requirements: string[];
 }
 export interface SeedCourse {
   slug: string;
   title: string;
   description: string;
   modules: SeedModule[];
+  assessment?: SeedAssessment;
+  finalProject?: SeedFinalProject;
 }
 
 export const COURSE: SeedCourse = {
@@ -181,6 +215,66 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      checkpoint: {
+        title: 'Checkpoint — Bem-vindo à Tecnologia',
+        description: 'Responda para fixar o que você aprendeu neste módulo.',
+        questions: [
+          {
+            prompt: 'O que é programar?',
+            explanation: 'Programar é escrever instruções para resolver um problema.',
+            options: [
+              {
+                text: 'Escrever instruções para resolver um problema',
+                correct: true,
+              },
+              {
+                text: 'Digitar rápido',
+                correct: false,
+              },
+              {
+                text: 'Consertar o hardware',
+                correct: false,
+              },
+            ],
+          },
+          {
+            prompt: 'O que é um algoritmo?',
+            explanation: 'Uma sequência organizada de passos para chegar a um resultado.',
+            options: [
+              {
+                text: 'Uma sequência de passos para resolver algo',
+                correct: true,
+              },
+              {
+                text: 'Um tipo de computador',
+                correct: false,
+              },
+              {
+                text: 'Uma linguagem de programação',
+                correct: false,
+              },
+            ],
+          },
+          {
+            prompt: 'Qual área cuida da interface que a pessoa vê?',
+            explanation: 'Frontend cuida da interface.',
+            options: [
+              {
+                text: 'Frontend',
+                correct: true,
+              },
+              {
+                text: 'Backend',
+                correct: false,
+              },
+              {
+                text: 'Dados',
+                correct: false,
+              },
+            ],
+          },
+        ],
+      },
     },
     {
       title: 'Como o Computador Funciona',
@@ -341,6 +435,62 @@ export const COURSE: SeedCourse = {
           ],
         },
       ],
+      checkpoint: {
+        title: 'Checkpoint — Como o Computador Funciona',
+        description: 'Responda para fixar o que você aprendeu neste módulo.',
+        questions: [
+          {
+            prompt: 'O navegador é hardware ou software?',
+            explanation: 'É um programa: software.',
+            options: [
+              {
+                text: 'Software',
+                correct: true,
+              },
+              {
+                text: 'Hardware',
+                correct: false,
+              },
+            ],
+          },
+          {
+            prompt: 'Quem faz a requisição na web?',
+            explanation: 'O cliente (navegador) pede; o servidor responde.',
+            options: [
+              {
+                text: 'O cliente (navegador)',
+                correct: true,
+              },
+              {
+                text: 'O servidor',
+                correct: false,
+              },
+              {
+                text: 'O banco de dados',
+                correct: false,
+              },
+            ],
+          },
+          {
+            prompt: 'Para que serve um banco de dados?',
+            explanation: 'Armazenar e organizar informações.',
+            options: [
+              {
+                text: 'Armazenar e organizar informações',
+                correct: true,
+              },
+              {
+                text: 'Deixar o PC mais rápido',
+                correct: false,
+              },
+              {
+                text: 'Mostrar vídeos',
+                correct: false,
+              },
+            ],
+          },
+        ],
+      },
     },
     {
       title: 'Lógica de Programação',
@@ -518,6 +668,62 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      checkpoint: {
+        title: 'Checkpoint — Lógica de Programação',
+        description: 'Responda para fixar o que você aprendeu neste módulo.',
+        questions: [
+          {
+            prompt: 'A condição "10 é maior que 5" é...',
+            explanation: 'Verdadeira.',
+            options: [
+              {
+                text: 'Verdadeira',
+                correct: true,
+              },
+              {
+                text: 'Falsa',
+                correct: false,
+              },
+            ],
+          },
+          {
+            prompt: 'O que uma repetição (loop) faz?',
+            explanation: 'Executa o mesmo bloco várias vezes.',
+            options: [
+              {
+                text: 'Executa o mesmo bloco várias vezes',
+                correct: true,
+              },
+              {
+                text: 'Toma uma decisão',
+                correct: false,
+              },
+              {
+                text: 'Guarda um valor',
+                correct: false,
+              },
+            ],
+          },
+          {
+            prompt: 'Decompor um problema é...',
+            explanation: 'Quebrar um problema grande em partes menores.',
+            options: [
+              {
+                text: 'Quebrar um problema grande em partes menores',
+                correct: true,
+              },
+              {
+                text: 'Escrever o código final',
+                correct: false,
+              },
+              {
+                text: 'Apagar o problema',
+                correct: false,
+              },
+            ],
+          },
+        ],
+      },
     },
     {
       title: 'Primeiro Código',
@@ -531,6 +737,33 @@ export const COURSE: SeedCourse = {
           duration: 300,
           objectives: ['Saber o que é JavaScript e por que usá-lo'],
           body: '> **JavaScript** é a linguagem que faz as páginas web reagirem: botões, formulários, animações. E o melhor: ela roda direto no navegador que você já tem.\n\n## Por que JavaScript?\n\n- Roda no **navegador**, sem instalar nada\n- Sai rápido da lógica para algo **visual**\n- Conversa direto com **HTML** e **CSS** (você verá nos próximos módulos)\n\n## Resumo\n\nVamos aprender programação escrevendo JavaScript — e você já pode praticar aqui mesmo, no navegador.',
+          exercises: [],
+        },
+        {
+          slug: 'preparando-o-ambiente',
+          title: 'Preparando seu ambiente',
+          summary: 'Onde escrever e rodar código: o essencial para começar sozinho.',
+          duration: 360,
+          objectives: ['Saber o que instalar para programar'],
+          body: '> **Objetivo:** sair desta aula sabendo onde escrever código no seu computador.\n\n## O mínimo necessário\n\n- Um **editor de código** (vamos usar o VS Code)\n- Um **navegador** (você já tem)\n- Opcional: o **Node.js**, para rodar JavaScript fora do navegador\n\n> **Boa notícia:** aqui na plataforma você já pode praticar no editor embutido, sem instalar nada. A instalação é para quando quiser trabalhar nos seus próprios arquivos.\n\n## Resumo\nEditor + navegador já bastam para começar.',
+          exercises: [],
+        },
+        {
+          slug: 'conhecendo-o-vs-code',
+          title: 'Conhecendo o VS Code',
+          summary: 'O editor de código mais usado do mundo — uma visita guiada.',
+          duration: 300,
+          objectives: ['Conhecer a interface do VS Code'],
+          body: '> **VS Code** é gratuito e é onde a maioria das pessoas escreve código.\n\n## O que você vê\n\n- **Explorador de arquivos** (à esquerda)\n- **Editor** (no centro)\n- **Terminal** (embaixo)\n\n## Dica\nExtensões ajudam bastante — mas comece simples. O editor puro já é suficiente para as primeiras semanas.\n\n## Resumo\nVS Code = seu espaço de trabalho para escrever e organizar código.',
+          exercises: [],
+        },
+        {
+          slug: 'conhecendo-o-terminal',
+          title: 'Conhecendo o terminal',
+          summary: 'A janela onde você dá comandos ao computador — sem medo.',
+          duration: 360,
+          objectives: ['Entender para que serve o terminal'],
+          body: '> **Terminal** é uma janela onde você digita comandos em texto. Parece assustador, mas você vai usar poucos comandos no começo.\n\n## Exemplos de comandos\n\n```bash\nnode --version   # mostra a versão do Node\nls               # lista arquivos da pasta\n```\n\n> **Calma:** no início, quase tudo dá para fazer pelo VS Code e pelo navegador. O terminal entra aos poucos.\n\n## Resumo\nTerminal = dar comandos por texto; alguns poucos já resolvem muito.',
           exercises: [],
         },
         {
@@ -715,6 +948,16 @@ export const COURSE: SeedCourse = {
           ],
         },
       ],
+      miniProject: {
+        title: 'Mini projeto: Perfil de usuário',
+        brief:
+          'Crie um pequeno programa que guarda os dados de um perfil (nome, idade, se é estudante) em variáveis e mostra um resumo no console.',
+        requirements: [
+          'Usar let e const',
+          'Usar string, number e boolean',
+          'Montar a mensagem com template string',
+        ],
+      },
     },
     {
       title: 'Operadores e Decisões',
@@ -813,6 +1056,16 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      miniProject: {
+        title: 'Mini projeto: Classificador de idade',
+        brief:
+          'A partir de uma idade, mostre se a pessoa é criança, adolescente ou adulta usando condições.',
+        requirements: [
+          'Usar comparações',
+          'Usar if/else if/else',
+          'Mostrar o resultado no console',
+        ],
+      },
     },
     {
       title: 'Repetições',
@@ -882,6 +1135,11 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      miniProject: {
+        title: 'Mini projeto: Tabuada',
+        brief: 'Mostre a tabuada de um número (de 1 a 10) usando um loop.',
+        requirements: ['Usar um laço for', 'Usar um número base', 'Mostrar 10 linhas de resultado'],
+      },
     },
     {
       title: 'Funções',
@@ -951,6 +1209,11 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      miniProject: {
+        title: 'Mini projeto: Calculadora',
+        brief: 'Crie funções para somar, subtrair, multiplicar e dividir, e teste cada uma.',
+        requirements: ['Criar 4 funções com parâmetros', 'Usar return', 'Testar com console.log'],
+      },
     },
     {
       title: 'Arrays e Objetos',
@@ -1049,6 +1312,15 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      miniProject: {
+        title: 'Mini projeto: Lista de alunos',
+        brief: 'Guarde uma lista de alunos (nome, idade, curso) e mostre todos, um por linha.',
+        requirements: [
+          'Usar um array de objetos',
+          'Percorrer com for...of',
+          'Mostrar cada aluno formatado',
+        ],
+      },
     },
     {
       title: 'HTML + CSS',
@@ -1203,6 +1475,16 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      miniProject: {
+        title: 'Mini projeto: Página pessoal',
+        brief:
+          'Monte uma página de apresentação com nome, sobre, tecnologias e contato, estilizada com CSS.',
+        requirements: [
+          'HTML semântico (header/main/footer)',
+          'Estilo com CSS',
+          'Funcionar bem no celular',
+        ],
+      },
     },
     {
       title: 'JavaScript no Navegador',
@@ -1293,6 +1575,15 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
         {
+          slug: 'armazenando-dados-no-navegador',
+          title: 'Armazenando dados no navegador',
+          summary: 'localStorage: seus dados continuam lá mesmo depois de fechar a página.',
+          duration: 360,
+          objectives: ['Salvar e recuperar dados com localStorage'],
+          body: '> **A ponte que faltava:** até agora tudo sumia ao recarregar. Com **localStorage** os dados ficam salvos no navegador.\n\n## Como funciona\n\n```\nUsuário cria tarefa -> JavaScript -> localStorage\nfecha o navegador -> abre de novo -> tarefas continuam lá\n```\n\n## Exemplo\n\n```javascript\nlocalStorage.setItem("nome", "Ana");\nconsole.log(localStorage.getItem("nome")); // Ana\n```\n\n> Não é um banco de dados — é um armazenamento simples no próprio navegador. Perfeito para um primeiro app de verdade.\n\n## Resumo\n`setItem` salva, `getItem` recupera; os dados persistem entre visitas.',
+          exercises: [],
+        },
+        {
           slug: 'debugging-no-navegador',
           title: 'Debugging no navegador',
           summary: 'Usar o console para investigar problemas.',
@@ -1302,6 +1593,16 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
       ],
+      miniProject: {
+        title: 'Mini projeto: Lista de tarefas',
+        brief:
+          'Uma lista de tarefas onde dá para adicionar, concluir e remover — salvando no navegador.',
+        requirements: [
+          'Adicionar e remover tarefas',
+          'Marcar como concluída',
+          'Persistir com localStorage',
+        ],
+      },
     },
     {
       title: 'Git e GitHub',
@@ -1375,6 +1676,15 @@ export const COURSE: SeedCourse = {
           exercises: [],
         },
         {
+          slug: 'clonando-um-repositorio',
+          title: 'Clonando um repositório',
+          summary: 'Trazer para o seu computador um projeto que já existe no GitHub.',
+          duration: 300,
+          objectives: ['Entender git clone'],
+          body: '> **Clonar** é baixar uma cópia completa de um repositório do GitHub para o seu computador.\n\n## Exemplo\n\n```bash\ngit clone https://github.com/usuario/projeto.git\n```\n\n> Você vai usar muito isso ao estudar projetos de outras pessoas e, no futuro, ao trabalhar em equipe. (Branches e pull requests ficam para uma trilha posterior.)\n\n## Resumo\n`git clone <url>` traz um projeto do GitHub para a sua máquina.',
+          exercises: [],
+        },
+        {
           slug: 'readme',
           title: 'README',
           summary: 'A capa do seu projeto — o que as pessoas leem primeiro.',
@@ -1399,6 +1709,15 @@ export const COURSE: SeedCourse = {
           duration: 300,
           objectives: ['Entender publicação de projeto'],
           body: '> Com o código no GitHub, você pode **publicar** a página (ex.: GitHub Pages) e ter um **link** para compartilhar.\n\n## Resumo\n\nUm projeto publicado + link é o que transforma "eu estudei" em "eu construí".',
+          exercises: [],
+        },
+        {
+          slug: 'publicando-na-web',
+          title: 'Publicando seu projeto na web',
+          summary: 'Diferença entre guardar o código e deixar o site no ar, com link.',
+          duration: 420,
+          objectives: ['Entender deploy e publicar um site estático'],
+          body: '> **Duas coisas diferentes:**\n> **GitHub** = seu código está guardado.\n> **Deploy** = seu projeto está acessível na internet, com um link.\n\n## O resultado que queremos\n\n```\nGitHub  +  Deploy  =  link compartilhável\n```\n\n## Como\nSites estáticos (HTML/CSS/JS) podem ir ao ar de graça em serviços como GitHub Pages, Netlify ou Vercel — normalmente conectando o seu repositório.\n\n> No fim, você consegue dizer: **"criei um site e posso mandar o link"**. Isso é poderosíssimo para um iniciante.\n\n## Resumo\nDeploy transforma "eu estudei" em "eu publiquei — aqui está o link".',
           exercises: [],
         },
       ],
@@ -1454,5 +1773,117 @@ export const COURSE: SeedCourse = {
         },
       ],
     },
+    {
+      title: 'Próximos Passos',
+      description: 'Você concluiu os fundamentos — veja o caminho daqui para frente.',
+      lessons: [
+        {
+          slug: 'e-agora-proximos-passos',
+          title: 'E agora? Seus próximos passos',
+          summary: 'Você terminou uma etapa. Existe um caminho daqui para frente.',
+          duration: 360,
+          objectives: ['Reconhecer as próximas trilhas possíveis'],
+          body: '> **Parabéns!** Você saiu do zero, construiu projetos e já entende os fundamentos. Isto é só o começo.\n\n## Escolha sua próxima trilha\n\n```\nVocê está aqui: fundamentos\n        |\n   +----+----+----------+\n   v         v          v\nFrontend   Backend   Full Stack\n```\n\n- **Frontend:** HTML -> CSS -> JavaScript -> React\n- **Backend:** JavaScript/TypeScript -> Node.js -> APIs -> Banco de dados\n- **Full Stack:** frontend + backend\n\n## O mais importante\nVocê provou para si mesmo que **consegue aprender a programar**. O resto é continuar praticando e construindo.\n\n## Resumo\nEscolha um caminho, siga praticando e mantenha seu portfólio crescendo.',
+          exercises: [],
+        },
+      ],
+    },
   ],
+  assessment: {
+    title: 'Antes de começar',
+    description: 'Rápido e sem reprovação — é só para conhecermos seu ponto de partida.',
+    questions: [
+      {
+        kind: 'SINGLE_CHOICE',
+        prompt: 'Você já escreveu algum código antes?',
+        options: [
+          {
+            text: 'Nunca',
+          },
+          {
+            text: 'Muito pouco',
+          },
+          {
+            text: 'Um pouco',
+          },
+          {
+            text: 'Sim, com frequência',
+          },
+        ],
+      },
+      {
+        kind: 'SINGLE_CHOICE',
+        prompt: 'Você sabe o que é HTML?',
+        options: [
+          {
+            text: 'Não faço ideia',
+          },
+          {
+            text: 'Já ouvi falar',
+          },
+          {
+            text: 'Sei o básico',
+          },
+          {
+            text: 'Sei bem',
+          },
+        ],
+      },
+      {
+        kind: 'SINGLE_CHOICE',
+        prompt: 'Já usou o GitHub?',
+        options: [
+          {
+            text: 'Não',
+          },
+          {
+            text: 'Só ouvi falar',
+          },
+          {
+            text: 'Já usei um pouco',
+          },
+          {
+            text: 'Uso com frequência',
+          },
+        ],
+      },
+      {
+        kind: 'SCALE',
+        prompt: 'De 1 a 5, quão confiante você se sente para aprender a programar?',
+        options: [
+          {
+            text: '1',
+          },
+          {
+            text: '2',
+          },
+          {
+            text: '3',
+          },
+          {
+            text: '4',
+          },
+          {
+            text: '5',
+          },
+        ],
+      },
+      {
+        kind: 'TEXT',
+        prompt: 'Em poucas palavras: o que você entende por "programação"?',
+      },
+    ],
+  },
+  finalProject: {
+    title: 'Projeto Final: Meu Primeiro Produto Digital',
+    brief:
+      'Escolha um problema real e pequeno e construa uma solução com HTML, CSS e JavaScript. No fim, publique no GitHub e apresente o que você fez.',
+    requirements: [
+      'Escolher um problema e um usuário',
+      'HTML + CSS + JavaScript funcionando',
+      'Código no GitHub com README',
+      'Projeto publicado com link',
+      'Saber explicar o que construiu',
+    ],
+  },
 };

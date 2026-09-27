@@ -10,9 +10,9 @@ const SAMPLE = {
 };
 
 /**
- * Seed "Programação do Zero" — Módulos 0, 1 e 2 (piloto).
+ * Seed "Programação do Zero" — currículo + camada de experiência.
  * Orientado a dados: o conteúdo vive em seed-content.ts.
- * Idempotente: recria os módulos do curso a cada execução.
+ * Idempotente: recria a árvore do curso a cada execução.
  */
 async function main(): Promise<void> {
   const course = await prisma.course.upsert({
@@ -32,8 +32,11 @@ async function main(): Promise<void> {
     },
   });
 
-  // Recria a árvore de conteúdo (apaga módulos/aulas antigas em cascata).
+  // Recria a árvore (módulos cascateiam aulas/desafios/checkpoints/projetos-mini).
   await prisma.module.deleteMany({ where: { courseId: course.id } });
+  // Itens no nível do curso (não cascateiam pelo módulo).
+  await prisma.project.deleteMany({ where: { courseId: course.id } });
+  await prisma.assessment.deleteMany({ where: { courseId: course.id } });
 
   let totalLessons = 0;
   let totalExercises = 0;
@@ -41,12 +44,7 @@ async function main(): Promise<void> {
   for (let mi = 0; mi < COURSE.modules.length; mi++) {
     const mod = COURSE.modules[mi]!;
     const createdModule = await prisma.module.create({
-      data: {
-        courseId: course.id,
-        title: mod.title,
-        description: mod.description,
-        order: mi,
-      },
+      data: { courseId: course.id, title: mod.title, description: mod.description, order: mi },
     });
 
     for (let li = 0; li < mod.lessons.length; li++) {
@@ -120,10 +118,84 @@ async function main(): Promise<void> {
         totalExercises++;
       }
     }
+
+    // Checkpoint do módulo
+    if (mod.checkpoint) {
+      await prisma.checkpoint.create({
+        data: {
+          moduleId: createdModule.id,
+          title: mod.checkpoint.title,
+          description: mod.checkpoint.description ?? null,
+          questions: {
+            create: mod.checkpoint.questions.map((q, qi) => ({
+              order: qi,
+              prompt: q.prompt,
+              explanation: q.explanation ?? null,
+              options: {
+                create: q.options.map((o, oi) => ({
+                  text: o.text,
+                  isCorrect: o.correct,
+                  order: oi,
+                })),
+              },
+            })),
+          },
+        },
+      });
+    }
+
+    // Mini projeto do módulo
+    if (mod.miniProject) {
+      await prisma.project.create({
+        data: {
+          kind: 'MINI',
+          moduleId: createdModule.id,
+          order: 0,
+          title: mod.miniProject.title,
+          brief: mod.miniProject.brief,
+          requirements: mod.miniProject.requirements,
+        },
+      });
+    }
+  }
+
+  // Diagnóstico do curso
+  if (COURSE.assessment) {
+    await prisma.assessment.create({
+      data: {
+        courseId: course.id,
+        title: COURSE.assessment.title,
+        description: COURSE.assessment.description ?? null,
+        questions: {
+          create: COURSE.assessment.questions.map((q, qi) => ({
+            order: qi,
+            kind: q.kind,
+            prompt: q.prompt,
+            options: q.options
+              ? { create: q.options.map((o, oi) => ({ text: o.text, order: oi })) }
+              : undefined,
+          })),
+        },
+      },
+    });
+  }
+
+  // Projeto final do curso
+  if (COURSE.finalProject) {
+    await prisma.project.create({
+      data: {
+        kind: 'FINAL',
+        courseId: course.id,
+        order: 0,
+        title: COURSE.finalProject.title,
+        brief: COURSE.finalProject.brief,
+        requirements: COURSE.finalProject.requirements,
+      },
+    });
   }
 
   console.log(
-    `Seed concluído: "${course.title}" — ${COURSE.modules.length} módulos, ${totalLessons} aulas, ${totalExercises} exercícios.`,
+    `Seed concluído: "${course.title}" — ${COURSE.modules.length} módulos, ${totalLessons} aulas, ${totalExercises} exercícios, checkpoints/mini-projetos/diagnóstico/projeto final incluídos.`,
   );
 }
 
