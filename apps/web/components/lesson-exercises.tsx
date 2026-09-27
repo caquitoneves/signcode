@@ -94,8 +94,8 @@ function ExerciseItem({ exercise, canSubmit }: { exercise: ExercisePublic; canSu
             <div
               className={
                 result.correct
-                  ? 'flex items-start gap-2 rounded-lg border border-brand/40 bg-brand/10 px-3 py-2 text-sm text-brand'
-                  : 'flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-300'
+                  ? 'flex animate-pop items-start gap-2 rounded-lg border border-brand/40 bg-brand/10 px-3 py-2 text-sm text-brand'
+                  : 'flex animate-pop items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-300'
               }
             >
               {result.correct ? (

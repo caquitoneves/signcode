@@ -5,6 +5,7 @@ import { CheckCircle2, Circle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/auth-context';
 import { progressApi } from '../lib/progress-api';
+import { Confetti } from './confetti';
 import { Button, Card } from './ui';
 
 export function LessonComplete({ lessonId, courseSlug }: { lessonId: string; courseSlug: string }) {
@@ -12,6 +13,7 @@ export function LessonComplete({ lessonId, courseSlug }: { lessonId: string; cou
   const [completed, setCompleted] = useState(false);
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [celebrate, setCelebrate] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -63,6 +65,7 @@ export function LessonComplete({ lessonId, courseSlug }: { lessonId: string; cou
       } else {
         await progressApi.complete(lessonId);
         setCompleted(true);
+        setCelebrate((c) => c + 1);
       }
     } catch {
       // mantém estado atual
@@ -72,19 +75,22 @@ export function LessonComplete({ lessonId, courseSlug }: { lessonId: string; cou
   }
 
   return (
-    <Button
-      variant={completed ? 'success' : 'primary'}
-      onClick={() => void toggle()}
-      disabled={busy || !ready}
-      aria-pressed={completed}
-      className="w-fit"
-    >
-      {completed ? (
-        <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-      ) : (
-        <Circle className="h-4 w-4" aria-hidden="true" />
-      )}
-      {completed ? 'Aula concluída' : 'Marcar como concluída'}
-    </Button>
+    <>
+      {celebrate > 0 ? <Confetti key={celebrate} fire /> : null}
+      <Button
+        variant={completed ? 'success' : 'primary'}
+        onClick={() => void toggle()}
+        disabled={busy || !ready}
+        aria-pressed={completed}
+        className="w-fit"
+      >
+        {completed ? (
+          <CheckCircle2 className="h-4 w-4 animate-pop" aria-hidden="true" />
+        ) : (
+          <Circle className="h-4 w-4" aria-hidden="true" />
+        )}
+        {completed ? 'Aula concluída' : 'Marcar como concluída'}
+      </Button>
+    </>
   );
 }
