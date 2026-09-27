@@ -7,9 +7,14 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
+  ClipboardCheck,
   Clock,
+  Code2,
+  Compass,
+  FolderGit2,
   Layers,
   PlayCircle,
+  Rocket,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { CourseTree, CourseTreeLesson } from '@projetox/contracts';
@@ -190,6 +195,25 @@ export default function CoursePage() {
               </div>
             </Card>
 
+            {data.assessment ? (
+              <Link
+                href={`/cursos/${slug}/diagnostico`}
+                className="group flex items-center gap-3 rounded-2xl border border-brand/30 bg-brand/5 p-4 transition-colors hover:border-brand/60"
+              >
+                <Compass className="h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+                <span className="flex flex-1 flex-col">
+                  <span className="font-semibold text-ink">Antes de começar</span>
+                  <span className="text-sm text-muted">
+                    Responda um diagnóstico rápido — sem reprovação.
+                  </span>
+                </span>
+                <ArrowRight
+                  className="h-4 w-4 text-brand transition-transform group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+            ) : null}
+
             {/* Conteúdo (módulos e aulas) */}
             <div className="flex flex-col gap-8">
               <h2 className="text-xl font-bold tracking-tight">Conteúdo do curso</h2>
@@ -248,10 +272,75 @@ export default function CoursePage() {
                             </Link>
                           );
                         })}
+
+                        {(mod.challenges ?? []).map((ch) => (
+                          <Link
+                            key={ch.id}
+                            href={`/desafios/${ch.id}`}
+                            className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand"
+                          >
+                            <Code2 className="h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+                            <span className="flex-1">{ch.title}</span>
+                            <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand">
+                              Desafio
+                            </span>
+                          </Link>
+                        ))}
+
+                        {mod.miniProject ? (
+                          <Link
+                            href={`/projetos/${mod.miniProject.id}`}
+                            className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand"
+                          >
+                            <FolderGit2
+                              className="h-5 w-5 shrink-0 text-brand"
+                              aria-hidden="true"
+                            />
+                            <span className="flex-1">{mod.miniProject.title}</span>
+                            <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand">
+                              Mini projeto
+                            </span>
+                          </Link>
+                        ) : null}
+
+                        {mod.checkpoint ? (
+                          <Link
+                            href={`/checkpoints/${mod.checkpoint.id}`}
+                            className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand"
+                          >
+                            <ClipboardCheck
+                              className="h-5 w-5 shrink-0 text-brand"
+                              aria-hidden="true"
+                            />
+                            <span className="flex-1">{mod.checkpoint.title}</span>
+                            <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand">
+                              Checkpoint
+                            </span>
+                          </Link>
+                        ) : null}
                       </Card>
                     </section>
                   );
                 })}
+
+              {data.finalProject ? (
+                <Link
+                  href={`/projetos/${data.finalProject.id}`}
+                  className="group flex items-center gap-3 rounded-2xl border border-brand/30 bg-brand/5 p-4 transition-colors hover:border-brand/60"
+                >
+                  <Rocket className="h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+                  <span className="flex flex-1 flex-col">
+                    <span className="font-semibold text-ink">{data.finalProject.title}</span>
+                    <span className="text-sm text-muted">
+                      O projeto que vai para o seu portfólio.
+                    </span>
+                  </span>
+                  <ArrowRight
+                    className="h-4 w-4 text-brand transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </Link>
+              ) : null}
             </div>
           </>
         ) : null}
