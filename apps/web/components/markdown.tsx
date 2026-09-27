@@ -4,6 +4,7 @@ import { Lightbulb } from 'lucide-react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { LibrasTerm } from './libras-term';
 
 function textOf(children: ReactNode): string {
   if (typeof children === 'string') return children;
@@ -31,16 +32,21 @@ export function Markdown({ content }: { content: string }) {
           p: ({ children }) => <p className="text-ink/85">{children}</p>,
           strong: ({ children }) => <strong className="font-semibold text-ink">{children}</strong>,
           em: ({ children }) => <em className="text-ink/90">{children}</em>,
-          a: ({ children, href }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-brand underline underline-offset-2 hover:text-brand-strong"
-            >
-              {children}
-            </a>
-          ),
+          a: ({ children, href }) => {
+            if (href && href.startsWith('libras:')) {
+              return <LibrasTerm id={href.slice('libras:'.length)}>{children}</LibrasTerm>;
+            }
+            return (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-brand underline underline-offset-2 hover:text-brand-strong"
+              >
+                {children}
+              </a>
+            );
+          },
           ul: ({ children }) => <ul className="flex list-none flex-col gap-2 pl-1">{children}</ul>,
           ol: ({ children }) => (
             <ol className="flex list-decimal flex-col gap-2 pl-6 marker:text-brand">{children}</ol>

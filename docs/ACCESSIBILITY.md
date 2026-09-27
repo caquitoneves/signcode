@@ -49,3 +49,10 @@ explicar a resposta.
 
 Interface: navegação por teclado; contraste suficiente; foco visível; responsivo; controles de
 vídeo acessíveis; sem depender de áudio (feedback sempre visual).
+
+## Libras inline por termo (hover / foco / toque)
+
+Em vez de avatar-robô, termos podem abrir um **vídeo real** em Libras num popup. Marcação no
+conteúdo: `[texto](libras:ID)`. O gatilho funciona por **mouse (hover)**, **teclado (foco)** e
+**toque/clique**, fecha com Escape/clique fora, e um termo sem vídeo cadastrado apenas mostra o
+texto normal. Vídeos ficam no glossário e são reutilizados entre aulas.

@@ -147,3 +147,16 @@ e evita construir wiring antes da necessidade (anti-overengineering).
 - **Consequências:** o seed passa a carregar conteúdo pedagógico real; próximos módulos só entram
   após evidência de aprendizagem (ver `VALIDATION.md`). Sem mudança de schema.
 - **Reversibilidade:** alta (conteúdo é dado; o mapa de trilhas é orientação, não código).
+
+## ADR-0019 — Libras inline por termo (vídeo real), sem avatar/robô
+
+- **Contexto:** avatares que "sinalizam" automaticamente têm qualidade ruim e não representam
+  Libras de verdade (alinhado ao SignLab: pessoas surdas sinalizantes reais).
+- **Decisão:** termos do conteúdo podem ser marcados com `[texto](libras:ID)`; ao passar o mouse,
+  **focar pelo teclado** ou **tocar**, abre um popup com um **vídeo curto real** em Libras. Um vídeo
+  por termo é reutilizado em todas as aulas (glossário). Sem avatar automático.
+- **Consequências:** acessível em desktop, teclado e toque; começa com um glossário no front
+  (`lib/libras-glossary.ts`, vídeos placeholder) e evolui para os modelos `GlossaryTerm`/
+  `GlossaryVideo` no backend quando houver volume. Produção de vídeo é o custo — por isso é por
+  termo (reutilizável), não por frase.
+- **Reversibilidade:** alta (marcação é opcional; termo sem vídeo mostra o texto normal).
