@@ -43,6 +43,9 @@ export interface CourseTreeModule {
   description: string | null;
   order: number;
   lessons: CourseTreeLesson[];
+  challenges?: ModuleItemRef[];
+  miniProject?: ModuleItemRef | null;
+  checkpoint?: ModuleItemRef | null;
 }
 
 export interface CourseTree {
@@ -53,6 +56,8 @@ export interface CourseTree {
   status: string;
   order: number;
   modules: CourseTreeModule[];
+  assessment?: { id: string; title: string } | null;
+  finalProject?: { id: string; title: string } | null;
 }
 
 // ---------- Conteúdo (aula) ----------
@@ -152,3 +157,85 @@ export interface DashboardCourse {
   completed: number;
   enrolledAt: string;
 }
+
+// ---------- Experiência de aprendizagem (Incremento 8) ----------
+
+/** Referência leve de um item dentro do módulo (para montar a sequência). */
+export interface ModuleItemRef {
+  id: string;
+  title: string;
+  order: number;
+}
+
+/** Desafio de código (visão pública — sem gabarito, os testes rodam no cliente). */
+export interface ChallengePublic {
+  id: string;
+  title: string;
+  instructions: string;
+  starterCode: string;
+  languageCode: string;
+  tests: { description: string; assert: string }[];
+}
+
+export type ProjectKind = 'MINI' | 'FINAL';
+
+export interface ProjectPublic {
+  id: string;
+  kind: ProjectKind;
+  title: string;
+  brief: string;
+  requirements: string[];
+}
+
+export interface ProjectSubmissionResult {
+  repoUrl: string | null;
+  liveUrl: string | null;
+  notes: string | null;
+  submittedAt: string;
+}
+
+/** Checkpoint (quiz de módulo) — visão pública sem marcar a alternativa correta. */
+export interface CheckpointQuestionPublic {
+  id: string;
+  prompt: string;
+  options: { id: string; text: string }[];
+}
+
+export interface CheckpointPublic {
+  id: string;
+  title: string;
+  description: string | null;
+  questions: CheckpointQuestionPublic[];
+}
+
+export interface CheckpointCorrection {
+  questionId: string;
+  correctOptionId: string | null;
+  explanation: string | null;
+}
+
+export interface CheckpointResult {
+  score: number;
+  total: number;
+  passed: boolean;
+  corrections: CheckpointCorrection[];
+}
+
+export type AssessmentQuestionKind = 'SINGLE_CHOICE' | 'TEXT' | 'SCALE';
+export type AssessmentPhase = 'BEFORE' | 'AFTER';
+
+export interface AssessmentQuestionPublic {
+  id: string;
+  kind: AssessmentQuestionKind;
+  prompt: string;
+  options: { id: string; text: string }[];
+}
+
+export interface AssessmentPublic {
+  id: string;
+  title: string;
+  description: string | null;
+  questions: AssessmentQuestionPublic[];
+}
+
+// ---------- Árvore do curso (enriquecida) ----------
