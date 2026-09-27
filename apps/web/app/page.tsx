@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/use-fetch';
+import { LogoMark } from '@/components/logo';
 
 /* ---------------- Peças visuais ---------------- */
 
@@ -481,9 +482,7 @@ export default function HomePage() {
       <footer className="border-t border-slate-200 bg-slate-50">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center">
           <span className="flex items-center gap-2 font-semibold">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand ring-1 ring-brand/40">
-              <Hand className="h-5 w-5" aria-hidden="true" />
-            </span>
+            <LogoMark className="h-8 w-8" />
             Aprender <span className="text-brand">em Libras</span>
           </span>
           <p className="max-w-md text-sm text-slate-500">

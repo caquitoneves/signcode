@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, Code2, Hand, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
+import { BookOpen, Code2, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@projetox/ui';
 import { useAuth } from '../lib/auth-context';
+import { LogoMark } from './logo';
 import { Button } from './ui';
 
 function NavLink({
@@ -67,9 +68,7 @@ export function SiteHeader() {
           href="/"
           className="group flex items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/15 text-brand ring-1 ring-brand/40">
-            <Hand className="h-5 w-5" aria-hidden="true" />
-          </span>
+          <LogoMark className="h-9 w-9" />
           <span className={cn('font-semibold tracking-tight', light ? 'text-slate-900' : '')}>
             Aprender <span className="text-brand">em Libras</span>
           </span>
