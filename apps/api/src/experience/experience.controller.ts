@@ -65,6 +65,13 @@ export class ExperienceController {
     return this.experience.getCourseAssessment(slug);
   }
 
+  @Get('courses/:slug/assessment/status')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Se o usuário já respondeu o diagnóstico (fase BEFORE)' })
+  assessmentStatus(@CurrentUser() user: AuthUser, @Param('slug') slug: string) {
+    return this.experience.getAssessmentStatus(user.id, slug);
+  }
+
   @Post('assessments/:id/respond')
   @UseGuards(CsrfGuard)
   @HttpCode(200)

@@ -23,6 +23,7 @@ import { cn } from '@projetox/ui';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth-context';
 import { progressApi } from '@/lib/progress-api';
+import { experienceApi } from '@/lib/experience-api';
 import { useSyncedVideos } from '@/lib/use-synced-videos';
 import { InterpreterPiP } from './interpreter-pip';
 import { LessonComplete } from './lesson-complete';
@@ -145,6 +146,32 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
     document.addEventListener('fullscreenchange', handler);
     return () => document.removeEventListener('fullscreenchange', handler);
   }, []);
+
+  // Diagnóstico antes das aulas: se ainda não respondeu, leva ao "Antes de começar".
+  useEffect(() => {
+    if (!user) return;
+    let ok = true;
+    experienceApi
+      .getAssessmentStatus(lesson.courseSlug)
+      .then((st) => {
+        if (!ok || !st.assessmentId || st.respondedBefore) return;
+        let seen = false;
+        try {
+          seen = window.localStorage.getItem(`projetox:diag-seen:${lesson.courseSlug}`) === '1';
+        } catch {
+          // ignora
+        }
+        if (!seen) {
+          router.replace(
+            `/cursos/${lesson.courseSlug}/diagnostico?next=${encodeURIComponent(`/aulas/${lesson.id}`)}`,
+          );
+        }
+      })
+      .catch(() => {});
+    return () => {
+      ok = false;
+    };
+  }, [user, lesson.courseSlug, lesson.id, router]);
 
   function persist(key: string, value: boolean): void {
     try {

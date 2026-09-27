@@ -1,6 +1,7 @@
 import type {
   AssessmentPhase,
   AssessmentPublic,
+  AssessmentStatus,
   ChallengePublic,
   CheckpointPublic,
   CheckpointResult,
@@ -43,6 +44,8 @@ export const experienceApi = {
   submitCheckpoint: (id: string, answers: { questionId: string; optionId: string }[]) =>
     req<CheckpointResult>(`/checkpoints/${encodeURIComponent(id)}/attempt`, 'POST', { answers }),
 
+  getAssessmentStatus: (slug: string) =>
+    req<AssessmentStatus>(`/courses/${encodeURIComponent(slug)}/assessment/status`),
   getAssessment: (slug: string) =>
     req<AssessmentPublic | null>(`/courses/${encodeURIComponent(slug)}/assessment`),
   respondAssessment: (id: string, phase: AssessmentPhase, answers: Record<string, string>) =>

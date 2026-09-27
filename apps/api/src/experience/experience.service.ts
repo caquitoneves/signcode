@@ -129,6 +129,25 @@ export class ExperienceService {
     };
   }
 
+  async getAssessmentStatus(userId: string, slug: string) {
+    const course = await this.prisma.course.findUnique({
+      where: { slug },
+      select: { status: true, assessment: { select: { id: true } } },
+    });
+    if (!course || course.status !== CourseStatus.PUBLISHED) {
+      throw new NotFoundException('Curso não encontrado');
+    }
+    const assessmentId = course.assessment?.id ?? null;
+    if (!assessmentId) return { assessmentId: null, respondedBefore: false };
+    const r = await this.prisma.assessmentResponse.findUnique({
+      where: {
+        userId_assessmentId_phase: { userId, assessmentId, phase: AssessmentPhase.BEFORE },
+      },
+      select: { id: true },
+    });
+    return { assessmentId, respondedBefore: Boolean(r) };
+  }
+
   async respondAssessment(userId: string, id: string, dto: RespondAssessmentDto) {
     const a = await this.prisma.assessment.findUnique({ where: { id }, select: { id: true } });
     if (!a) throw new NotFoundException('Avaliação não encontrada');

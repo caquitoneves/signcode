@@ -231,6 +231,11 @@ export interface AssessmentQuestionPublic {
   options: { id: string; text: string }[];
 }
 
+export interface AssessmentStatus {
+  assessmentId: string | null;
+  respondedBefore: boolean;
+}
+
 export interface AssessmentPublic {
   id: string;
   title: string;
