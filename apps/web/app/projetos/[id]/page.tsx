@@ -89,7 +89,7 @@ export default function ProjectPage() {
             {data.requirements.length > 0 ? (
               <section className="flex flex-col gap-2">
                 <h2 className="font-semibold">Requisitos</h2>
-                <ul className="flex flex-col gap-2">
+                <ul className="stagger-children flex flex-col gap-2">
                   {data.requirements.map((r, i) => (
                     <li key={i} className="flex items-start gap-2 text-ink/90">
                       <CheckCircle2

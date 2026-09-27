@@ -39,7 +39,7 @@ function BrandPanel() {
         <h2 className="text-4xl font-bold leading-tight tracking-tight">
           Tecnologia que se aprende <span className="text-brand">em Libras</span>, do início ao fim.
         </h2>
-        <ul className="flex flex-col gap-5">
+        <ul className="stagger-children flex flex-col gap-5">
           {FEATURES.map((f) => (
             <li key={f.title} className="flex items-start gap-3">
               <span

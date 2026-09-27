@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, ClipboardCheck, XCircle } from 'lucide-react';
 import { useState } from 'react';
 import type { CheckpointPublic, CheckpointResult } from '@projetox/contracts';
+import { Confetti } from '@/components/confetti';
 import { StateMessage } from '@/components/state-message';
 import { Button, Card } from '@/components/ui';
 import { cn } from '@projetox/ui';
@@ -44,6 +45,7 @@ export default function CheckpointPage() {
   return (
     <main className="aurora min-h-[calc(100vh-3.5rem)]">
       <div className="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-10">
+        <Confetti fire={Boolean(result?.passed)} />
         <Link
           href="/"
           className="inline-flex w-fit items-center gap-1 text-sm text-muted transition-colors hover:text-brand"
@@ -88,7 +90,7 @@ export default function CheckpointPage() {
               </Card>
             ) : null}
 
-            <ol className="flex flex-col gap-4">
+            <ol className="stagger-children flex flex-col gap-4">
               {data.questions.map((q, qi) => {
                 const corr = correctionFor(q.id);
                 return (

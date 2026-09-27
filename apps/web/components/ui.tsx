@@ -1,6 +1,6 @@
 'use client';
 
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { useEffect, useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { Hand } from 'lucide-react';
 import { cn } from '@projetox/ui';
 
@@ -77,17 +77,26 @@ export function ProgressBar({
   className?: string;
 }) {
   const pct = max > 0 ? Math.round((value / max) * 100) : 0;
+  // Anima de 0 até o valor ao montar.
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setShown(pct));
+    return () => cancelAnimationFrame(t);
+  }, [pct]);
   return (
     <div
-      className={cn('h-2 w-full overflow-hidden rounded-full bg-elevated', className)}
+      className={cn(
+        'progress-shine relative h-2 w-full overflow-hidden rounded-full bg-elevated',
+        className,
+      )}
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={max}
       aria-valuenow={value}
     >
       <div
-        className="h-full rounded-full bg-gradient-to-r from-brand to-emerald-400 transition-all"
-        style={{ width: `${pct}%` }}
+        className="h-full rounded-full bg-gradient-to-r from-brand to-emerald-400 transition-[width] duration-700 ease-out"
+        style={{ width: `${shown}%` }}
       />
     </div>
   );

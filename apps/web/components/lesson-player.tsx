@@ -222,7 +222,7 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
                     type="button"
                     onClick={() => setRating(n)}
                     aria-label={`Avaliar com ${n} de 5`}
-                    className="p-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                    className="p-0.5 transition-transform hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                   >
                     <Star
                       className={cn(
