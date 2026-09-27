@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   Compass,
   GraduationCap,
-  Hand,
   Layers,
   Play,
   TrendingUp,
@@ -146,10 +145,6 @@ export default function PainelPage() {
     <main className="aurora min-h-[calc(100vh-3.5rem)]">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-10">
         <header className="flex flex-col gap-1">
-          <p className="flex items-center gap-2 text-sm text-muted">
-            <Hand className="h-4 w-4 text-brand" aria-hidden="true" />
-            Meu painel
-          </p>
           <h1 className="text-3xl font-bold tracking-tight lg:text-4xl">
             {first ? `Olá, ${first}!` : 'Olá!'}
           </h1>

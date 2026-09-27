@@ -1,6 +1,6 @@
 'use client';
 
-import { Code2, Hand, Lightbulb } from 'lucide-react';
+import { Hand, Lightbulb } from 'lucide-react';
 import { CodePlayground } from '@/components/code-playground';
 import { Card, LibrasBadge } from '@/components/ui';
 import type { TestCase } from '@/lib/use-code-runner';
@@ -26,10 +26,6 @@ export default function PraticaPage() {
     <main className="aurora min-h-[calc(100vh-3.5rem)]">
       <div className="mx-auto flex max-w-4xl flex-col gap-6 px-6 py-10">
         <header className="flex flex-col gap-2">
-          <p className="flex items-center gap-2 text-sm text-muted">
-            <Code2 className="h-4 w-4 text-brand" aria-hidden="true" />
-            Praticar
-          </p>
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-3xl font-bold tracking-tight lg:text-4xl">Playground de código</h1>
             <LibrasBadge />

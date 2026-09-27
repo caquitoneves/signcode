@@ -1,12 +1,52 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BookOpen, Code2, Hand, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { cn } from '@projetox/ui';
 import { useAuth } from '../lib/auth-context';
 import { Button } from './ui';
 
+function NavLink({
+  href,
+  active,
+  icon,
+  children,
+  className,
+}: {
+  href: string;
+  active: boolean;
+  icon: ReactNode;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-current={active ? 'page' : undefined}
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
+        active
+          ? 'bg-brand/10 font-medium text-brand'
+          : 'text-muted hover:bg-elevated hover:text-ink',
+        className,
+      )}
+    >
+      {icon}
+      {children}
+    </Link>
+  );
+}
+
 export function SiteHeader() {
   const { user, loading, logout } = useAuth();
+  const pathname = usePathname() ?? '/';
+
+  const isCourses =
+    pathname === '/' || pathname.startsWith('/cursos') || pathname.startsWith('/aulas');
+  const isPratica = pathname.startsWith('/pratica');
+  const isPainel = pathname.startsWith('/painel');
 
   return (
     <header className="sticky top-0 z-20 border-b border-edge bg-canvas/80 backdrop-blur">
@@ -24,31 +64,32 @@ export function SiteHeader() {
         </Link>
 
         <nav className="flex items-center gap-1 text-sm">
-          <Link
+          <NavLink
             href="/"
-            className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:inline-flex"
+            active={isCourses}
+            icon={<BookOpen className="h-4 w-4" aria-hidden="true" />}
+            className="hidden sm:inline-flex"
           >
-            <BookOpen className="h-4 w-4" aria-hidden="true" />
             Cursos
-          </Link>
-
-          <Link
+          </NavLink>
+          <NavLink
             href="/pratica"
-            className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:inline-flex"
+            active={isPratica}
+            icon={<Code2 className="h-4 w-4" aria-hidden="true" />}
+            className="hidden sm:inline-flex"
           >
-            <Code2 className="h-4 w-4" aria-hidden="true" />
             Praticar
-          </Link>
+          </NavLink>
 
           {loading ? null : user ? (
             <>
-              <Link
+              <NavLink
                 href="/painel"
-                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                active={isPainel}
+                icon={<LayoutDashboard className="h-4 w-4" aria-hidden="true" />}
               >
-                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
                 Meu painel
-              </Link>
+              </NavLink>
               <span
                 className="hidden max-w-[12rem] truncate px-2 text-muted md:inline"
                 title={user.email}
@@ -62,13 +103,13 @@ export function SiteHeader() {
             </>
           ) : (
             <>
-              <Link
+              <NavLink
                 href="/entrar"
-                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-elevated hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                active={pathname.startsWith('/entrar')}
+                icon={<LogIn className="h-4 w-4" aria-hidden="true" />}
               >
-                <LogIn className="h-4 w-4" aria-hidden="true" />
                 Entrar
-              </Link>
+              </NavLink>
               <Link href="/cadastro">
                 <Button size="sm">
                   <UserPlus className="h-4 w-4" aria-hidden="true" />
