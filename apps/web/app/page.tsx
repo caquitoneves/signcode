@@ -19,8 +19,7 @@ import {
   Rocket,
   Sparkles,
 } from 'lucide-react';
-import { api } from '@/lib/api';
-import { useFetch } from '@/lib/use-fetch';
+import { useCourses } from '@/lib/queries';
 /* ---------------- Peças visuais ---------------- */
 function Burst({ className }: { className?: string }) {
   return (
@@ -114,7 +113,7 @@ const FAQ = [
 ];
 /* ---------------- Página ---------------- */
 export default function HomePage() {
-  const { data: courses } = useFetch(() => api.listCourses(), []);
+  const { data: courses } = useCourses();
   return (
     <div className="bg-white text-slate-900">
       {/* Hero principal */}

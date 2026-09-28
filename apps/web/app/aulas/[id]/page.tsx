@@ -3,23 +3,22 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { LessonPlayer } from '@/components/lesson-player';
-import { StateMessage } from '@/components/state-message';
-import { api } from '@/lib/api';
+import { ErrorState, LessonSkeleton } from '@/components/skeleton';
 import { useAuth } from '@/lib/auth-context';
 import { experienceApi } from '@/lib/experience-api';
-import { useFetch } from '@/lib/use-fetch';
+import { useLesson } from '@/lib/queries';
 
 export default function LessonPage() {
   const params = useParams<{ id: string }>();
   const id = params.id;
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const { data, error, loading } = useFetch(() => api.getLesson(id), [id]);
+  const { data, isError, isPending, refetch } = useLesson(id);
   const [gate, setGate] = useState<'checking' | 'open'>('checking');
 
   useEffect(() => {
-    if (authLoading || loading) return;
-    if (error || !data) return;
+    if (authLoading || isPending) return;
+    if (isError || !data) return;
     // Sem login não há diagnóstico a fazer.
     if (!user) {
       setGate('open');
@@ -59,20 +58,20 @@ export default function LessonPage() {
     return () => {
       ok = false;
     };
-  }, [authLoading, loading, error, data, user, id, router]);
+  }, [authLoading, isPending, isError, data, user, id, router]);
 
-  if (loading || authLoading || gate === 'checking') {
+  if (isPending || authLoading || gate === 'checking') {
     return (
       <main className="mx-auto max-w-3xl px-6 py-10">
-        <StateMessage>Carregando aula…</StateMessage>
+        <LessonSkeleton />
       </main>
     );
   }
 
-  if (error || !data) {
+  if (isError || !data) {
     return (
       <main className="mx-auto max-w-3xl px-6 py-10">
-        <StateMessage>Não foi possível carregar a aula. {error ?? ''}</StateMessage>
+        <ErrorState message="Não foi possível carregar a aula." onRetry={() => void refetch()} />
       </main>
     );
   }

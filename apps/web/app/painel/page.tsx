@@ -11,20 +11,14 @@ import {
   Play,
   TrendingUp,
 } from 'lucide-react';
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
-import type {
-  CourseSummary,
-  CourseTree,
-  CourseTreeLesson,
-  CourseTreeModule,
-  DashboardCourse,
-} from '@signcode/contracts';
+import { useMemo, type ReactNode } from 'react';
+import type { CourseTree, CourseTreeLesson, CourseTreeModule } from '@signcode/contracts';
 import { EmptyArt } from '@/components/illustrations';
 import { StateMessage } from '@/components/state-message';
+import { DashboardSkeleton, ErrorState } from '@/components/skeleton';
 import { Button, Card, LibrasBadge, ProgressBar } from '@/components/ui';
 import { useAuth } from '@/lib/auth-context';
-import { api } from '@/lib/api';
-import { progressApi } from '@/lib/progress-api';
+import { useCourse, useCourseProgress, useCourses, useDashboard } from '@/lib/queries';
 
 interface NextUp {
   courseSlug: string;
@@ -87,61 +81,43 @@ function StatTile({
 
 export default function PainelPage() {
   const { user, loading: authLoading } = useAuth();
-  const [items, setItems] = useState<DashboardCourse[] | null>(null);
-  const [catalog, setCatalog] = useState<CourseSummary[]>([]);
-  const [nextUp, setNextUp] = useState<NextUp | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data: items, isPending: itemsPending, isError, refetch } = useDashboard(Boolean(user));
+  const { data: catalogData } = useCourses();
+  const catalog = catalogData ?? [];
 
-  const load = useCallback(async () => {
-    if (!user) {
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    try {
-      const [dash, cat] = await Promise.all([progressApi.getDashboard(), api.listCourses()]);
-      setItems(dash);
-      setCatalog(cat);
+  // Curso de destaque: em andamento mais recente (fallback: 1º).
+  const primary = useMemo(() => {
+    const list = items ?? [];
+    return (
+      [...list]
+        .filter((d) => d.completed < d.total)
+        .sort((a, b) => b.enrolledAt.localeCompare(a.enrolledAt))[0] ??
+      list[0] ??
+      null
+    );
+  }, [items]);
 
-      // Card de destaque: curso em andamento mais recente (fallback: 1º).
-      const primary =
-        [...dash]
-          .filter((d) => d.completed < d.total)
-          .sort((a, b) => b.enrolledAt.localeCompare(a.enrolledAt))[0] ?? dash[0];
-      if (primary) {
-        try {
-          const [tree, prog] = await Promise.all([
-            api.getCourse(primary.course.slug),
-            progressApi.getCourseProgress(primary.course.slug),
-          ]);
-          const done = new Set(prog.completedLessonIds);
-          const found = findNext(tree, done);
-          setNextUp({
-            courseSlug: primary.course.slug,
-            courseTitle: primary.course.title,
-            moduleTitle: found?.module.title ?? '',
-            lessonId: found?.lesson.id ?? '',
-            lessonTitle: found ? lessonTitle(found.lesson) : '',
-            completed: prog.completed,
-            total: prog.total,
-            finished: !found,
-          });
-        } catch {
-          setNextUp(null);
-        }
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao carregar o painel');
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
+  const { data: primaryTree } = useCourse(primary?.course.slug ?? '');
+  const { data: primaryProgress } = useCourseProgress(
+    primary?.course.slug ?? '',
+    Boolean(user && primary),
+  );
 
-  useEffect(() => {
-    if (!authLoading) void load();
-  }, [authLoading, load]);
+  const nextUp = useMemo<NextUp | null>(() => {
+    if (!primary || !primaryTree || !primaryProgress) return null;
+    const done = new Set(primaryProgress.completedLessonIds);
+    const found = findNext(primaryTree, done);
+    return {
+      courseSlug: primary.course.slug,
+      courseTitle: primary.course.title,
+      moduleTitle: found?.module.title ?? '',
+      lessonId: found?.lesson.id ?? '',
+      lessonTitle: found ? lessonTitle(found.lesson) : '',
+      completed: primaryProgress.completed,
+      total: primaryProgress.total,
+      finished: !found,
+    };
+  }, [primary, primaryTree, primaryProgress]);
 
   const first = user?.name ? user.name.split(' ')[0] : null;
   const enrolledSlugs = new Set((items ?? []).map((i) => i.course.slug));
@@ -161,9 +137,9 @@ export default function PainelPage() {
           <p className="text-muted">Bom te ver por aqui. Vamos continuar aprendendo?</p>
         </header>
 
-        {authLoading || loading ? <StateMessage>Carregando…</StateMessage> : null}
+        {authLoading || (user && itemsPending) ? <DashboardSkeleton /> : null}
 
-        {!authLoading && !loading && !user ? (
+        {!authLoading && !user ? (
           <StateMessage>
             Entre para ver seu painel.{' '}
             <Link href="/entrar" className="font-medium text-brand hover:underline">
@@ -172,11 +148,16 @@ export default function PainelPage() {
           </StateMessage>
         ) : null}
 
-        {error ? <StateMessage>{error}</StateMessage> : null}
+        {isError ? (
+          <ErrorState
+            message="Não foi possível carregar o painel."
+            onRetry={() => void refetch()}
+          />
+        ) : null}
 
         {/* Destaque: continuar de onde parou */}
         {user && nextUp && !nextUp.finished ? (
-          <Card className="glass overflow-hidden p-0 glow-brand">
+          <Card className="glass animate-fade-in overflow-hidden p-0 glow-brand">
             <div className="flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex flex-col gap-3">
                 <span className="flex items-center gap-2 text-sm font-medium text-brand">

@@ -4,22 +4,19 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, FolderGit2, Rocket } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import type { ProjectPublic, ProjectSubmissionResult } from '@signcode/contracts';
+import type { ProjectSubmissionResult } from '@signcode/contracts';
 import { Markdown } from '@/components/markdown';
-import { StateMessage } from '@/components/state-message';
+import { DetailSkeleton, ErrorState } from '@/components/skeleton';
 import { Field } from '@/components/form';
 import { Button, Card } from '@/components/ui';
 import { useAuth } from '@/lib/auth-context';
 import { experienceApi } from '@/lib/experience-api';
-import { useFetch } from '@/lib/use-fetch';
+import { useProject } from '@/lib/queries';
 
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const { data, error, loading } = useFetch<ProjectPublic>(
-    () => experienceApi.getProject(id),
-    [id],
-  );
+  const { data, isPending, isError, refetch } = useProject(id);
 
   const [repoUrl, setRepoUrl] = useState('');
   const [liveUrl, setLiveUrl] = useState('');
@@ -68,11 +65,16 @@ export default function ProjectPage() {
           Voltar aos cursos
         </Link>
 
-        {loading ? <StateMessage>Carregando…</StateMessage> : null}
-        {error ? <StateMessage>Não foi possível carregar o projeto.</StateMessage> : null}
+        {isPending ? <DetailSkeleton cards={2} /> : null}
+        {isError ? (
+          <ErrorState
+            message="Não foi possível carregar o projeto."
+            onRetry={() => void refetch()}
+          />
+        ) : null}
 
         {data ? (
-          <>
+          <div className="flex animate-fade-in flex-col gap-6">
             <div className="flex items-center gap-2">
               {data.kind === 'FINAL' ? (
                 <Rocket className="h-6 w-6 text-brand" aria-hidden="true" />
@@ -143,7 +145,7 @@ export default function ProjectPage() {
                 </>
               )}
             </Card>
-          </>
+          </div>
         ) : null}
       </div>
     </main>

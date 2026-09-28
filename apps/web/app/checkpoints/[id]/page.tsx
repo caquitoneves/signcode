@@ -4,20 +4,17 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, ClipboardCheck, XCircle } from 'lucide-react';
 import { useState } from 'react';
-import type { CheckpointPublic, CheckpointResult } from '@signcode/contracts';
+import type { CheckpointResult } from '@signcode/contracts';
 import { Confetti } from '@/components/confetti';
-import { StateMessage } from '@/components/state-message';
+import { DetailSkeleton, ErrorState } from '@/components/skeleton';
 import { Button, Card } from '@/components/ui';
 import { cn } from '@signcode/ui';
 import { experienceApi } from '@/lib/experience-api';
-import { useFetch } from '@/lib/use-fetch';
+import { useCheckpoint } from '@/lib/queries';
 
 export default function CheckpointPage() {
   const { id } = useParams<{ id: string }>();
-  const { data, error, loading } = useFetch<CheckpointPublic>(
-    () => experienceApi.getCheckpoint(id),
-    [id],
-  );
+  const { data, isPending, isError, refetch } = useCheckpoint(id);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<CheckpointResult | null>(null);
   const [busy, setBusy] = useState(false);
@@ -54,11 +51,16 @@ export default function CheckpointPage() {
           Voltar aos cursos
         </Link>
 
-        {loading ? <StateMessage>Carregando…</StateMessage> : null}
-        {error ? <StateMessage>Não foi possível carregar o checkpoint.</StateMessage> : null}
+        {isPending ? <DetailSkeleton /> : null}
+        {isError ? (
+          <ErrorState
+            message="Não foi possível carregar o checkpoint."
+            onRetry={() => void refetch()}
+          />
+        ) : null}
 
         {data ? (
-          <>
+          <div className="flex animate-fade-in flex-col gap-6">
             <div className="flex items-center gap-2">
               <ClipboardCheck className="h-6 w-6 text-emerald-600" aria-hidden="true" />
               <h1 className="text-2xl font-bold tracking-tight">{data.title}</h1>
@@ -169,7 +171,7 @@ export default function CheckpointPage() {
                 Refazer
               </Button>
             )}
-          </>
+          </div>
         ) : null}
       </div>
     </main>

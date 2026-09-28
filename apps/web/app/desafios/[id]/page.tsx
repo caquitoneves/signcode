@@ -3,18 +3,13 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, Code2 } from 'lucide-react';
-import type { ChallengePublic } from '@signcode/contracts';
 import { CodePlayground } from '@/components/code-playground';
-import { StateMessage } from '@/components/state-message';
-import { experienceApi } from '@/lib/experience-api';
-import { useFetch } from '@/lib/use-fetch';
+import { DetailSkeleton, ErrorState } from '@/components/skeleton';
+import { useChallenge } from '@/lib/queries';
 
 export default function DesafioPage() {
   const { id } = useParams<{ id: string }>();
-  const { data, error, loading } = useFetch<ChallengePublic>(
-    () => experienceApi.getChallenge(id),
-    [id],
-  );
+  const { data, isPending, isError, refetch } = useChallenge(id);
 
   return (
     <main className="aurora min-h-[calc(100vh-3.5rem)]">
@@ -27,11 +22,16 @@ export default function DesafioPage() {
           Voltar aos cursos
         </Link>
 
-        {loading ? <StateMessage>Carregando…</StateMessage> : null}
-        {error ? <StateMessage>Não foi possível carregar o desafio.</StateMessage> : null}
+        {isPending ? <DetailSkeleton cards={1} /> : null}
+        {isError ? (
+          <ErrorState
+            message="Não foi possível carregar o desafio."
+            onRetry={() => void refetch()}
+          />
+        ) : null}
 
         {data ? (
-          <>
+          <div className="flex animate-fade-in flex-col gap-5">
             <div className="flex items-center gap-2">
               <Code2 className="h-6 w-6 text-violet-600" aria-hidden="true" />
               <h1 className="text-2xl font-bold tracking-tight">{data.title}</h1>
@@ -42,7 +42,7 @@ export default function DesafioPage() {
               tests={data.tests}
               storageKey={`desafio-${id}`}
             />
-          </>
+          </div>
         ) : null}
       </div>
     </main>

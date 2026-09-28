@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { CheckCircle2, ListChecks, XCircle } from 'lucide-react';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import type { ExercisePublic, ExerciseSubmissionResult } from '@signcode/contracts';
 import { useAuth } from '../lib/auth-context';
 import { exercisesApi } from '../lib/exercises-api';
+import { useLessonExercises } from '../lib/queries';
 import { Button, Card, SectionHeading } from './ui';
 
 function ExerciseItem({ exercise, canSubmit }: { exercise: ExercisePublic; canSubmit: boolean }) {
@@ -121,28 +122,9 @@ function ExerciseItem({ exercise, canSubmit }: { exercise: ExercisePublic; canSu
 
 export function LessonExercises({ lessonId }: { lessonId: string }) {
   const { user, loading: authLoading } = useAuth();
-  const [exercises, setExercises] = useState<ExercisePublic[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  const { data: exercises = [] } = useLessonExercises(lessonId);
 
-  useEffect(() => {
-    let active = true;
-    exercisesApi
-      .listForLesson(lessonId)
-      .then((data) => {
-        if (active) {
-          setExercises(data);
-          setLoaded(true);
-        }
-      })
-      .catch(() => {
-        if (active) setLoaded(true);
-      });
-    return () => {
-      active = false;
-    };
-  }, [lessonId]);
-
-  if (!loaded || exercises.length === 0) return null;
+  if (exercises.length === 0) return null;
 
   return (
     <section aria-labelledby="ex-h" className="flex flex-col gap-3">

@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, Compass } from 'lucide-react';
 import { Suspense, useState } from 'react';
-import type { AssessmentPublic } from '@signcode/contracts';
 import { StateMessage } from '@/components/state-message';
+import { DetailSkeleton, ErrorState } from '@/components/skeleton';
 import { Button, Card } from '@/components/ui';
 import { cn } from '@signcode/ui';
 import { useAuth } from '@/lib/auth-context';
 import { experienceApi } from '@/lib/experience-api';
-import { useFetch } from '@/lib/use-fetch';
+import { useAssessment } from '@/lib/queries';
 
 function markDone(slug: string): void {
   try {
@@ -26,10 +26,7 @@ function DiagnosticoInner() {
   const params = useSearchParams();
   const next = params.get('next') || `/cursos/${slug}`;
   const { user } = useAuth();
-  const { data, error, loading } = useFetch<AssessmentPublic | null>(
-    () => experienceApi.getAssessment(slug),
-    [slug],
-  );
+  const { data, isPending, isError, refetch } = useAssessment(slug);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
 
@@ -58,14 +55,19 @@ function DiagnosticoInner() {
           Voltar ao curso
         </Link>
 
-        {loading ? <StateMessage>Carregando…</StateMessage> : null}
-        {error ? <StateMessage>Não foi possível carregar o diagnóstico.</StateMessage> : null}
-        {!loading && !data ? (
+        {isPending ? <DetailSkeleton cards={3} /> : null}
+        {isError ? (
+          <ErrorState
+            message="Não foi possível carregar o diagnóstico."
+            onRetry={() => void refetch()}
+          />
+        ) : null}
+        {!isPending && !isError && !data ? (
           <StateMessage>Este curso ainda não tem um diagnóstico.</StateMessage>
         ) : null}
 
         {data ? (
-          <>
+          <div className="flex animate-fade-in flex-col gap-6">
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <Compass className="h-6 w-6 text-brand" aria-hidden="true" />
@@ -138,7 +140,7 @@ function DiagnosticoInner() {
                 <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
               </Button>
             </div>
-          </>
+          </div>
         ) : null}
       </div>
     </main>

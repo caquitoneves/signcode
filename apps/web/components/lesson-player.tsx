@@ -17,12 +17,11 @@ import {
   Star,
   Target,
 } from 'lucide-react';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import type { CourseTree, LessonDetail } from '@signcode/contracts';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import type { LessonDetail } from '@signcode/contracts';
 import { cn } from '@signcode/ui';
-import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth-context';
-import { progressApi } from '@/lib/progress-api';
+import { useCourse, useCourseProgress } from '@/lib/queries';
 import { useSyncedVideos } from '@/lib/use-synced-videos';
 import { InterpreterPiP } from './interpreter-pip';
 import { LessonComplete } from './lesson-complete';
@@ -80,8 +79,9 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
   // do vídeo principal propagam para o intérprete, e o fim avança a aula.
   const synced = Boolean(content) && content?.provider !== 'youtube';
 
-  const [course, setCourse] = useState<CourseTree | null>(null);
-  const [done, setDone] = useState<Set<string>>(new Set());
+  const { data: course = null } = useCourse(lesson.courseSlug);
+  const { data: progress } = useCourseProgress(lesson.courseSlug, Boolean(user));
+  const done = useMemo(() => new Set(progress?.completedLessonIds ?? []), [progress]);
   const [dim, setDim] = useState(false);
   const [showInterpreter, setShowInterpreter] = useState(true);
   const [autoplay, setAutoplay] = useState(true);
@@ -109,36 +109,6 @@ export function LessonPlayer({ lesson }: { lesson: LessonDetail }) {
       // ignora
     }
   }, []);
-
-  useEffect(() => {
-    let ok = true;
-    api
-      .getCourse(lesson.courseSlug)
-      .then((c) => {
-        if (ok) setCourse(c);
-      })
-      .catch(() => {});
-    return () => {
-      ok = false;
-    };
-  }, [lesson.courseSlug]);
-
-  useEffect(() => {
-    let ok = true;
-    if (!user) {
-      setDone(new Set());
-      return;
-    }
-    progressApi
-      .getCourseProgress(lesson.courseSlug)
-      .then((p) => {
-        if (ok) setDone(new Set(p.completedLessonIds));
-      })
-      .catch(() => {});
-    return () => {
-      ok = false;
-    };
-  }, [user, lesson.courseSlug]);
 
   useEffect(() => {
     const handler = () => setIsFullscreen(Boolean(document.fullscreenElement));

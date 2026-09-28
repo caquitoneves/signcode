@@ -17,16 +17,15 @@ import {
   PlayCircle,
   Rocket,
 } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { AssessmentStatus, CourseTree, CourseTreeLesson } from '@signcode/contracts';
-import { StateMessage } from '@/components/state-message';
+import { useMemo, useState } from 'react';
+import type { CourseTreeLesson } from '@signcode/contracts';
+import { CourseSkeleton, ErrorState } from '@/components/skeleton';
 import { Button, Card, LibrasBadge, ProgressBar } from '@/components/ui';
-import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth-context';
 import { formatDuration } from '@/lib/format';
-import { experienceApi } from '@/lib/experience-api';
 import { progressApi } from '@/lib/progress-api';
-import { useFetch } from '@/lib/use-fetch';
+import { useAssessmentStatus, useCourse, useCourseProgress, qk } from '@/lib/queries';
+import { useQueryClient } from '@tanstack/react-query';
 
 function lessonTitle(lesson: CourseTreeLesson): string {
   return (
@@ -59,55 +58,17 @@ export default function CoursePage() {
   const params = useParams<{ slug: string }>();
   const slug = params.slug;
   const { user } = useAuth();
-  const { data, error, loading } = useFetch<CourseTree>(() => api.getCourse(slug), [slug]);
-
-  const [progress, setProgress] = useState<{
-    enrolled: boolean;
-    total: number;
-    completed: number;
-    completedLessonIds: string[];
-  } | null>(null);
+  const queryClient = useQueryClient();
+  const { data, isPending, isError, refetch } = useCourse(slug);
+  const { data: progress } = useCourseProgress(slug, Boolean(user));
+  const { data: assess } = useAssessmentStatus(slug, Boolean(user));
   const [enrolling, setEnrolling] = useState(false);
-  const [assess, setAssess] = useState<AssessmentStatus | null>(null);
-
-  const loadProgress = useCallback(async () => {
-    if (!user) {
-      setProgress(null);
-      return;
-    }
-    try {
-      setProgress(await progressApi.getCourseProgress(slug));
-    } catch {
-      setProgress(null);
-    }
-  }, [user, slug]);
-
-  useEffect(() => {
-    void loadProgress();
-  }, [loadProgress]);
-
-  useEffect(() => {
-    if (!user) {
-      setAssess(null);
-      return;
-    }
-    let ok = true;
-    experienceApi
-      .getAssessmentStatus(slug)
-      .then((s) => {
-        if (ok) setAssess(s);
-      })
-      .catch(() => {});
-    return () => {
-      ok = false;
-    };
-  }, [user, slug]);
 
   async function enroll(): Promise<void> {
     setEnrolling(true);
     try {
       await progressApi.enroll(slug);
-      await loadProgress();
+      await queryClient.invalidateQueries({ queryKey: qk.courseProgress(slug) });
     } finally {
       setEnrolling(false);
     }
@@ -151,11 +112,13 @@ export default function CoursePage() {
           Todos os cursos
         </Link>
 
-        {loading ? <StateMessage>Carregando curso…</StateMessage> : null}
-        {error ? <StateMessage>Não foi possível carregar o curso. {error}</StateMessage> : null}
+        {isPending ? <CourseSkeleton /> : null}
+        {isError ? (
+          <ErrorState message="Não foi possível carregar o curso." onRetry={() => void refetch()} />
+        ) : null}
 
         {data ? (
-          <>
+          <div className="flex animate-fade-in flex-col gap-8">
             {/* Hero do curso */}
             <Card className="glass flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-start lg:justify-between">
               <div className="flex flex-col gap-4">
@@ -405,7 +368,7 @@ export default function CoursePage() {
                 ) : null}
               </div>
             )}
-          </>
+          </div>
         ) : null}
       </div>
     </main>

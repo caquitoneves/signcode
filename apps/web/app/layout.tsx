@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Navbar } from '@/components/navbar';
 import { AuthProvider } from '@/lib/auth-context';
+import { QueryProvider } from '@/lib/query-provider';
 import { PrefsProvider } from '@/lib/prefs-context';
 import './globals.css';
 
@@ -14,12 +15,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <body className="min-h-screen bg-canvas text-ink antialiased">
-        <PrefsProvider>
-          <AuthProvider>
-            <Navbar />
-            <div className="min-h-[calc(100vh-3.5rem)]">{children}</div>
-          </AuthProvider>
-        </PrefsProvider>
+        <QueryProvider>
+          <PrefsProvider>
+            <AuthProvider>
+              <Navbar />
+              <div className="min-h-[calc(100vh-3.5rem)]">{children}</div>
+            </AuthProvider>
+          </PrefsProvider>
+        </QueryProvider>
       </body>
     </html>
   );
