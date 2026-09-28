@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
-import { cn } from '@projetox/ui';
+import { cn } from '@signcode/ui';
 import { Button } from './ui';
 
 export function Field(props: {

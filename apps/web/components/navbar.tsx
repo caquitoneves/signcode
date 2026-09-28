@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BookOpen, Code2, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { cn } from '@projetox/ui';
+import { cn } from '@signcode/ui';
 import { useAuth } from '../lib/auth-context';
 import { LogoMark } from './logo';
 import { Button } from './ui';
@@ -46,7 +46,7 @@ function NavLink({
   );
 }
 
-export function SiteHeader() {
+export function Navbar() {
   const { user, loading, logout } = useAuth();
   const pathname = usePathname() ?? '/';
   const light = pathname === '/';
@@ -63,18 +63,19 @@ export function SiteHeader() {
         light ? 'border-slate-200 bg-white/85' : 'border-edge bg-canvas/80',
       )}
     >
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-4 sm:px-6">
         <Link
           href="/"
-          className="group flex items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          aria-label="SignCode — início"
+          className="group flex min-w-0 shrink-0 items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         >
-          <LogoMark className="h-9 w-9" />
-          <span className={cn('font-semibold tracking-tight', light ? 'text-slate-900' : '')}>
-            Aprender <span className="text-brand">em Libras</span>
+          <LogoMark className="h-9 w-9 shrink-0" title="Símbolo SignCode" />
+          <span className={cn('hidden font-semibold tracking-tight min-[380px]:inline', light ? 'text-slate-900' : '')}>
+            Sign<span className="text-brand">Code</span>
           </span>
         </Link>
 
-        <nav className="flex items-center gap-1 text-sm">
+        <nav aria-label="Navegação principal" className="flex min-w-0 items-center gap-1 text-sm">
           <NavLink
             href="/"
             active={isCourses}

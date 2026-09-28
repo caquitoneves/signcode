@@ -13,7 +13,7 @@ import {
   Type,
 } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
-import { cn } from '@projetox/ui';
+import { cn } from '@signcode/ui';
 import { useAuth } from '@/lib/auth-context';
 import { usePrefs, type FontScale } from '@/lib/prefs-context';
 import { Button, Card, LibrasBadge } from './ui';
@@ -177,13 +177,13 @@ export function Onboarding() {
                     <>
                       Boas-vindas ao
                       <br />
-                      <span className="text-brand">aprender em Libras</span>!
+                      <span className="text-brand">SignCode</span>!
                     </>
                   )}
                 </h1>
                 <p className="text-lg leading-relaxed text-muted">
-                  Aqui você aprende tecnologia com Libras como língua principal — não como uma
-                  janelinha no canto. Assista às boas-vindas em Libras ao lado.
+                  Aqui você aprende tecnologia com foco em prática, clareza e construção real —
+                  enquanto explora um caminho de aprendizado moderno e acessível.
                 </p>
                 <p className="flex items-center justify-center gap-2 text-sm text-muted lg:justify-start">
                   <LibrasBadge /> vídeo de exemplo — será substituído pelo intérprete oficial

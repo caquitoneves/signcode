@@ -1,6 +1,6 @@
 import { VideoOff } from 'lucide-react';
-import type { LessonVideo } from '@projetox/contracts';
-import { cn } from '@projetox/ui';
+import type { LessonVideo } from '@signcode/contracts';
+import { cn } from '@signcode/ui';
 
 function youtubeSrc(video: LessonVideo, autoplay: boolean, muted: boolean): string {
   const params = new URLSearchParams({ rel: '0', playsinline: '1', fs: '0', modestbranding: '1' });

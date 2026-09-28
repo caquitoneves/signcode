@@ -1,14 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <rect width="48" height="48" rx="11" fill="#ffffff"/>
-  <g stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M12.5 14 L7 24 L12.5 34" stroke="#6366f1"/>
-    <path d="M35.5 14 L41 24 L35.5 34" stroke="#10b981"/>
-  </g>
-  <g stroke-linecap="round" fill="none">
-    <path d="M15.5 30 Q 24 38 32.5 30" stroke="#6366f1" stroke-width="4"/>
-    <path d="M18 29.5 L15.8 17" stroke="#ef4444" stroke-width="3.6"/>
-    <path d="M21.7 29.5 L20.6 12.5" stroke="#fbbf24" stroke-width="3.6"/>
-    <path d="M26.3 29.5 L27.4 12.5" stroke="#10b981" stroke-width="3.6"/>
-    <path d="M30 29.5 L32.2 17" stroke="#a78bfa" stroke-width="3.6"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Mão abstrata entre colchetes</title>
+  <desc id="desc">Quatro traços coloridos independentes sugerem os dedos de uma mão; uma base angular e dois colchetes remetem à tecnologia.</desc>
+  <g fill="none" stroke-width="5" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M9 20H4V45H9M55 20H60V45H55" stroke="#4338ca"/>
+    <path d="M14 40L23 47L32 50L41 47L50 40" stroke="#6366f1"/>
+    <path d="M20 37L17 23" stroke="#ef4444"/>
+    <path d="M28 36L27 14" stroke="#fbbf24"/>
+    <path d="M36 36L37 12" stroke="#10b981"/>
+    <path d="M44 37L47 23" stroke="#a78bfa"/>
   </g>
 </svg>

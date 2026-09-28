@@ -2,7 +2,7 @@
 
 import { AlertCircle, CheckCircle2, Play, RotateCcw, Terminal, XCircle } from 'lucide-react';
 import { useState } from 'react';
-import { cn } from '@projetox/ui';
+import { cn } from '@signcode/ui';
 import { useCodeRunner, type TestCase } from '@/lib/use-code-runner';
 import { CodeEditor } from './code-editor';
 import { Button, Card } from './ui';
@@ -21,7 +21,7 @@ export function CodePlayground({
   const [code, setCode] = useState(() => {
     if (storageKey) {
       try {
-        const saved = window.localStorage.getItem(`projetox:code:${storageKey}`);
+        const saved = window.localStorage.getItem(`signcode:code:${storageKey}`);
         if (saved !== null) return saved;
       } catch {
         // ignora
@@ -35,7 +35,7 @@ export function CodePlayground({
     setCode(next);
     if (storageKey) {
       try {
-        window.localStorage.setItem(`projetox:code:${storageKey}`, next);
+        window.localStorage.setItem(`signcode:code:${storageKey}`, next);
       } catch {
         // ignora
       }
@@ -76,12 +76,12 @@ export function CodePlayground({
           Recomeçar
         </Button>
         {hasError ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-500/15 px-3 py-1 text-sm font-medium text-red-300">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-coral/10 px-3 py-1 text-sm font-medium text-coral">
             <AlertCircle className="h-4 w-4" aria-hidden="true" />
             Erro ao executar o código
           </span>
         ) : allPassed ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-3 py-1 text-sm font-medium text-emerald-400">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-600">
             <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
             Todos os testes passaram!
           </span>
@@ -111,14 +111,14 @@ export function CodePlayground({
                   key={i}
                   className={cn(
                     'whitespace-pre-wrap',
-                    line.kind === 'error' ? 'text-red-300' : 'text-ink',
+                    line.kind === 'error' ? 'text-coral' : 'text-ink',
                   )}
                 >
                   {line.text}
                 </div>
               ))}
               {result.runtimeError ? (
-                <div className="whitespace-pre-wrap text-red-300">⚠ {result.runtimeError}</div>
+                <div className="whitespace-pre-wrap text-coral">⚠ {result.runtimeError}</div>
               ) : null}
             </>
           )}
@@ -138,18 +138,18 @@ export function CodePlayground({
                 />
               ) : t.passed ? (
                 <CheckCircle2
-                  className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400"
+                  className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"
                   aria-hidden="true"
                 />
               ) : (
-                <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" aria-hidden="true" />
+                <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-coral" aria-hidden="true" />
               )}
               <span className="flex flex-col">
                 <span className={cn(evaluated && t.passed ? 'text-ink' : 'text-muted')}>
                   {t.description}
                 </span>
                 {evaluated && t.error ? (
-                  <span className="text-xs text-red-300">{t.error}</span>
+                  <span className="text-xs text-coral">{t.error}</span>
                 ) : null}
               </span>
             </div>

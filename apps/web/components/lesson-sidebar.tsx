@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { CheckCircle2, PlayCircle } from 'lucide-react';
-import type { CourseTree, CourseTreeLesson } from '@projetox/contracts';
+import type { CourseTree, CourseTreeLesson } from '@signcode/contracts';
 import { formatDuration } from '@/lib/format';
 import { Card } from './ui';
 

@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, ClipboardCheck, XCircle } from 'lucide-react';
 import { useState } from 'react';
-import type { CheckpointPublic, CheckpointResult } from '@projetox/contracts';
+import type { CheckpointPublic, CheckpointResult } from '@signcode/contracts';
 import { Confetti } from '@/components/confetti';
 import { StateMessage } from '@/components/state-message';
 import { Button, Card } from '@/components/ui';
-import { cn } from '@projetox/ui';
+import { cn } from '@signcode/ui';
 import { experienceApi } from '@/lib/experience-api';
 import { useFetch } from '@/lib/use-fetch';
 
@@ -60,7 +60,7 @@ export default function CheckpointPage() {
         {data ? (
           <>
             <div className="flex items-center gap-2">
-              <ClipboardCheck className="h-6 w-6 text-brand" aria-hidden="true" />
+              <ClipboardCheck className="h-6 w-6 text-emerald-600" aria-hidden="true" />
               <h1 className="text-2xl font-bold tracking-tight">{data.title}</h1>
             </div>
             {data.description ? <p className="text-muted">{data.description}</p> : null}
@@ -73,7 +73,7 @@ export default function CheckpointPage() {
                 )}
               >
                 {result.passed ? (
-                  <CheckCircle2 className="h-6 w-6 text-emerald-400" aria-hidden="true" />
+                  <CheckCircle2 className="h-6 w-6 text-emerald-600" aria-hidden="true" />
                 ) : (
                   <XCircle className="h-6 w-6 text-muted" aria-hidden="true" />
                 )}
@@ -112,7 +112,7 @@ export default function CheckpointPage() {
                                 showState && isCorrect
                                   ? 'border-emerald-500/50 bg-emerald-500/10'
                                   : showState && chosen && !isCorrect
-                                    ? 'border-red-500/40 bg-red-500/10'
+                                    ? 'border-coral/40 bg-coral/10'
                                     : chosen
                                       ? 'border-brand bg-brand/10'
                                       : 'border-edge hover:border-brand/40',
@@ -130,7 +130,7 @@ export default function CheckpointPage() {
                               <span className="flex-1">{o.text}</span>
                               {showState && isCorrect ? (
                                 <CheckCircle2
-                                  className="h-4 w-4 text-emerald-400"
+                                  className="h-4 w-4 text-emerald-600"
                                   aria-hidden="true"
                                 />
                               ) : null}

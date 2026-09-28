@@ -1,4 +1,4 @@
-import type { AuthMe, AuthResponse } from '@projetox/contracts';
+import type { AuthMe, AuthResponse } from '@signcode/contracts';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3333';
 

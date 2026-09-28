@@ -7,7 +7,7 @@ import type {
   CheckpointResult,
   ProjectPublic,
   ProjectSubmissionResult,
-} from '@projetox/contracts';
+} from '@signcode/contracts';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3333';
 

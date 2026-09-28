@@ -2,7 +2,7 @@
 
 import { Hand, X } from 'lucide-react';
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
-import type { LessonVideo } from '@projetox/contracts';
+import type { LessonVideo } from '@signcode/contracts';
 import { VideoEmbed } from './video-embed';
 
 /** Janela flutuante do intérprete de Libras: arrastável, redimensionável e ocultável. */

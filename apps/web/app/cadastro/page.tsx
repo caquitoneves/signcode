@@ -34,7 +34,7 @@ export default function CadastroPage() {
   return (
     <AuthShell
       title="Criar conta"
-      subtitle="Comece a aprender em Libras"
+      subtitle="Comece sua jornada com SignCode"
       footer={
         <span>
           Já tem conta?{' '}

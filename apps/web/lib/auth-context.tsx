@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { AuthMe } from '@projetox/contracts';
+import type { AuthMe } from '@signcode/contracts';
 import { authApi } from './auth-api';
 
 interface AuthContextValue {

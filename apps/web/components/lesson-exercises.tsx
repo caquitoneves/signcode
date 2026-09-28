@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { CheckCircle2, ListChecks, XCircle } from 'lucide-react';
 import { useEffect, useState, type FormEvent } from 'react';
-import type { ExercisePublic, ExerciseSubmissionResult } from '@projetox/contracts';
+import type { ExercisePublic, ExerciseSubmissionResult } from '@signcode/contracts';
 import { useAuth } from '../lib/auth-context';
 import { exercisesApi } from '../lib/exercises-api';
 import { Button, Card, SectionHeading } from './ui';
@@ -89,13 +89,13 @@ function ExerciseItem({ exercise, canSubmit }: { exercise: ExercisePublic; canSu
         )}
 
         <div aria-live="polite">
-          {error ? <p className="text-sm text-red-400">{error}</p> : null}
+          {error ? <p className="text-sm text-coral">{error}</p> : null}
           {result ? (
             <div
               className={
                 result.correct
                   ? 'flex animate-pop items-start gap-2 rounded-lg border border-brand/40 bg-brand/10 px-3 py-2 text-sm text-brand'
-                  : 'flex animate-pop items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-300'
+                  : 'flex animate-pop items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-700'
               }
             >
               {result.correct ? (

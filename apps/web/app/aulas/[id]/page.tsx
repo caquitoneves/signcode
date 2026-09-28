@@ -28,7 +28,7 @@ export default function LessonPage() {
     // Atalho: já respondeu neste navegador.
     let doneFlag = false;
     try {
-      doneFlag = window.localStorage.getItem(`projetox:diag-done:${data.courseSlug}`) === '1';
+      doneFlag = window.localStorage.getItem(`signcode:diag-done:${data.courseSlug}`) === '1';
     } catch {
       // ignora
     }
@@ -48,7 +48,7 @@ export default function LessonPage() {
           );
         } else {
           try {
-            window.localStorage.setItem(`projetox:diag-done:${data.courseSlug}`, '1');
+            window.localStorage.setItem(`signcode:diag-done:${data.courseSlug}`, '1');
           } catch {
             // ignora
           }

@@ -4,17 +4,17 @@ import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, Compass } from 'lucide-react';
 import { Suspense, useState } from 'react';
-import type { AssessmentPublic } from '@projetox/contracts';
+import type { AssessmentPublic } from '@signcode/contracts';
 import { StateMessage } from '@/components/state-message';
 import { Button, Card } from '@/components/ui';
-import { cn } from '@projetox/ui';
+import { cn } from '@signcode/ui';
 import { useAuth } from '@/lib/auth-context';
 import { experienceApi } from '@/lib/experience-api';
 import { useFetch } from '@/lib/use-fetch';
 
 function markDone(slug: string): void {
   try {
-    window.localStorage.setItem(`projetox:diag-done:${slug}`, '1');
+    window.localStorage.setItem(`signcode:diag-done:${slug}`, '1');
   } catch {
     // ignora
   }

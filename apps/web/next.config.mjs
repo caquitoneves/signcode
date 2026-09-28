@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@projetox/ui'],
+  transpilePackages: ['@signcode/ui'],
   // Lint roda como passo próprio (turbo run lint), não durante o build.
   eslint: { ignoreDuringBuilds: true },
 };

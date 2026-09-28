@@ -37,7 +37,7 @@ export const DEFAULT_PREFS: Prefs = {
   onboarded: false,
 };
 
-const STORAGE_KEY = 'projetox:prefs';
+const STORAGE_KEY = 'signcode:prefs';
 
 interface PrefsContextValue {
   prefs: Prefs;

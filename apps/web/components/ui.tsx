@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { Hand } from 'lucide-react';
-import { cn } from '@projetox/ui';
+import { cn } from '@signcode/ui';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'success';
 type Size = 'sm' | 'md';

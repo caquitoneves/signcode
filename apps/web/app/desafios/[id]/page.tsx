@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, Code2 } from 'lucide-react';
-import type { ChallengePublic } from '@projetox/contracts';
+import type { ChallengePublic } from '@signcode/contracts';
 import { CodePlayground } from '@/components/code-playground';
 import { StateMessage } from '@/components/state-message';
 import { experienceApi } from '@/lib/experience-api';
@@ -33,7 +33,7 @@ export default function DesafioPage() {
         {data ? (
           <>
             <div className="flex items-center gap-2">
-              <Code2 className="h-6 w-6 text-brand" aria-hidden="true" />
+              <Code2 className="h-6 w-6 text-violet-600" aria-hidden="true" />
               <h1 className="text-2xl font-bold tracking-tight">{data.title}</h1>
             </div>
             <p className="text-muted">{data.instructions}</p>

@@ -18,8 +18,8 @@ import {
   Target,
 } from 'lucide-react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import type { CourseTree, LessonDetail } from '@projetox/contracts';
-import { cn } from '@projetox/ui';
+import type { CourseTree, LessonDetail } from '@signcode/contracts';
+import { cn } from '@signcode/ui';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth-context';
 import { progressApi } from '@/lib/progress-api';

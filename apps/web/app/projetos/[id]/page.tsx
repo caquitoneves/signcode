@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, FolderGit2, Rocket } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import type { ProjectPublic, ProjectSubmissionResult } from '@projetox/contracts';
+import type { ProjectPublic, ProjectSubmissionResult } from '@signcode/contracts';
 import { Markdown } from '@/components/markdown';
 import { StateMessage } from '@/components/state-message';
 import { Field } from '@/components/form';
@@ -77,7 +77,7 @@ export default function ProjectPage() {
               {data.kind === 'FINAL' ? (
                 <Rocket className="h-6 w-6 text-brand" aria-hidden="true" />
               ) : (
-                <FolderGit2 className="h-6 w-6 text-brand" aria-hidden="true" />
+                <FolderGit2 className="h-6 w-6 text-rose-600" aria-hidden="true" />
               )}
               <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">{data.title}</h1>
             </div>
@@ -93,7 +93,7 @@ export default function ProjectPage() {
                   {data.requirements.map((r, i) => (
                     <li key={i} className="flex items-start gap-2 text-ink/90">
                       <CheckCircle2
-                        className="mt-0.5 h-4 w-4 shrink-0 text-brand"
+                        className={`mt-0.5 h-4 w-4 shrink-0 ${data.kind === 'FINAL' ? 'text-brand' : 'text-rose-600'}`}
                         aria-hidden="true"
                       />
                       <span>{r}</span>
@@ -134,7 +134,7 @@ export default function ProjectPage() {
                       {busy ? 'Salvando…' : saved ? 'Atualizar entrega' : 'Enviar entrega'}
                     </Button>
                     {saved ? (
-                      <span className="inline-flex items-center gap-1.5 text-sm text-emerald-400">
+                      <span className="inline-flex items-center gap-1.5 text-sm text-emerald-600">
                         <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
                         Entrega salva
                       </span>

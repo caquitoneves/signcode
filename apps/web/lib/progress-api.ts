@@ -1,4 +1,4 @@
-import type { CourseProgress, DashboardCourse } from '@projetox/contracts';
+import type { CourseProgress, DashboardCourse } from '@signcode/contracts';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3333';
 

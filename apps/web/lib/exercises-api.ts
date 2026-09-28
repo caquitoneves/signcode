@@ -1,4 +1,4 @@
-import type { ExercisePublic, ExerciseSubmissionResult } from '@projetox/contracts';
+import type { ExercisePublic, ExerciseSubmissionResult } from '@signcode/contracts';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3333';
 
