@@ -16,7 +16,7 @@ Hipóteses que precisamos **testar** — nenhuma é tratada como fato.
 - Landing page + lista de interessados para medir interesse antes de escalar.
 
 **Sinais de sucesso (provisórios):** conclusão da 1ª aula, retorno para a 2ª, capacidade de
-resolver o primeiro exercício, feedback qualitativo positivo sobre aprender em Libras.
+resolver o primeiro exercício, feedback qualitativo positivo sobre a experiência com SignCode.
 
 ## Hipóteses secundárias
 

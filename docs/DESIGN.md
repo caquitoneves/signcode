@@ -1,6 +1,6 @@
 # DESIGN — Projeto X (nome provisório)
 
-> "projetox" é um nome de trabalho enquanto a marca é definida. Evitar cravar nome de marca
+> "SignCode" é o nome provisório da marca enquanto a identidade final é definida. Evitar cravar nome de marca.
 > nas telas; manter textos neutros até a identidade ser fechada.
 
 ## Referências de design

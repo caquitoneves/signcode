@@ -47,7 +47,7 @@ cp apps/web/.env.example apps/web/.env.local  # web
 docker compose up -d
 
 # 4. Prisma: gera o client e cria as tabelas (uma vez)
-pnpm --filter @projetox/api prisma:migrate:dev
+pnpm --filter @signcode/api prisma:migrate:dev
 
 # 5. rodar tudo (web + api)
 pnpm dev

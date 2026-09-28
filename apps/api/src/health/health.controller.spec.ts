@@ -17,7 +17,7 @@ describe('HealthController', () => {
   it('retorna status "ok" com metadados do serviço', () => {
     const result = controller.check();
     expect(result.status).toBe('ok');
-    expect(result.service).toBe('projetox-api');
+    expect(result.service).toBe('signcode-api');
     expect(typeof result.version).toBe('string');
     expect(() => new Date(result.timestamp).toISOString()).not.toThrow();
   });
