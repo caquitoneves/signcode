@@ -18,7 +18,7 @@ import type {
   CourseTreeLesson,
   CourseTreeModule,
   DashboardCourse,
-} from '@projetox/contracts';
+} from '@signcode/contracts';
 import { EmptyArt } from '@/components/illustrations';
 import { StateMessage } from '@/components/state-message';
 import { Button, Card, LibrasBadge, ProgressBar } from '@/components/ui';
@@ -58,11 +58,21 @@ function findNext(
   return null;
 }
 
-function StatTile({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
+function StatTile({
+  icon,
+  label,
+  value,
+  tint = 'bg-brand/15 text-brand',
+}: {
+  icon: ReactNode;
+  label: string;
+  value: string;
+  tint?: string;
+}) {
   return (
     <Card className="flex items-center gap-4 p-5">
       <span
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-brand"
+        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${tint}`}
         aria-hidden="true"
       >
         {icon}
@@ -219,16 +229,19 @@ export default function PainelPage() {
               icon={<Layers className="h-5 w-5" />}
               label="Cursos em andamento"
               value={String(inProgress)}
+              tint="bg-brand/15 text-brand"
             />
             <StatTile
               icon={<CheckCircle2 className="h-5 w-5" />}
               label="Aulas concluídas"
               value={String(totalCompleted)}
+              tint="bg-emerald-500/15 text-emerald-600"
             />
             <StatTile
               icon={<TrendingUp className="h-5 w-5" />}
               label="Progresso geral"
               value={`${percent(totalCompleted, totalLessons)}%`}
+              tint="bg-violet/15 text-violet-600"
             />
           </section>
         ) : null}

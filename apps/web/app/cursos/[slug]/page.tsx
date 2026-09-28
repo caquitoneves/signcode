@@ -18,7 +18,7 @@ import {
   Rocket,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { AssessmentStatus, CourseTree, CourseTreeLesson } from '@projetox/contracts';
+import type { AssessmentStatus, CourseTree, CourseTreeLesson } from '@signcode/contracts';
 import { StateMessage } from '@/components/state-message';
 import { Button, Card, LibrasBadge, ProgressBar } from '@/components/ui';
 import { api } from '@/lib/api';
@@ -338,9 +338,12 @@ export default function CoursePage() {
                               href={`/desafios/${ch.id}`}
                               className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand"
                             >
-                              <Code2 className="h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+                              <Code2
+                                className="h-5 w-5 shrink-0 text-violet-600"
+                                aria-hidden="true"
+                              />
                               <span className="flex-1">{ch.title}</span>
-                              <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand">
+                              <span className="rounded-full bg-violet/10 px-2 py-0.5 text-xs font-medium text-violet-600">
                                 Desafio
                               </span>
                             </Link>
@@ -352,11 +355,11 @@ export default function CoursePage() {
                               className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand"
                             >
                               <FolderGit2
-                                className="h-5 w-5 shrink-0 text-brand"
+                                className="h-5 w-5 shrink-0 text-rose-600"
                                 aria-hidden="true"
                               />
                               <span className="flex-1">{mod.miniProject.title}</span>
-                              <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand">
+                              <span className="rounded-full bg-coral/10 px-2 py-0.5 text-xs font-medium text-rose-600">
                                 Mini projeto
                               </span>
                             </Link>
@@ -368,11 +371,11 @@ export default function CoursePage() {
                               className="flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand"
                             >
                               <ClipboardCheck
-                                className="h-5 w-5 shrink-0 text-brand"
+                                className="h-5 w-5 shrink-0 text-emerald-600"
                                 aria-hidden="true"
                               />
                               <span className="flex-1">{mod.checkpoint.title}</span>
-                              <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand">
+                              <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-600">
                                 Checkpoint
                               </span>
                             </Link>
