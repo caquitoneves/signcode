@@ -1,6 +1,6 @@
 'use client';
-
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ArrowRight,
   Building2,
@@ -16,76 +16,21 @@ import {
   Hand,
   HeartHandshake,
   MonitorPlay,
-  Play,
   Rocket,
   Sparkles,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { useFetch } from '@/lib/use-fetch';
-import { LogoMark } from '@/components/logo';
-
 /* ---------------- Peças visuais ---------------- */
-
 function Burst({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#14b8a6" />
-          <stop offset="0.5" stopColor="#38bdf8" />
-          <stop offset="1" stopColor="#fb7185" />
-        </linearGradient>
-      </defs>
-      {Array.from({ length: 8 }).map((_, i) => (
-        <rect
-          key={i}
-          x="45"
-          y="6"
-          width="10"
-          height="38"
-          rx="5"
-          fill="url(#bg)"
-          transform={`rotate(${i * 45} 50 50)`}
-        />
-      ))}
+      <path d="M13 70 37 76" stroke="#ef4444" strokeWidth="10" strokeLinecap="round" />
+      <path d="M31 34 47 50" stroke="#fbbf24" strokeWidth="10" strokeLinecap="round" />
+      <path d="M69 12 75 36" stroke="#10b981" strokeWidth="10" strokeLinecap="round" />
     </svg>
   );
 }
-
-/** Prévia do produto (mock) — captura o valor sem fotos de pessoas. */
-function LessonPreview() {
-  return (
-    <div className="relative">
-      <div className="absolute -right-6 -top-6 h-40 w-40 rounded-full bg-amber/40 blur-2xl" />
-      <div className="absolute -bottom-8 -left-8 h-44 w-44 rounded-full bg-coral/30 blur-2xl" />
-      <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-2xl">
-        <div className="relative overflow-hidden rounded-2xl bg-slate-900">
-          <div className="flex aspect-video items-center justify-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/30">
-              <Play className="h-7 w-7 translate-x-0.5 text-white" aria-hidden="true" />
-            </span>
-          </div>
-          {/* PiP intérprete */}
-          <div className="absolute bottom-3 right-3 flex h-24 w-20 flex-col items-center justify-center rounded-xl bg-brand/90 text-brand-fg shadow-lg">
-            <Hand className="h-7 w-7" aria-hidden="true" />
-            <span className="mt-1 text-[10px] font-semibold">Libras</span>
-          </div>
-          {/* legenda */}
-          <div className="absolute bottom-3 left-3 rounded-md bg-black/60 px-2 py-1 text-xs text-white">
-            “Programar é dar instruções…”
-          </div>
-        </div>
-        <div className="mt-3 rounded-xl bg-slate-900 p-3 font-mono text-xs text-slate-100">
-          <span className="text-slate-500"># seu primeiro código</span>
-          <br />
-          <span className="text-sky">console</span>.log(
-          <span className="text-amber">&quot;Olá, mundo!&quot;</span>);
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const TRILHAS = [
   'Programação do Zero',
   'Fundamentos Web',
@@ -97,14 +42,12 @@ const TRILHAS = [
   'Inteligência Artificial',
   'Carreira',
 ];
-
 const STATS = [
   { value: '13', label: 'Módulos', cls: 'bg-rose-500 text-white' },
   { value: '114', label: 'Aulas', cls: 'bg-sky-600 text-white' },
   { value: 'Libras', label: 'Língua principal', cls: 'bg-emerald-600 text-white' },
   { value: 'Piloto', label: 'Vagas abertas', cls: 'bg-amber-400 text-slate-900' },
 ];
-
 const FLOW = [
   { icon: Compass, title: 'Diagnóstico', desc: 'A gente entende seu ponto de partida.' },
   { icon: MonitorPlay, title: 'Aula', desc: 'Vídeo em Libras, legenda, texto e código.' },
@@ -113,7 +56,6 @@ const FLOW = [
   { icon: FolderGit2, title: 'Projeto', desc: 'Constrói algo que vai pro seu portfólio.' },
   { icon: ClipboardCheck, title: 'Checkpoint', desc: 'Confirma que aprendeu de verdade.' },
 ];
-
 const METODO = [
   {
     icon: Hand,
@@ -124,7 +66,7 @@ const METODO = [
   {
     icon: MonitorPlay,
     title: 'Termos com vídeo',
-    desc: 'Não entendeu uma palavra? Passe o mouse e veja o sinal em vídeo.',
+    desc: 'Não entendeu um termo? Abra o vídeo do sinal com toque, clique ou teclado.',
     cls: 'text-coral bg-coral/10',
   },
   {
@@ -152,7 +94,6 @@ const METODO = [
     cls: 'text-amber-600 bg-amber/10',
   },
 ];
-
 const FAQ = [
   {
     q: 'Preciso saber programar para começar?',
@@ -171,66 +112,82 @@ const FAQ = [
     a: 'A turma piloto é gratuita. Em troca, pedimos seu feedback para melhorarmos o método.',
   },
 ];
-
 /* ---------------- Página ---------------- */
-
 export default function HomePage() {
   const { data: courses } = useFetch(() => api.listCourses(), []);
-
   return (
     <div className="bg-white text-slate-900">
-      {/* HERO */}
-      <section className="relative overflow-hidden">
+      {/* Hero principal */}
+      <section className="relative overflow-hidden bg-white">
         <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-brand/10 blur-3xl" />
-        <div className="pointer-events-none absolute -right-20 top-0 h-72 w-72 rounded-full bg-coral/10 blur-3xl" />
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 lg:grid-cols-2">
-          <div className="flex flex-col gap-6">
+        <div className="mx-auto grid max-w-6xl items-center gap-4 px-6 pb-6 pt-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-4 lg:pb-8 lg:pt-8">
+          <div className="relative z-10 flex flex-col gap-6">
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-brand-strong shadow-sm">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               Turma piloto — vagas limitadas
             </span>
-            <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+            <h1 className="text-4xl font-extrabold leading-[1.12] tracking-tight text-[#0b1a58] sm:text-5xl xl:text-[3.4rem]">
               Seu futuro também
               <br />
-              <span className="text-brand">fala em Libras.</span>
+              <span>fala em Libras.</span>
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-slate-600">
-              Uma escola de programação pensada para pessoas surdas desde o primeiro dia — com
-              Libras como língua de ensino, legenda, prática de código e projetos para o seu
+              Aprenda programação em Libras, com aulas visuais, prática real e projetos para o seu
               portfólio.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/cadastro"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 font-semibold text-brand-fg shadow-sm transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 font-semibold text-brand-fg shadow-sm motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               >
-                Entrar na turma piloto
+                Começar agora
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
                 href="/cursos/programacao-do-zero"
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800 transition-colors hover:bg-slate-50"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800 transition-colors hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               >
                 Ver o curso
               </Link>
             </div>
           </div>
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-md">
-              <Burst className="absolute -left-8 -top-10 h-20 w-20 opacity-90" />
-              <LessonPreview />
+          <div className="relative mx-auto flex w-full max-w-[620px] items-end justify-center">
+            {/* Fundo que ecoa a marca: base suave + colchetes + leque colorido */}
+            <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+              <div className="absolute inset-x-8 bottom-2 top-12 rounded-[3rem] bg-gradient-to-br from-brand/15 via-violet/10 to-emerald-500/15" />
+              <div className="absolute bottom-8 left-[1%] top-20 w-10 border-y-[7px] border-l-[7px] border-brand-strong/70 sm:w-14" />
+              <div className="absolute bottom-8 right-[1%] top-20 w-10 border-y-[7px] border-r-[7px] border-brand-strong/70 sm:w-14" />
+              <svg
+                className="absolute left-1/2 top-0 h-28 w-44 -translate-x-1/2 sm:h-36"
+                viewBox="0 0 120 70"
+                fill="none"
+              >
+                <g strokeWidth="7" strokeLinecap="round">
+                  <path d="M40 60 L32 18" stroke="#ef4444" />
+                  <path d="M54 58 L51 8" stroke="#fbbf24" />
+                  <path d="M68 58 L71 10" stroke="#10b981" />
+                  <path d="M82 60 L90 22" stroke="#a78bfa" />
+                </g>
+              </svg>
             </div>
+            <Image
+              src="/images/signcode-hero-mulher.png"
+              alt="Mulher sorrindo com as mãos sinalizando em frente ao corpo"
+              width={1536}
+              height={1024}
+              priority
+              className="relative z-10 h-auto max-h-[470px] w-full object-contain object-bottom"
+            />
           </div>
         </div>
       </section>
-
       {/* MARQUEE DE TRILHAS */}
       <section className="border-y border-slate-200 bg-slate-50 py-6">
         <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-slate-500">
           Uma jornada, do zero à carreira
         </p>
         <div className="marquee-mask overflow-hidden">
-          <div className="marquee-track gap-3">
+          <div className="marquee-track gap-3 motion-reduce:animate-none">
             {[...TRILHAS, ...TRILHAS].map((t, i) => (
               <span
                 key={i}
@@ -243,7 +200,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* STATS COLORIDOS */}
       <section className="mx-auto max-w-6xl px-6 py-16">
         <p className="mb-6 text-sm font-semibold uppercase tracking-widest text-sky-600">
@@ -258,7 +214,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
       {/* O QUE FAZEMOS — diferencial */}
       <section className="bg-slate-50 py-20">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2">
@@ -279,7 +234,7 @@ export default function HomePage() {
             <ul className="flex flex-col gap-3">
               {[
                 'Vídeo em Libras com pessoa sinalizante — não avatar.',
-                'Termos técnicos com vídeo ao passar o mouse.',
+                'Termos técnicos com vídeo ao tocar, clicar ou usar o teclado.',
                 'Prática de código no navegador, com feedback visual.',
               ].map((t) => (
                 <li key={t} className="flex items-start gap-3 text-slate-700">
@@ -307,7 +262,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* COMO FUNCIONA */}
       <section className="mx-auto max-w-6xl px-6 py-20">
         <p className="text-sm font-semibold uppercase tracking-widest text-violet-600">
@@ -320,7 +274,7 @@ export default function HomePage() {
           {FLOW.map((f, i) => (
             <div
               key={f.title}
-              className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-transform hover:-translate-y-1"
+              className="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm motion-safe:transition-transform motion-safe:hover:-translate-y-1"
             >
               <div className="flex items-center justify-between">
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/10 text-brand-strong">
@@ -338,7 +292,6 @@ export default function HomePage() {
           para mostrar.
         </p>
       </section>
-
       {/* MÉTODO POR AULA */}
       <section className="bg-slate-50 py-20">
         <div className="mx-auto max-w-6xl px-6">
@@ -362,7 +315,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* PARA EMPRESAS */}
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-900 p-10 text-white sm:p-14">
@@ -381,7 +333,7 @@ export default function HomePage() {
               </p>
               <Link
                 href="/cadastro"
-                className="inline-flex w-fit items-center gap-2 rounded-xl bg-brand px-5 py-3 font-semibold text-brand-fg transition-transform hover:-translate-y-0.5"
+                className="inline-flex w-fit items-center gap-2 rounded-xl bg-brand px-5 py-3 font-semibold text-brand-fg motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
               >
                 Quero apoiar o piloto
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -403,7 +355,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* CURSOS */}
       <section id="cursos" className="mx-auto max-w-6xl px-6 pb-8">
         <p className="text-sm font-semibold uppercase tracking-widest text-brand-strong">Cursos</p>
@@ -413,7 +364,7 @@ export default function HomePage() {
             <Link
               key={c.id}
               href={`/cursos/${c.slug}`}
-              className="group flex h-full flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-transform hover:-translate-y-1"
+              className="group flex h-full flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm motion-safe:transition-transform motion-safe:hover:-translate-y-1"
             >
               <div className="flex items-center justify-between">
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand-strong">
@@ -429,7 +380,7 @@ export default function HomePage() {
               <span className="mt-auto inline-flex items-center gap-1 pt-1 text-sm font-semibold text-brand-strong">
                 Ver curso
                 <ArrowRight
-                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  className="h-4 w-4 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5"
                   aria-hidden="true"
                 />
               </span>
@@ -437,7 +388,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
       {/* FAQ */}
       <section className="mx-auto max-w-3xl px-6 py-20">
         <h2 className="text-center text-4xl font-extrabold tracking-tight">Perguntas frequentes</h2>
@@ -447,7 +397,7 @@ export default function HomePage() {
               key={f.q}
               className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between font-semibold">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
                 {f.q}
                 <span className="text-brand transition-transform group-open:rotate-45">+</span>
               </summary>
@@ -456,7 +406,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
       {/* CTA FINAL */}
       <section className="mx-auto max-w-6xl px-6 pb-24">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-brand to-emerald-500 p-12 text-center text-brand-fg">
@@ -465,26 +414,20 @@ export default function HomePage() {
             Sua carreira em tecnologia começa aqui
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-lg text-brand-fg/80">
-            Entre na turma piloto e ajude a construir a primeira escola de tecnologia pensada em
-            Libras.
+            Entre na turma piloto e ajude a construir uma escola de tecnologia pensada em Libras.
           </p>
           <Link
             href="/cadastro"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 active:scale-[0.98]"
           >
             Criar minha conta
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </section>
-
       {/* FOOTER */}
       <footer className="border-t border-slate-200 bg-slate-50">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center">
-          <span className="flex items-center gap-2 font-semibold">
-            <LogoMark className="h-8 w-8" />
-            Aprender <span className="text-brand">em Libras</span>
-          </span>
           <p className="max-w-md text-sm text-slate-500">
             Ampliando o acesso de pessoas surdas à educação e às oportunidades em tecnologia.
           </p>

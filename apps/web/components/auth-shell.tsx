@@ -30,7 +30,7 @@ function BrandPanel() {
       >
         <LogoMark className="h-9 w-9" />
         <span className="font-semibold tracking-tight">
-          Aprender <span className="text-brand">em Libras</span>
+          Sign<span className="text-brand">Code</span>
         </span>
       </Link>
 
