@@ -6,7 +6,7 @@ import { useProfile } from '@/lib/profile-context';
 import { Button, Card } from '@/components/ui';
 
 export default function ConfiguracoesPage() {
-  const { profile, updateProfile } = useProfile();
+  const { profile, updateProfile, save, saving } = useProfile();
 
   return (
     <main className="aurora min-h-[calc(100vh-3.5rem)]">
@@ -134,16 +134,26 @@ export default function ConfiguracoesPage() {
 
         <div className="flex items-center justify-end">
           <Button
-            onClick={() =>
-              showToast({
-                title: 'Alterações salvas',
-                description: 'Seu perfil foi atualizado.',
-                variant: 'success',
-              })
-            }
+            disabled={saving}
+            onClick={async () => {
+              try {
+                await save();
+                showToast({
+                  title: 'Alterações salvas',
+                  description: 'Seu perfil foi atualizado.',
+                  variant: 'success',
+                });
+              } catch {
+                showToast({
+                  title: 'Não foi possível salvar',
+                  description: 'Tente novamente em instantes.',
+                  variant: 'error',
+                });
+              }
+            }}
           >
             <Save className="h-4 w-4" aria-hidden="true" />
-            Salvar alterações
+            {saving ? 'Salvando…' : 'Salvar alterações'}
           </Button>
         </div>
       </div>

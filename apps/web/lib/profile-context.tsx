@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { useAuth } from './auth-context';
+import { profileApi } from './profile-api';
 
 export type ProfileTheme = 'violet' | 'indigo' | 'emerald';
 
@@ -44,13 +45,15 @@ const STORAGE_KEY = 'signcode:profile';
 interface ProfileContextValue {
   profile: UserProfile;
   hydrated: boolean;
+  saving: boolean;
   updateProfile: (patch: Partial<UserProfile>) => void;
+  save: () => Promise<void>;
   reset: () => void;
 }
 
 const ProfileContext = createContext<ProfileContextValue | null>(null);
 
-function read(): UserProfile {
+function readLocal(): UserProfile {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_PROFILE;
@@ -65,33 +68,77 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfile>(DEFAULT_PROFILE);
   const [hydrated, setHydrated] = useState(false);
+  const [saving, setSaving] = useState(false);
 
+  // Hidrata do localStorage na primeira renderização (instantâneo, offline).
   useEffect(() => {
-    setProfile(read());
+    setProfile(readLocal());
     setHydrated(true);
   }, []);
 
+  // Cache local (offline / visitante).
   useEffect(() => {
     if (!hydrated) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
     } catch {
-      // storage indisponível; ignora silenciosamente
+      // storage indisponível; ignora
     }
   }, [hydrated, profile]);
 
-  // Semeia o nome com o do usuário logado enquanto o perfil ainda estiver no padrão.
+  // Fonte de verdade: carrega do servidor quando logado (mantém defaults onde vier vazio).
   useEffect(() => {
-    const seededName = user?.name;
-    if (!hydrated || !seededName) return;
-    setProfile((prev) =>
-      prev.name === DEFAULT_PROFILE.name ? { ...prev, name: seededName } : prev,
-    );
-  }, [hydrated, user]);
+    if (!user) return;
+    let active = true;
+    profileApi
+      .get()
+      .then((remote) => {
+        if (!active || !remote) return;
+        setProfile((prev) => ({
+          name: remote.name ?? prev.name,
+          username: remote.username ?? prev.username,
+          bio: remote.bio ?? prev.bio,
+          pronouns: (remote.pronouns as UserProfile['pronouns']) ?? prev.pronouns,
+          city: remote.city ?? prev.city,
+          learningGoal: remote.learningGoal ?? prev.learningGoal,
+          theme: (remote.theme as ProfileTheme) ?? prev.theme,
+          emailReminders: remote.emailReminders ?? prev.emailReminders,
+          weeklySummary: remote.weeklySummary ?? prev.weeklySummary,
+          courseRecommendations: remote.courseRecommendations ?? prev.courseRecommendations,
+        }));
+      })
+      .catch(() => {
+        // mantém o que veio do cache local
+      });
+    return () => {
+      active = false;
+    };
+  }, [user]);
 
   const updateProfile = useCallback((patch: Partial<UserProfile>) => {
     setProfile((prev) => ({ ...prev, ...patch }));
   }, []);
+
+  const save = useCallback(async () => {
+    if (!user) return; // visitante: fica só no cache local
+    setSaving(true);
+    try {
+      await profileApi.update({
+        name: profile.name,
+        username: profile.username,
+        bio: profile.bio,
+        pronouns: profile.pronouns,
+        city: profile.city,
+        learningGoal: profile.learningGoal,
+        theme: profile.theme,
+        emailReminders: profile.emailReminders,
+        weeklySummary: profile.weeklySummary,
+        courseRecommendations: profile.courseRecommendations,
+      });
+    } finally {
+      setSaving(false);
+    }
+  }, [user, profile]);
 
   const reset = useCallback(() => {
     try {
@@ -103,8 +150,8 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<ProfileContextValue>(
-    () => ({ profile, hydrated, updateProfile, reset }),
-    [profile, hydrated, updateProfile, reset],
+    () => ({ profile, hydrated, saving, updateProfile, save, reset }),
+    [profile, hydrated, saving, updateProfile, save, reset],
   );
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;

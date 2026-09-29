@@ -48,6 +48,8 @@ export const authApi = {
   forgotPassword: (body: { email: string }) => post<{ ok: boolean }>('/auth/forgot-password', body),
   resetPassword: (body: { token: string; password: string }) =>
     post<{ ok: boolean }>('/auth/reset-password', body),
+  verifyEmail: (token: string) => post<{ ok: boolean }>('/auth/verify-email', { token }),
+  resendVerification: () => post<{ ok: boolean }>('/auth/resend-verification', undefined, true),
   me: async (): Promise<AuthMe | null> => {
     try {
       const res = await fetch(`${API_URL}/auth/me`, {
