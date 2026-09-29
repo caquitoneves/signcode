@@ -200,8 +200,7 @@ html[data-font-scale='xlarge'] {
   height: 60vh;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(40% 50% at 15% 4%, rgba(20, 184, 166, 0.1), transparent 70%),
+  background: radial-gradient(40% 50% at 15% 4%, rgba(20, 184, 166, 0.1), transparent 70%),
     radial-gradient(35% 45% at 88% 0%, rgba(56, 189, 248, 0.1), transparent 70%),
     radial-gradient(30% 40% at 60% 0%, rgba(251, 113, 133, 0.08), transparent 70%);
   filter: blur(6px);
@@ -236,4 +235,16 @@ html.reduce-motion *::after {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
+}
+
+/* Rolagem suave ao navegar para âncoras da landing (respeita quem prefere menos movimento). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Compensa a navbar fixa ao ancorar em uma seção. */
+section[id] {
+  scroll-margin-top: 5rem;
 }

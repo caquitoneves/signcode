@@ -64,6 +64,37 @@ function NavLink({
   );
 }
 
+/** Link de âncora para seções da landing: navegação nativa (sem RSC) + scroll suave. */
+function AnchorLink({
+  href,
+  light,
+  icon,
+  children,
+  onClick,
+}: {
+  href: string;
+  light: boolean;
+  icon: ReactNode;
+  children: ReactNode;
+  onClick?: () => void;
+}) {
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
+        light
+          ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+          : 'text-muted hover:bg-elevated hover:text-ink',
+      )}
+    >
+      {icon}
+      {children}
+    </a>
+  );
+}
+
 export function Navbar() {
   const { user, loading, logout } = useAuth();
   const pathname = usePathname() ?? '/';
@@ -172,22 +203,20 @@ export function Navbar() {
             </NavLink>
           ) : (
             <>
-              <NavLink
+              <AnchorLink
                 href="/#como-funciona"
-                active={false}
                 light={light}
                 icon={<Compass className="h-4 w-4" aria-hidden="true" />}
               >
                 Como funciona
-              </NavLink>
-              <NavLink
+              </AnchorLink>
+              <AnchorLink
                 href="/#para-empresas"
-                active={false}
                 light={light}
                 icon={<Building2 className="h-4 w-4" aria-hidden="true" />}
               >
                 Para empresas
-              </NavLink>
+              </AnchorLink>
             </>
           )}
         </nav>
@@ -417,24 +446,22 @@ export function Navbar() {
               </>
             ) : (
               <>
-                <NavLink
+                <AnchorLink
                   href="/#como-funciona"
-                  active={false}
                   light={light}
                   icon={<Compass className="h-4 w-4" aria-hidden="true" />}
                   onClick={() => setMenuOpen(false)}
                 >
                   Como funciona
-                </NavLink>
-                <NavLink
+                </AnchorLink>
+                <AnchorLink
                   href="/#para-empresas"
-                  active={false}
                   light={light}
                   icon={<Building2 className="h-4 w-4" aria-hidden="true" />}
                   onClick={() => setMenuOpen(false)}
                 >
                   Para empresas
-                </NavLink>
+                </AnchorLink>
                 <div className="my-1 border-t border-edge" />
                 <NavLink
                   href="/entrar"
