@@ -5,10 +5,14 @@ import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
+  Code2,
   Compass,
+  ExternalLink,
+  FolderGit2,
   GraduationCap,
   Layers,
   Play,
+  Rocket,
   ShieldCheck,
   Sparkles,
   TrendingUp,
@@ -21,7 +25,13 @@ import { DashboardSkeleton, ErrorState } from '@/components/skeleton';
 import { Button, Card, LibrasBadge, ProgressBar } from '@/components/ui';
 import { useAuth } from '@/lib/auth-context';
 import { useProfile } from '@/lib/profile-context';
-import { useCourse, useCourseProgress, useCourses, useDashboard } from '@/lib/queries';
+import {
+  useCourse,
+  useCourseProgress,
+  useCourses,
+  useDashboard,
+  usePortfolio,
+} from '@/lib/queries';
 
 interface NextUp {
   courseSlug: string;
@@ -115,6 +125,7 @@ export default function PainelPage() {
   const { data: items, isPending: itemsPending, isError, refetch } = useDashboard(Boolean(user));
   const { data: catalogData } = useCourses();
   const catalog = catalogData ?? [];
+  const { data: portfolio } = usePortfolio(Boolean(user));
 
   const primary = useMemo(() => {
     const list = items ?? [];
@@ -191,10 +202,13 @@ export default function PainelPage() {
                     {first ? `Olá, ${first}!` : 'Olá!'}
                   </h1>
                   <p className="mt-3 max-w-lg text-base text-muted lg:text-lg">
-                    {profile.learningGoal || 'Continue evoluindo com aulas, desafios e progresso que fazem sentido.'}
+                    {profile.learningGoal ||
+                      'Continue evoluindo com aulas, desafios e progresso que fazem sentido.'}
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-3">
-                    <Link href={nextUp && !nextUp.finished ? `/aulas/${nextUp.lessonId}` : '/cursos'}>
+                    <Link
+                      href={nextUp && !nextUp.finished ? `/aulas/${nextUp.lessonId}` : '/cursos'}
+                    >
                       <Button size="md">
                         {nextUp && !nextUp.finished ? 'Retomar aula' : 'Explorar cursos'}
                         <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -390,6 +404,98 @@ export default function PainelPage() {
                     );
                   })}
                 </ul>
+              </section>
+            ) : null}
+
+            {user && items && items.length > 0 && portfolio ? (
+              <section className="flex flex-col gap-4">
+                <h2 className="flex items-center gap-2 text-lg font-semibold">
+                  <FolderGit2 className="h-5 w-5 text-brand" aria-hidden="true" />
+                  Sua prática e portfólio
+                </h2>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <StatTile
+                    icon={<CheckCircle2 className="h-5 w-5" />}
+                    label="Aulas concluídas"
+                    value={String(portfolio.stats.lessonsCompleted)}
+                    tint="bg-emerald-500/15 text-emerald-600"
+                  />
+                  <StatTile
+                    icon={<Code2 className="h-5 w-5" />}
+                    label="Desafios resolvidos"
+                    value={String(portfolio.stats.challengesPassed)}
+                    tint="bg-brand/15 text-brand"
+                  />
+                  <StatTile
+                    icon={<Rocket className="h-5 w-5" />}
+                    label="Projetos entregues"
+                    value={String(portfolio.stats.projectsSubmitted)}
+                    tint="bg-violet-500/15 text-violet-600"
+                  />
+                </div>
+                {portfolio.projects.length > 0 ? (
+                  <ul className="stagger-children grid gap-4 md:grid-cols-2">
+                    {portfolio.projects.map((proj) => (
+                      <li key={proj.id}>
+                        <Card className="flex h-full flex-col gap-3 p-5">
+                          <div className="flex items-center gap-2">
+                            {proj.kind === 'FINAL' ? (
+                              <Rocket className="h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+                            ) : (
+                              <FolderGit2
+                                className="h-5 w-5 shrink-0 text-rose-600"
+                                aria-hidden="true"
+                              />
+                            )}
+                            <h3 className="font-semibold">{proj.title}</h3>
+                          </div>
+                          {proj.notes ? (
+                            <p className="line-clamp-2 text-sm text-muted">{proj.notes}</p>
+                          ) : null}
+                          <div className="mt-auto flex flex-wrap items-center gap-3 pt-1 text-sm">
+                            {proj.repoUrl ? (
+                              <a
+                                href={proj.repoUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1 font-medium text-brand hover:underline"
+                              >
+                                <FolderGit2 className="h-4 w-4" aria-hidden="true" />
+                                Repositório
+                              </a>
+                            ) : null}
+                            {proj.liveUrl ? (
+                              <a
+                                href={proj.liveUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1 font-medium text-brand hover:underline"
+                              >
+                                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                                Ver online
+                              </a>
+                            ) : null}
+                            <Link
+                              href={`/projetos/${proj.id}`}
+                              className="ml-auto inline-flex items-center gap-1 text-muted transition-colors hover:text-brand"
+                            >
+                              Editar entrega
+                              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                            </Link>
+                          </div>
+                        </Card>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Card className="flex items-start gap-3 p-5 text-sm text-muted">
+                    <FolderGit2 className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+                    <span>
+                      Você ainda não entregou nenhum projeto. Ao concluir um mini-projeto, adicione
+                      o link do repositório para começar a montar seu portfólio.
+                    </span>
+                  </Card>
+                )}
               </section>
             ) : null}
 

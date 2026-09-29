@@ -172,6 +172,27 @@ export interface DashboardCourse {
   enrolledAt: string;
 }
 
+/** Um projeto entregue pelo aluno (para a vitrine de portfólio). */
+export interface PortfolioProject {
+  id: string;
+  kind: ProjectKind;
+  title: string;
+  repoUrl: string | null;
+  liveUrl: string | null;
+  notes: string | null;
+  submittedAt: string;
+}
+
+/** Portfólio do aluno: prova do que ele praticou e construiu. */
+export interface Portfolio {
+  stats: {
+    lessonsCompleted: number;
+    challengesPassed: number;
+    projectsSubmitted: number;
+  };
+  projects: PortfolioProject[];
+}
+
 // ---------- Experiência de aprendizagem (Incremento 8) ----------
 
 /** Referência leve de um item dentro do módulo (para montar a sequência). */

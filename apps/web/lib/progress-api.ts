@@ -1,4 +1,4 @@
-import type { CourseProgress, DashboardCourse } from '@signcode/contracts';
+import type { CourseProgress, DashboardCourse, Portfolio } from '@signcode/contracts';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3333';
 
@@ -28,4 +28,5 @@ export const progressApi = {
   uncomplete: (lessonId: string) =>
     req(`/lessons/${encodeURIComponent(lessonId)}/complete`, 'DELETE'),
   getDashboard: () => req<DashboardCourse[]>('/me/dashboard'),
+  getPortfolio: () => req<Portfolio>('/me/portfolio'),
 };

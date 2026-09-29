@@ -13,6 +13,7 @@ export const qk = {
   lesson: (id: string) => ['lesson', id] as const,
   courseProgress: (slug: string) => ['course-progress', slug] as const,
   dashboard: () => ['dashboard'] as const,
+  portfolio: () => ['portfolio'] as const,
   checkpoint: (id: string) => ['checkpoint', id] as const,
   project: (id: string) => ['project', id] as const,
   projectSubmission: (id: string) => ['project-submission', id] as const,
@@ -52,6 +53,14 @@ export function useCourseProgress(slug: string, enabled = true) {
 
 export function useDashboard(enabled = true) {
   return useQuery({ queryKey: qk.dashboard(), queryFn: () => progressApi.getDashboard(), enabled });
+}
+
+export function usePortfolio(enabled = true) {
+  return useQuery({
+    queryKey: qk.portfolio(),
+    queryFn: () => progressApi.getPortfolio(),
+    enabled,
+  });
 }
 
 export function useCheckpoint(id: string) {

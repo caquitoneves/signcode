@@ -46,4 +46,10 @@ export class ProgressController {
   dashboard(@CurrentUser() user: AuthUser) {
     return this.progress.getDashboard(user.id);
   }
+
+  @Get('me/portfolio')
+  @ApiOperation({ summary: 'Portfólio do aluno: prática (aulas/desafios) e projetos entregues' })
+  portfolio(@CurrentUser() user: AuthUser) {
+    return this.progress.getPortfolio(user.id);
+  }
 }

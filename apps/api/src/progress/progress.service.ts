@@ -133,4 +133,44 @@ export class ProgressService {
       };
     });
   }
+
+  /** Portfólio do aluno: prova do que ele fez (prática + projetos entregues). */
+  async getPortfolio(userId: string) {
+    const [lessonsCompleted, passedChallenges, submissions] = await Promise.all([
+      this.prisma.lessonProgress.count({ where: { userId } }),
+      this.prisma.challengeSubmission.findMany({
+        where: { userId, passed: true },
+        distinct: ['challengeId'],
+        select: { challengeId: true },
+      }),
+      this.prisma.projectSubmission.findMany({
+        where: { userId },
+        orderBy: { updatedAt: 'desc' },
+        select: {
+          repoUrl: true,
+          liveUrl: true,
+          notes: true,
+          updatedAt: true,
+          project: { select: { id: true, kind: true, title: true } },
+        },
+      }),
+    ]);
+
+    return {
+      stats: {
+        lessonsCompleted,
+        challengesPassed: passedChallenges.length,
+        projectsSubmitted: submissions.length,
+      },
+      projects: submissions.map((s) => ({
+        id: s.project.id,
+        kind: s.project.kind,
+        title: s.project.title,
+        repoUrl: s.repoUrl,
+        liveUrl: s.liveUrl,
+        notes: s.notes,
+        submittedAt: s.updatedAt,
+      })),
+    };
+  }
 }
