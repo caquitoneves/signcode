@@ -14,7 +14,6 @@ export default function CadastroPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
-  const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -29,11 +28,6 @@ export default function CadastroPage() {
   async function onSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     setError(null);
-
-    if (!acceptTerms) {
-      setError('Você precisa aceitar os termos para continuar.');
-      return;
-    }
 
     if (passwordStrength < 3) {
       setError('Sua senha precisa ter pelo menos 8 caracteres e conter letras e números.');
@@ -100,14 +94,11 @@ export default function CadastroPage() {
 
         <CheckboxField checked={remember} onChange={setRemember} label="Lembrar de mim" />
 
-        <CheckboxField
-          checked={acceptTerms}
-          onChange={setAcceptTerms}
-          label="Aceito os termos e políticas"
-        />
-
         <FormError message={error} />
         <SubmitButton loading={loading}>Criar conta</SubmitButton>
+        <p className="text-center text-xs text-muted">
+          Ao criar conta, você concorda com os termos e políticas.
+        </p>
       </form>
     </AuthShell>
   );
