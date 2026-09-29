@@ -11,7 +11,8 @@ export const envSchema = z.object({
   JWT_ACCESS_SECRET: z.string().min(16, 'JWT_ACCESS_SECRET deve ter ao menos 16 caracteres'),
   JWT_REFRESH_SECRET: z.string().min(16, 'JWT_REFRESH_SECRET deve ter ao menos 16 caracteres'),
   JWT_ACCESS_TTL: z.coerce.number().int().positive().default(900), // 15 min
-  JWT_REFRESH_TTL: z.coerce.number().int().positive().default(1209600), // 14 dias
+  JWT_REFRESH_TTL: z.coerce.number().int().positive().default(1209600), // 14 dias (lembrar)
+  JWT_REFRESH_TTL_SHORT: z.coerce.number().int().positive().default(86400), // 1 dia (sem lembrar)
 
   COOKIE_DOMAIN: z.string().optional(),
 });

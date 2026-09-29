@@ -117,7 +117,21 @@ export interface AuthMe {
   email: string;
   name: string | null;
   role: string;
+  emailVerified: string | null;
   createdAt: string;
+}
+
+export interface UserProfile {
+  name: string | null;
+  username: string | null;
+  bio: string | null;
+  pronouns: string | null;
+  city: string | null;
+  learningGoal: string | null;
+  theme: string;
+  emailReminders: boolean;
+  weeklySummary: boolean;
+  courseRecommendations: boolean;
 }
 
 // ---------- Progresso ----------

@@ -19,6 +19,7 @@ interface IssuedTokens {
 }
 interface AuthResult extends IssuedTokens {
   user: AuthUser;
+  refreshTtl: number;
 }
 export interface RequestMeta {
   userAgent?: string;
@@ -57,6 +58,8 @@ export class AuthService {
     user: User,
     family: string,
     meta: RequestMeta,
+    refreshTtl: number,
+    rememberMe: boolean,
   ): Promise<IssuedTokens> {
     const accessToken = await this.tokens.signAccessToken({
       sub: user.id,
@@ -65,7 +68,7 @@ export class AuthService {
     });
     const refreshToken = this.tokens.generateOpaqueToken();
     const tokenHash = this.tokens.hashToken(refreshToken);
-    const expiresAt = new Date(Date.now() + this.tokens.refreshTtlSeconds() * 1000);
+    const expiresAt = new Date(Date.now() + refreshTtl * 1000);
     await this.prisma.refreshToken.create({
       data: {
         userId: user.id,
@@ -74,6 +77,7 @@ export class AuthService {
         expiresAt,
         userAgent: meta.userAgent ?? null,
         ip: meta.ip ?? null,
+        rememberMe,
       },
     });
     return { accessToken, refreshToken };
@@ -84,6 +88,7 @@ export class AuthService {
     password: string,
     name: string | undefined,
     meta: RequestMeta,
+    remember: boolean,
   ): Promise<AuthResult> {
     const existing = await this.prisma.user.findUnique({ where: { email } });
     if (existing) throw new ConflictException('E-mail já cadastrado');
@@ -91,11 +96,24 @@ export class AuthService {
     const user = await this.prisma.user.create({
       data: { email, passwordHash, name: name ?? null },
     });
-    const tokens = await this.createSession(user, this.tokens.generateFamily(), meta);
-    return { user: this.toAuthUser(user), ...tokens };
+    await this.sendVerificationEmail(user);
+    const refreshTtl = this.tokens.refreshTtlFor(remember);
+    const tokens = await this.createSession(
+      user,
+      this.tokens.generateFamily(),
+      meta,
+      refreshTtl,
+      remember,
+    );
+    return { user: this.toAuthUser(user), ...tokens, refreshTtl };
   }
 
-  async login(email: string, password: string, meta: RequestMeta): Promise<AuthResult> {
+  async login(
+    email: string,
+    password: string,
+    meta: RequestMeta,
+    remember: boolean,
+  ): Promise<AuthResult> {
     const user = await this.prisma.user.findUnique({ where: { email } });
     if (!user) {
       await argon2.verify(await this.getDummyHash(), password).catch(() => false);
@@ -103,8 +121,15 @@ export class AuthService {
     }
     const valid = await argon2.verify(user.passwordHash, password).catch(() => false);
     if (!valid) throw new UnauthorizedException('Credenciais inválidas');
-    const tokens = await this.createSession(user, this.tokens.generateFamily(), meta);
-    return { user: this.toAuthUser(user), ...tokens };
+    const refreshTtl = this.tokens.refreshTtlFor(remember);
+    const tokens = await this.createSession(
+      user,
+      this.tokens.generateFamily(),
+      meta,
+      refreshTtl,
+      remember,
+    );
+    return { user: this.toAuthUser(user), ...tokens, refreshTtl };
   }
 
   async refresh(refreshToken: string | undefined, meta: RequestMeta): Promise<AuthResult> {
@@ -132,8 +157,15 @@ export class AuthService {
       where: { id: record.id },
       data: { revokedAt: new Date() },
     });
-    const tokens = await this.createSession(record.user, record.family, meta);
-    return { user: this.toAuthUser(record.user), ...tokens };
+    const refreshTtl = this.tokens.refreshTtlFor(record.rememberMe);
+    const tokens = await this.createSession(
+      record.user,
+      record.family,
+      meta,
+      refreshTtl,
+      record.rememberMe,
+    );
+    return { user: this.toAuthUser(record.user), ...tokens, refreshTtl };
   }
 
   async logout(refreshToken: string | undefined): Promise<void> {
@@ -188,11 +220,48 @@ export class AuthService {
     ]);
   }
 
+  /** Cria um token de verificação e "envia" o e-mail (dev: loga o link). */
+  private async sendVerificationEmail(user: User): Promise<void> {
+    const token = this.tokens.generateOpaqueToken();
+    const tokenHash = this.tokens.hashToken(token);
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+    await this.prisma.emailVerificationToken.create({
+      data: { userId: user.id, tokenHash, expiresAt },
+    });
+    const webUrl = this.config.get('WEB_APP_URL', { infer: true });
+    await this.mail.sendEmailVerification(user.email, `${webUrl}/verificar-email?token=${token}`);
+  }
+
+  async resendVerification(userId: string): Promise<void> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || user.emailVerified) return; // idempotente e não vaza estado
+    await this.sendVerificationEmail(user);
+  }
+
+  async verifyEmail(token: string): Promise<void> {
+    const tokenHash = this.tokens.hashToken(token);
+    const record = await this.prisma.emailVerificationToken.findUnique({ where: { tokenHash } });
+    if (!record || record.usedAt || record.expiresAt.getTime() < Date.now()) {
+      throw new BadRequestException('Token inválido ou expirado');
+    }
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: record.userId },
+        data: { emailVerified: new Date() },
+      }),
+      this.prisma.emailVerificationToken.update({
+        where: { id: record.id },
+        data: { usedAt: new Date() },
+      }),
+    ]);
+  }
+
   async me(userId: string): Promise<{
     id: string;
     email: string;
     name: string | null;
     role: User['role'];
+    emailVerified: Date | null;
     createdAt: Date;
   }> {
     const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
@@ -201,6 +270,7 @@ export class AuthService {
       email: user.email,
       name: user.name,
       role: user.role,
+      emailVerified: user.emailVerified,
       createdAt: user.createdAt,
     };
   }

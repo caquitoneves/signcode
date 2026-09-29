@@ -11,4 +11,8 @@ export class MailService {
   async sendPasswordReset(email: string, resetUrl: string): Promise<void> {
     this.logger.log(`[DEV] Recuperação de senha para ${email}: ${resetUrl}`);
   }
+
+  async sendEmailVerification(email: string, verifyUrl: string): Promise<void> {
+    this.logger.log(`[DEV] Verificação de e-mail para ${email}: ${verifyUrl}`);
+  }
 }

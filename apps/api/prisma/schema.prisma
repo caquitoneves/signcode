@@ -21,13 +21,16 @@ model User {
   email        String  @unique
   passwordHash String
   name         String?
-  role         Role    @default(STUDENT)
+  role          Role      @default(STUDENT)
+  emailVerified DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  refreshTokens  RefreshToken[]
-  passwordResets PasswordResetToken[]
+  refreshTokens      RefreshToken[]
+  passwordResets     PasswordResetToken[]
+  emailVerifications EmailVerificationToken[]
+  profile            Profile?
   enrollments    Enrollment[]
   lessonProgress      LessonProgress[]
   exerciseSubmissions ExerciseSubmission[]
@@ -50,6 +53,7 @@ model RefreshToken {
   createdAt DateTime  @default(now())
   userAgent String?
   ip        String?
+  rememberMe Boolean  @default(false)
 
   @@index([userId])
   @@index([family])
@@ -67,6 +71,38 @@ model PasswordResetToken {
 
   @@index([userId])
   @@map("password_reset_tokens")
+}
+
+model Profile {
+  id           String  @id @default(cuid())
+  userId       String  @unique
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  username     String?
+  bio          String?
+  pronouns     String?
+  city         String?
+  learningGoal String?
+  theme        String  @default("violet")
+  emailReminders        Boolean @default(true)
+  weeklySummary         Boolean @default(true)
+  courseRecommendations Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("email_verification_tokens")
 }
 
 // ==========================================================

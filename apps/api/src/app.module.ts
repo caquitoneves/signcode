@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { CoursesModule } from './courses/courses.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { ExperienceModule } from './experience/experience.module';
+import { ProfileModule } from './profile/profile.module';
 import { ProgressModule } from './progress/progress.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { validateEnv } from './config/env.validation';
@@ -24,6 +25,7 @@ import { UsersModule } from './users/users.module';
     ProgressModule,
     ExercisesModule,
     ExperienceModule,
+    ProfileModule,
     UsersModule,
     MailModule,
     HealthModule,

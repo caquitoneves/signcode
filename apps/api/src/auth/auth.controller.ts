@@ -12,6 +12,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CsrfGuard } from './guards/csrf.guard';
 import type { AuthUser } from './types';
 
@@ -25,12 +26,12 @@ export class AuthController {
     private readonly config: ConfigService<Env, true>,
   ) {}
 
-  private cookieCfg(): CookieConfig {
+  private cookieCfg(refreshTtl?: number): CookieConfig {
     return {
       isProd: this.config.get('NODE_ENV', { infer: true }) === 'production',
       domain: this.config.get('COOKIE_DOMAIN', { infer: true }),
       accessTtl: this.config.get('JWT_ACCESS_TTL', { infer: true }),
-      refreshTtl: this.config.get('JWT_REFRESH_TTL', { infer: true }),
+      refreshTtl: refreshTtl ?? this.config.get('JWT_REFRESH_TTL', { infer: true }),
     };
   }
 
@@ -47,9 +48,15 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.auth.register(dto.email, dto.password, dto.name, this.meta(req));
+    const result = await this.auth.register(
+      dto.email,
+      dto.password,
+      dto.name,
+      this.meta(req),
+      dto.remember ?? true,
+    );
     const csrfToken = this.auth.generateCsrfToken();
-    setAuthCookies(res, result, csrfToken, this.cookieCfg());
+    setAuthCookies(res, result, csrfToken, this.cookieCfg(result.refreshTtl));
     return { user: result.user, csrfToken };
   }
 
@@ -63,9 +70,14 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.auth.login(dto.email, dto.password, this.meta(req));
+    const result = await this.auth.login(
+      dto.email,
+      dto.password,
+      this.meta(req),
+      dto.remember ?? true,
+    );
     const csrfToken = this.auth.generateCsrfToken();
-    setAuthCookies(res, result, csrfToken, this.cookieCfg());
+    setAuthCookies(res, result, csrfToken, this.cookieCfg(result.refreshTtl));
     return { user: result.user, csrfToken };
   }
 
@@ -77,7 +89,7 @@ export class AuthController {
   async refresh(@Req() req: ReqWithCookies, @Res({ passthrough: true }) res: Response) {
     const result = await this.auth.refresh(req.cookies?.[REFRESH_COOKIE], this.meta(req));
     const csrfToken = this.auth.generateCsrfToken();
-    setAuthCookies(res, result, csrfToken, this.cookieCfg());
+    setAuthCookies(res, result, csrfToken, this.cookieCfg(result.refreshTtl));
     return { user: result.user, csrfToken };
   }
 
@@ -118,6 +130,25 @@ export class AuthController {
   @ApiOperation({ summary: 'Redefine a senha e invalida sessões' })
   async resetPassword(@Body() dto: ResetPasswordDto) {
     await this.auth.resetPassword(dto.token, dto.password);
+    return { ok: true };
+  }
+
+  @Public()
+  @Post('verify-email')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Verifica o e-mail a partir do token' })
+  async verifyEmail(@Body() dto: VerifyEmailDto) {
+    await this.auth.verifyEmail(dto.token);
+    return { ok: true };
+  }
+
+  @UseGuards(CsrfGuard)
+  @Throttle({ default: { limit: 3, ttl: 60_000 } })
+  @Post('resend-verification')
+  @HttpCode(202)
+  @ApiOperation({ summary: 'Reenvia o e-mail de verificação' })
+  async resendVerification(@CurrentUser() user: AuthUser) {
+    await this.auth.resendVerification(user.id);
     return { ok: true };
   }
 

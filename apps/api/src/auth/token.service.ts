@@ -47,4 +47,13 @@ export class TokenService {
   refreshTtlSeconds(): number {
     return this.config.get('JWT_REFRESH_TTL', { infer: true });
   }
+
+  shortRefreshTtlSeconds(): number {
+    return this.config.get('JWT_REFRESH_TTL_SHORT', { infer: true });
+  }
+
+  /** TTL do refresh conforme "lembrar de mim". */
+  refreshTtlFor(remember: boolean): number {
+    return remember ? this.refreshTtlSeconds() : this.shortRefreshTtlSeconds();
+  }
 }
