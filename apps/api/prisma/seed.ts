@@ -9,6 +9,30 @@ const SAMPLE = {
   interpreter: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
 };
 
+/** Formato dos blocos ```challenge embutidos no markdown das aulas. */
+interface InlineChallenge {
+  id: string;
+  instructions?: string;
+  starter?: string;
+  tests?: { description: string; assert: string }[];
+}
+
+/** Extrai os desafios de código embutidos no corpo Markdown de uma aula. */
+function parseInlineChallenges(body: string): InlineChallenge[] {
+  const out: InlineChallenge[] = [];
+  const re = /```challenge\s*\n([\s\S]*?)\n```/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(body)) !== null) {
+    try {
+      const parsed = JSON.parse(m[1]!.trim()) as InlineChallenge;
+      if (parsed && typeof parsed.id === 'string') out.push(parsed);
+    } catch {
+      // bloco inválido é ignorado (mesmo comportamento do renderer no cliente)
+    }
+  }
+  return out;
+}
+
 /**
  * Seed "Programação do Zero" — currículo + camada de experiência.
  * Orientado a dados: o conteúdo vive em seed-content.ts.
@@ -40,6 +64,7 @@ async function main(): Promise<void> {
 
   let totalLessons = 0;
   let totalExercises = 0;
+  let totalChallenges = 0;
 
   for (let mi = 0; mi < COURSE.modules.length; mi++) {
     const mod = COURSE.modules[mi]!;
@@ -91,6 +116,29 @@ async function main(): Promise<void> {
         },
       });
       totalLessons++;
+
+      // Desafios de código embutidos no markdown desta aula (viram entidades Challenge).
+      const inlineChallenges = parseInlineChallenges(lesson.body);
+      for (let ci = 0; ci < inlineChallenges.length; ci++) {
+        const ch = inlineChallenges[ci]!;
+        await prisma.challenge.create({
+          data: {
+            id: ch.id,
+            moduleId: createdModule.id,
+            lessonId: createdLesson.id,
+            order: ci,
+            title:
+              inlineChallenges.length > 1
+                ? `Desafio ${ci + 1} \u2014 ${lesson.title}`
+                : `Desafio \u2014 ${lesson.title}`,
+            instructions: ch.instructions ?? '',
+            starterCode: ch.starter ?? '',
+            tests: ch.tests ?? [],
+            languageCode: 'js',
+          },
+        });
+        totalChallenges++;
+      }
 
       for (let ei = 0; ei < lesson.exercises.length; ei++) {
         const ex = lesson.exercises[ei]!;
@@ -195,7 +243,7 @@ async function main(): Promise<void> {
   }
 
   console.log(
-    `Seed concluído: "${course.title}" — ${COURSE.modules.length} módulos, ${totalLessons} aulas, ${totalExercises} exercícios, checkpoints/mini-projetos/diagnóstico/projeto final incluídos.`,
+    `Seed concluído: "${course.title}" — ${COURSE.modules.length} módulos, ${totalLessons} aulas, ${totalExercises} exercícios, ${totalChallenges} desafios, checkpoints/mini-projetos/diagnóstico/projeto final incluídos.`,
   );
 }
 

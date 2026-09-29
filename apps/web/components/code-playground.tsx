@@ -1,9 +1,9 @@
 'use client';
 
 import { AlertCircle, CheckCircle2, Play, RotateCcw, Terminal, XCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '@signcode/ui';
-import { useCodeRunner, type TestCase } from '@/lib/use-code-runner';
+import { useCodeRunner, type RunResult, type TestCase } from '@/lib/use-code-runner';
 import { CodeEditor } from './code-editor';
 import { Button, Card } from './ui';
 
@@ -12,11 +12,14 @@ export function CodePlayground({
   tests = [],
   storageKey,
   height,
+  onResult,
 }: {
   starterCode?: string;
   tests?: TestCase[];
   storageKey?: string;
   height?: string;
+  /** Chamado após cada execução avaliada (ignora erros de sintaxe/timeout). */
+  onResult?: (passed: boolean, code: string) => void;
 }) {
   const [code, setCode] = useState(() => {
     if (storageKey) {
@@ -30,6 +33,22 @@ export function CodePlayground({
     return starterCode;
   });
   const { run, running, result } = useCodeRunner();
+
+  // Reporta o desfecho de cada execução avaliada ao componente pai (uma vez por run).
+  const onResultRef = useRef(onResult);
+  onResultRef.current = onResult;
+  const lastReportedRef = useRef<RunResult | null>(null);
+  useEffect(() => {
+    if (!result || result === lastReportedRef.current) return;
+    lastReportedRef.current = result;
+    if (result.runtimeError || result.timedOut) return; // erro não conta como avaliação
+    const passed =
+      tests.length > 0 &&
+      result.tests.length === tests.length &&
+      result.tests.every((t) => t.passed);
+    onResultRef.current?.(passed, code);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   function update(next: string): void {
     setCode(next);

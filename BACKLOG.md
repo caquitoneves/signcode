@@ -55,3 +55,19 @@ valor · complexidade.
 - **Status:** adiado. Master Instructions §5/§6/§23 — MVP é UM curso para provar
   o modelo antes de escalar. O aprofundamento dos 14 módulos do curso 1 está
   concluído (114 aulas, todas no nível rico).
+
+## Content-sync idempotente (preservar progresso ao atualizar conteúdo)
+
+- **Ideia:** um caminho de atualização de conteúdo baseado em upsert (por
+  slug/id estáveis) que atualize módulos/aulas/desafios/projetos SEM apagar
+  `LessonProgress` / `ChallengeSubmission` / `ProjectSubmission`.
+- **Problema:** o `seed.ts` recria a árvore do curso a cada execução
+  (`module.deleteMany` → cascata), o que zera todo o progresso e todas as
+  submissões. É seguro no bootstrap/dev, perigoso contra um banco de piloto real.
+- **Hipótese:** durante o piloto vamos querer corrigir/ampliar conteúdo com
+  usuários já ativos, sem perder a prova do que fizeram.
+- **Valor:** alto assim que houver alunos reais.
+- **Complexidade:** média (upsert por chaves estáveis + reconciliação de itens
+  removidos; os desafios já têm id estável, ex.: `m3-ola`).
+- **Status:** adiado. Hoje o `seed` é ferramenta de dev; não rodar contra dados
+  de piloto.
