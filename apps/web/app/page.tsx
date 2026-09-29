@@ -214,7 +214,7 @@ export default function HomePage() {
         </div>
       </section>
       {/* O QUE FAZEMOS — diferencial */}
-      <section className="bg-slate-50 py-20">
+      <section id="como-funciona" className="bg-slate-50 py-20">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2">
           <div className="flex flex-col gap-5">
             <p className="text-sm font-semibold uppercase tracking-widest text-rose-600">
@@ -315,7 +315,7 @@ export default function HomePage() {
         </div>
       </section>
       {/* PARA EMPRESAS */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
+      <section id="para-empresas" className="mx-auto max-w-6xl px-6 py-20">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-900 p-10 text-white sm:p-14">
           <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand/20 blur-3xl" />
           <div className="relative grid gap-10 lg:grid-cols-2 lg:items-center">

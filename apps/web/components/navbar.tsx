@@ -4,8 +4,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   BookOpen,
+  Building2,
   ChevronDown,
   Code2,
+  Compass,
   LayoutDashboard,
   LogIn,
   LogOut,
@@ -168,7 +170,26 @@ export function Navbar() {
             >
               Praticar
             </NavLink>
-          ) : null}
+          ) : (
+            <>
+              <NavLink
+                href="/#como-funciona"
+                active={false}
+                light={light}
+                icon={<Compass className="h-4 w-4" aria-hidden="true" />}
+              >
+                Como funciona
+              </NavLink>
+              <NavLink
+                href="/#para-empresas"
+                active={false}
+                light={light}
+                icon={<Building2 className="h-4 w-4" aria-hidden="true" />}
+              >
+                Para empresas
+              </NavLink>
+            </>
+          )}
         </nav>
 
         {/* Ações à direita */}
@@ -396,6 +417,25 @@ export function Navbar() {
               </>
             ) : (
               <>
+                <NavLink
+                  href="/#como-funciona"
+                  active={false}
+                  light={light}
+                  icon={<Compass className="h-4 w-4" aria-hidden="true" />}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Como funciona
+                </NavLink>
+                <NavLink
+                  href="/#para-empresas"
+                  active={false}
+                  light={light}
+                  icon={<Building2 className="h-4 w-4" aria-hidden="true" />}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Para empresas
+                </NavLink>
+                <div className="my-1 border-t border-edge" />
                 <NavLink
                   href="/entrar"
                   active={pathname.startsWith('/entrar')}
