@@ -68,7 +68,10 @@ export default function CoursePage() {
     setEnrolling(true);
     try {
       await progressApi.enroll(slug);
-      await queryClient.invalidateQueries({ queryKey: qk.courseProgress(slug) });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: qk.courseProgress(slug) }),
+        queryClient.invalidateQueries({ queryKey: qk.dashboard() }),
+      ]);
     } finally {
       setEnrolling(false);
     }

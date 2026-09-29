@@ -2,14 +2,17 @@
 
 import Link from 'next/link';
 import { CheckCircle2, Circle } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/auth-context';
 import { progressApi } from '../lib/progress-api';
+import { qk } from '../lib/queries';
 import { Confetti } from './confetti';
 import { Button, Card } from './ui';
 
 export function LessonComplete({ lessonId, courseSlug }: { lessonId: string; courseSlug: string }) {
   const { user, loading: authLoading } = useAuth();
+  const queryClient = useQueryClient();
   const [completed, setCompleted] = useState(false);
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -67,6 +70,11 @@ export function LessonComplete({ lessonId, courseSlug }: { lessonId: string; cou
         setCompleted(true);
         setCelebrate((c) => c + 1);
       }
+      // Reflete o novo progresso no curso, na barra do navbar e no painel.
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: qk.courseProgress(courseSlug) }),
+        queryClient.invalidateQueries({ queryKey: qk.dashboard() }),
+      ]);
     } catch {
       // mantém estado atual
     } finally {

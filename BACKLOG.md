@@ -42,3 +42,16 @@ valor · complexidade.
 - **Complexidade:** média (mega-menu acessível + páginas de público).
 - **Status:** adiado. Hoje há 1 curso — um mega-menu mostraria categorias
   vazias. Fica para quando existirem 3+ trilhas e as landing pages de público.
+
+## Trilha B (segundo curso) — pós-validação do piloto
+
+- **Ideia:** uma segunda trilha (ex.: Front-end/Web, Python/Dados) depois de
+  "Programação do Zero".
+- **Problema:** ampliar a oferta quando o primeiro curso provar o modelo.
+- **Hipótese:** demanda por mais trilhas aparece após validar a primeira com
+  pessoas surdas reais.
+- **Valor:** alto no futuro; baixo agora.
+- **Complexidade:** alta (todo o conteúdo + vídeos em Libras).
+- **Status:** adiado. Master Instructions §5/§6/§23 — MVP é UM curso para provar
+  o modelo antes de escalar. O aprofundamento dos 14 módulos do curso 1 está
+  concluído (114 aulas, todas no nível rico).

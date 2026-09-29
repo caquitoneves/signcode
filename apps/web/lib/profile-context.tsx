@@ -65,7 +65,7 @@ function readLocal(): UserProfile {
 }
 
 export function ProfileProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, reload } = useAuth();
   const [profile, setProfile] = useState<UserProfile>(DEFAULT_PROFILE);
   const [hydrated, setHydrated] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -135,10 +135,12 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
         weeklySummary: profile.weeklySummary,
         courseRecommendations: profile.courseRecommendations,
       });
+      // Nome mora no User: recarrega a sessão para o navbar refletir na hora.
+      await reload();
     } finally {
       setSaving(false);
     }
-  }, [user, profile]);
+  }, [user, profile, reload]);
 
   const reset = useCallback(() => {
     try {
