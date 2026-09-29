@@ -103,6 +103,7 @@ export function Navbar() {
   // "Cursos" é uma área própria (/cursos + /aulas); a landing (/) é só a home.
   const isCourses = pathname.startsWith('/cursos') || pathname.startsWith('/aulas');
   const isPratica = pathname.startsWith('/pratica');
+  const isEmpresas = pathname.startsWith('/empresas');
   const isPainel = pathname.startsWith('/painel');
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -210,13 +211,14 @@ export function Navbar() {
               >
                 Como funciona
               </AnchorLink>
-              <AnchorLink
-                href="/#para-empresas"
+              <NavLink
+                href="/empresas"
+                active={isEmpresas}
                 light={light}
                 icon={<Building2 className="h-4 w-4" aria-hidden="true" />}
               >
                 Para empresas
-              </AnchorLink>
+              </NavLink>
             </>
           )}
         </nav>
@@ -454,14 +456,15 @@ export function Navbar() {
                 >
                   Como funciona
                 </AnchorLink>
-                <AnchorLink
-                  href="/#para-empresas"
+                <NavLink
+                  href="/empresas"
+                  active={isEmpresas}
                   light={light}
                   icon={<Building2 className="h-4 w-4" aria-hidden="true" />}
                   onClick={() => setMenuOpen(false)}
                 >
                   Para empresas
-                </AnchorLink>
+                </NavLink>
                 <div className="my-1 border-t border-edge" />
                 <NavLink
                   href="/entrar"
