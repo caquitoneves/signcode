@@ -28,3 +28,17 @@ valor · complexidade.
 
 ### Comunidade nativa, pagamentos e bolsas B2B
 - Mantidos fora do MVP conforme Master Instructions (18, 19, 21). Comunidade via Discord no piloto.
+
+## Navbar estilo mega-menu (Rocketseat) — quando houver múltiplas trilhas
+
+- **Ideia:** transformar "Cursos" em um dropdown categorizado (Por área / Por
+  formato / Por nível) e adicionar um menu "Soluções" por público (indivíduos,
+  escolas, empresas), no estilo Rocketseat.
+- **Problema que resolve:** navegação e descoberta quando existirem várias
+  trilhas e páginas dedicadas para cada público (B2C, escolas, B2B).
+- **Hipótese:** com catálogo maior, um índice plano em /cursos fica difícil de
+  escanear; categorias melhoram a descoberta e a conversão por público.
+- **Valor:** médio (depende de ter conteúdo/públicos suficientes).
+- **Complexidade:** média (mega-menu acessível + páginas de público).
+- **Status:** adiado. Hoje há 1 curso — um mega-menu mostraria categorias
+  vazias. Fica para quando existirem 3+ trilhas e as landing pages de público.

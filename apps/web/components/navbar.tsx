@@ -10,6 +10,8 @@ import {
   LogIn,
   LogOut,
   Menu,
+  Settings,
+  User,
   UserPlus,
   X,
 } from 'lucide-react';
@@ -65,8 +67,8 @@ export function Navbar() {
   const pathname = usePathname() ?? '/';
   const light = pathname === '/';
 
-  const isCourses =
-    pathname === '/' || pathname.startsWith('/cursos') || pathname.startsWith('/aulas');
+  // "Cursos" é uma área própria (/cursos + /aulas); a landing (/) é só a home.
+  const isCourses = pathname.startsWith('/cursos') || pathname.startsWith('/aulas');
   const isPratica = pathname.startsWith('/pratica');
   const isPainel = pathname.startsWith('/painel');
 
@@ -150,29 +152,21 @@ export function Navbar() {
         {/* Links (desktop) */}
         <nav aria-label="Navegação principal" className="hidden items-center gap-1 text-sm sm:flex">
           <NavLink
-            href="/"
+            href="/cursos"
             active={isCourses}
             light={light}
             icon={<BookOpen className="h-4 w-4" aria-hidden="true" />}
           >
             Cursos
           </NavLink>
-          <NavLink
-            href="/pratica"
-            active={isPratica}
-            light={light}
-            icon={<Code2 className="h-4 w-4" aria-hidden="true" />}
-          >
-            Praticar
-          </NavLink>
           {user ? (
             <NavLink
-              href="/painel"
-              active={isPainel}
+              href="/pratica"
+              active={isPratica}
               light={light}
-              icon={<LayoutDashboard className="h-4 w-4" aria-hidden="true" />}
+              icon={<Code2 className="h-4 w-4" aria-hidden="true" />}
             >
-              Meu painel
+              Praticar
             </NavLink>
           ) : null}
         </nav>
@@ -233,10 +227,27 @@ export function Navbar() {
                     <Link
                       href="/painel"
                       role="menuitem"
+                      aria-current={isPainel ? 'page' : undefined}
                       className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink transition-colors hover:bg-elevated"
                     >
                       <LayoutDashboard className="h-4 w-4 text-muted" aria-hidden="true" />
                       Meu painel
+                    </Link>
+                    <Link
+                      href="/perfil"
+                      role="menuitem"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink transition-colors hover:bg-elevated"
+                    >
+                      <User className="h-4 w-4 text-muted" aria-hidden="true" />
+                      Perfil
+                    </Link>
+                    <Link
+                      href="/configuracoes"
+                      role="menuitem"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink transition-colors hover:bg-elevated"
+                    >
+                      <Settings className="h-4 w-4 text-muted" aria-hidden="true" />
+                      Configurações
                     </Link>
                     <button
                       type="button"
@@ -305,7 +316,7 @@ export function Navbar() {
             className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 text-sm"
           >
             <NavLink
-              href="/"
+              href="/cursos"
               active={isCourses}
               light={light}
               icon={<BookOpen className="h-4 w-4" aria-hidden="true" />}
@@ -313,27 +324,19 @@ export function Navbar() {
             >
               Cursos
             </NavLink>
-            <NavLink
-              href="/pratica"
-              active={isPratica}
-              light={light}
-              icon={<Code2 className="h-4 w-4" aria-hidden="true" />}
-              onClick={() => setMenuOpen(false)}
-            >
-              Praticar
-            </NavLink>
 
             {loading ? null : user ? (
               <>
                 <NavLink
-                  href="/painel"
-                  active={isPainel}
+                  href="/pratica"
+                  active={isPratica}
                   light={light}
-                  icon={<LayoutDashboard className="h-4 w-4" aria-hidden="true" />}
+                  icon={<Code2 className="h-4 w-4" aria-hidden="true" />}
                   onClick={() => setMenuOpen(false)}
                 >
-                  Meu painel
+                  Praticar
                 </NavLink>
+
                 <div className="my-1 border-t border-edge" />
                 <div className="flex items-center gap-2 px-3 py-2">
                   <span
@@ -347,6 +350,33 @@ export function Navbar() {
                     <span className="truncate text-xs text-muted">{user.email}</span>
                   </span>
                 </div>
+                <NavLink
+                  href="/painel"
+                  active={isPainel}
+                  light={light}
+                  icon={<LayoutDashboard className="h-4 w-4" aria-hidden="true" />}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Meu painel
+                </NavLink>
+                <NavLink
+                  href="/perfil"
+                  active={pathname.startsWith('/perfil')}
+                  light={light}
+                  icon={<User className="h-4 w-4" aria-hidden="true" />}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Perfil
+                </NavLink>
+                <NavLink
+                  href="/configuracoes"
+                  active={pathname.startsWith('/configuracoes')}
+                  light={light}
+                  icon={<Settings className="h-4 w-4" aria-hidden="true" />}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Configurações
+                </NavLink>
                 <button
                   type="button"
                   onClick={() => {
