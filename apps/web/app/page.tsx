@@ -19,6 +19,7 @@ import {
   Rocket,
   Sparkles,
 } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
 import { useCourses } from '@/lib/queries';
 /* ---------------- Peças visuais ---------------- */
 function Burst({ className }: { className?: string }) {
@@ -113,6 +114,7 @@ const FAQ = [
 ];
 /* ---------------- Página ---------------- */
 export default function HomePage() {
+  const { user } = useAuth();
   const { data: courses } = useCourses();
   return (
     <div className="bg-white text-slate-900">
@@ -136,10 +138,10 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
-                href="/cadastro"
+                href={user ? '/painel' : '/cadastro'}
                 className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 font-semibold text-brand-fg shadow-sm motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               >
-                Começar agora
+                {user ? 'Continuar aprendendo' : 'Começar agora'}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
@@ -331,10 +333,10 @@ export default function HomePage() {
                 conhecer talentos formados aqui. Inclusão que vira time.
               </p>
               <Link
-                href="/cadastro"
+                href="/empresas"
                 className="inline-flex w-fit items-center gap-2 rounded-xl bg-brand px-5 py-3 font-semibold text-brand-fg motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
               >
-                Quero apoiar o piloto
+                Conhecer para empresas
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
@@ -416,10 +418,10 @@ export default function HomePage() {
             Entre na turma piloto e ajude a construir uma escola de tecnologia pensada em Libras.
           </p>
           <Link
-            href="/cadastro"
+            href={user ? '/painel' : '/cadastro'}
             className="mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white motion-safe:transition-transform motion-safe:hover:-translate-y-0.5 active:scale-[0.98]"
           >
-            Criar minha conta
+            {user ? 'Ir para o painel' : 'Criar minha conta'}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
