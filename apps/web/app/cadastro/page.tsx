@@ -58,7 +58,7 @@ export default function CadastroPage() {
         </span>
       }
     >
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-3">
         <Field
           id="name"
           label="Nome (opcional)"
