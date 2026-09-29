@@ -29,7 +29,7 @@ export default function RecuperarSenhaPage() {
   return (
     <AuthShell
       title="Recuperar senha"
-      subtitle="Enviaremos um link por e-mail"
+      subtitle="Enviaremos um link de acesso ao seu e-mail"
       footer={
         <Link href="/entrar" className="font-medium text-brand hover:underline">
           Voltar para entrar
@@ -45,11 +45,12 @@ export default function RecuperarSenhaPage() {
           onChange={setEmail}
           required
           autoComplete="email"
+          placeholder="seu@email.com"
         />
         <FormError message={error} />
         <FormSuccess
           message={
-            done ? 'Se houver uma conta com esse e-mail, enviaremos um link de recuperação.' : null
+            done ? 'Se houver uma conta com esse e-mail, enviaremos um link de recuperação em instantes.' : null
           }
         />
         <SubmitButton loading={loading}>Enviar link</SubmitButton>

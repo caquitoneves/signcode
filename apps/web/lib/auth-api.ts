@@ -39,21 +39,29 @@ async function post<T>(path: string, body?: unknown, withCsrf = false): Promise<
 }
 
 export const authApi = {
-  register: (body: { email: string; password: string; name?: string }) =>
+  register: (body: { email: string; password: string; name?: string; remember?: boolean }) =>
     post<AuthResponse>('/auth/register', body),
-  login: (body: { email: string; password: string }) => post<AuthResponse>('/auth/login', body),
+  login: (body: { email: string; password: string; remember?: boolean }) =>
+    post<AuthResponse>('/auth/login', body),
   logout: () => post<{ ok: boolean }>('/auth/logout', undefined, true),
   refresh: () => post<AuthResponse>('/auth/refresh', undefined, true),
   forgotPassword: (body: { email: string }) => post<{ ok: boolean }>('/auth/forgot-password', body),
   resetPassword: (body: { token: string; password: string }) =>
     post<{ ok: boolean }>('/auth/reset-password', body),
   me: async (): Promise<AuthMe | null> => {
-    const res = await fetch(`${API_URL}/auth/me`, {
-      credentials: 'include',
-      headers: { accept: 'application/json' },
-    });
-    if (res.status === 401) return null;
-    if (!res.ok) throw new Error(`Erro ${res.status}`);
-    return (await res.json()) as AuthMe;
+    try {
+      const res = await fetch(`${API_URL}/auth/me`, {
+        credentials: 'include',
+        headers: { accept: 'application/json' },
+      });
+      if (res.status === 401) return null;
+      if (!res.ok) throw new Error(`Erro ${res.status}`);
+      return (await res.json()) as AuthMe;
+    } catch (error) {
+      if (error instanceof TypeError) {
+        throw new Error('Não foi possível conectar ao servidor. Tente novamente em instantes.');
+      }
+      throw error instanceof Error ? error : new Error('Não foi possível carregar sua sessão.');
+    }
   },
 };

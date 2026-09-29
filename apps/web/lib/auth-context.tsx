@@ -3,12 +3,13 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { AuthMe } from '@signcode/contracts';
 import { authApi } from './auth-api';
+import { showToast } from './toast';
 
 interface AuthContextValue {
   user: AuthMe | null;
   loading: boolean;
-  login(email: string, password: string): Promise<void>;
-  register(email: string, password: string, name?: string): Promise<void>;
+  login(email: string, password: string, remember?: boolean): Promise<void>;
+  register(email: string, password: string, name?: string, remember?: boolean): Promise<void>;
   logout(): Promise<void>;
   reload(): Promise<void>;
 }
@@ -32,6 +33,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
       setUser(me);
+    } catch (error) {
+      setUser(null);
+      const message = error instanceof Error ? error.message : 'Não foi possível verificar sua sessão.';
+      showToast({
+        title: 'Sessão indisponível',
+        description: message,
+        variant: 'error',
+      });
     } finally {
       setLoading(false);
     }
@@ -41,19 +50,66 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     void reload();
   }, [reload]);
 
-  const login = useCallback(async (email: string, password: string) => {
-    await authApi.login({ email, password });
-    setUser(await authApi.me());
+  const login = useCallback(async (email: string, password: string, remember = true) => {
+    try {
+      await authApi.login({ email, password, remember });
+      const nextUser = await authApi.me();
+      setUser(nextUser);
+      showToast({
+        title: 'Login realizado',
+        description: 'Você entrou com sucesso.',
+        variant: 'success',
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Não foi possível entrar.';
+      showToast({
+        title: 'Não foi possível entrar',
+        description: message,
+        variant: 'error',
+      });
+      throw error;
+    }
   }, []);
 
-  const register = useCallback(async (email: string, password: string, name?: string) => {
-    await authApi.register({ email, password, name });
-    setUser(await authApi.me());
-  }, []);
+  const register = useCallback(
+    async (email: string, password: string, name?: string, remember = true) => {
+      try {
+        await authApi.register({ email, password, name, remember });
+        const nextUser = await authApi.me();
+        setUser(nextUser);
+        showToast({
+          title: 'Conta criada',
+          description: 'Sua conta foi criada com sucesso.',
+          variant: 'success',
+        });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Não foi possível criar sua conta.';
+        showToast({
+          title: 'Não foi possível criar a conta',
+          description: message,
+          variant: 'error',
+        });
+        throw error;
+      }
+    },
+    [],
+  );
 
   const logout = useCallback(async () => {
     try {
       await authApi.logout();
+      showToast({
+        title: 'Sessão encerrada',
+        description: 'Você saiu com sucesso.',
+        variant: 'info',
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Não foi possível encerrar a sessão.';
+      showToast({
+        title: 'Falha ao sair',
+        description: message,
+        variant: 'error',
+      });
     } finally {
       setUser(null);
     }

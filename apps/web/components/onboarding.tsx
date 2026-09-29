@@ -9,7 +9,9 @@ import {
   Gauge,
   Hand,
   Languages,
+  MonitorPlay,
   PartyPopper,
+  Sparkles,
   Type,
 } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
@@ -161,10 +163,10 @@ export function Onboarding() {
         {/* Conteúdo — centralizado verticalmente no espaço restante */}
         <div key={step} className="flex flex-1 animate-fade-up items-center">
           {step === 0 ? (
-            <section className="grid w-full items-center gap-10 lg:grid-cols-2">
+            <section className="grid w-full items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
               <div className="flex flex-col gap-5 text-center lg:text-left">
                 <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/15 text-brand ring-1 ring-brand/40 lg:mx-0">
-                  <Hand className="h-7 w-7" aria-hidden="true" />
+                  <Sparkles className="h-7 w-7" aria-hidden="true" />
                 </span>
                 <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
                   {first ? (
@@ -182,12 +184,32 @@ export function Onboarding() {
                   )}
                 </h1>
                 <p className="text-lg leading-relaxed text-muted">
-                  Aqui você aprende tecnologia com foco em prática, clareza e construção real —
-                  enquanto explora um caminho de aprendizado moderno e acessível.
+                  Aqui você aprende tecnologia com foco em prática, acessibilidade e evolução real —
+                  a partir do seu ritmo e do seu jeito de aprender.
                 </p>
-                <p className="flex items-center justify-center gap-2 text-sm text-muted lg:justify-start">
-                  <LibrasBadge /> vídeo de exemplo — será substituído pelo intérprete oficial
-                </p>
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {['Libras como base', 'Prática no navegador', 'Projetos reais'].map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center rounded-full border border-brand/20 bg-brand/5 px-3 py-1 text-xs font-medium text-brand-strong"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {[
+                    { icon: Hand, title: 'Acessível', value: 'Libras' },
+                    { icon: MonitorPlay, title: 'Conteúdo', value: 'Vídeo' },
+                    { icon: Check, title: 'Método', value: 'Prático' },
+                  ].map(({ icon: Icon, title, value }) => (
+                    <div key={title} className="rounded-2xl border border-edge bg-card p-3">
+                      <Icon className="mb-2 h-5 w-5 text-brand" aria-hidden="true" />
+                      <p className="text-[11px] uppercase tracking-[0.12em] text-muted">{title}</p>
+                      <p className="mt-1 text-base font-semibold text-ink">{value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="mx-auto w-full max-w-xl">
                 <div className="overflow-hidden rounded-2xl border border-edge bg-black shadow-lg glow-brand">
@@ -303,8 +325,7 @@ export function Onboarding() {
               </span>
               <h1 className="text-4xl font-bold tracking-tight">Tudo pronto!</h1>
               <p className="text-lg text-muted">
-                Sua experiência está configurada. Vamos começar por{' '}
-                <span className="text-ink">Programação do Zero</span>.
+                Sua experiência está configurada para uma jornada mais clara, acessível e envolvente.
               </p>
               <Card className="w-full p-5 text-left">
                 <ul className="flex flex-col gap-2.5 text-sm">
@@ -319,6 +340,10 @@ export function Onboarding() {
                   <li className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-brand" aria-hidden="true" />
                     Legenda por padrão: {prefs.captionsDefault ? 'sim' : 'não'}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="h-4 w-4 text-brand" aria-hidden="true" />
+                    Tamanho da fonte: {prefs.fontScale === 'normal' ? 'padrão' : prefs.fontScale === 'large' ? 'grande' : 'maior'}
                   </li>
                 </ul>
               </Card>

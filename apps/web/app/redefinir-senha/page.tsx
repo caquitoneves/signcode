@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState, type FormEvent } from 'react';
 import { AuthShell } from '@/components/auth-shell';
-import { Field, FormError, SubmitButton } from '@/components/form';
+import { Field, FormError, PasswordStrength, SubmitButton } from '@/components/form';
 import { authApi } from '@/lib/auth-api';
 
 function ResetForm() {
@@ -18,6 +18,12 @@ function ResetForm() {
   async function onSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     setError(null);
+
+    if (password.length < 8) {
+      setError('Sua nova senha precisa ter pelo menos 8 caracteres.');
+      return;
+    }
+
     setLoading(true);
     try {
       await authApi.resetPassword({ token, password });
@@ -37,14 +43,16 @@ function ResetForm() {
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <Field
         id="password"
-        label="Nova senha (mín. 8 caracteres)"
+        label="Nova senha"
         type="password"
         value={password}
         onChange={setPassword}
         required
         minLength={8}
         autoComplete="new-password"
+        placeholder="Crie uma nova senha segura"
       />
+      {password ? <PasswordStrength value={password} /> : null}
       <FormError message={error} />
       <SubmitButton loading={loading}>Redefinir senha</SubmitButton>
     </form>
@@ -55,6 +63,7 @@ export default function RedefinirSenhaPage() {
   return (
     <AuthShell
       title="Redefinir senha"
+      subtitle="Crie uma nova senha para continuar"
       footer={
         <Link href="/entrar" className="font-medium text-brand hover:underline">
           Voltar para entrar

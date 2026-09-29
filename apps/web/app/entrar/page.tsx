@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 import { AuthShell } from '@/components/auth-shell';
-import { Field, FormError, SubmitButton } from '@/components/form';
+import { CheckboxField, Field, FormError, SubmitButton } from '@/components/form';
 import { useAuth } from '@/lib/auth-context';
 
 export default function EntrarPage() {
@@ -12,6 +12,7 @@ export default function EntrarPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +21,7 @@ export default function EntrarPage() {
     setError(null);
     setLoading(true);
     try {
-      await login(email, password);
+      await login(email, password, remember);
       router.push('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Não foi possível entrar');
@@ -51,6 +52,7 @@ export default function EntrarPage() {
           onChange={setEmail}
           required
           autoComplete="email"
+          placeholder="seu@email.com"
         />
         <Field
           id="password"
@@ -60,7 +62,18 @@ export default function EntrarPage() {
           onChange={setPassword}
           required
           autoComplete="current-password"
+          placeholder="••••••••"
         />
+
+        <div className="flex items-center justify-between gap-4">
+          <CheckboxField
+            checked={remember}
+            onChange={setRemember}
+            label="Lembrar de mim"
+            helperText="Mantém a sessão ativa por mais tempo"
+          />
+        </div>
+
         <FormError message={error} />
         <SubmitButton loading={loading}>Entrar</SubmitButton>
         <Link href="/recuperar-senha" className="text-center text-sm text-muted hover:text-brand">
