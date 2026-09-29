@@ -9,25 +9,22 @@ export function CheckboxField({
   checked,
   onChange,
   label,
-  helperText,
 }: {
   checked: boolean;
   onChange: (value: boolean) => void;
   label: string;
+  /** @deprecated mantido por compatibilidade; não é mais exibido (layout minimalista). */
   helperText?: string;
 }) {
   return (
-    <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-edge bg-elevated px-3 py-2.5 text-sm text-ink transition-colors hover:border-brand/50">
+    <label className="flex cursor-pointer items-center gap-2.5 text-sm text-ink">
       <input
         type="checkbox"
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
-        className="mt-0.5 h-4 w-4 rounded border-edge bg-card text-brand focus:ring-brand"
+        className="h-4 w-4 rounded border-edge text-brand focus:ring-brand"
       />
-      <span className="flex min-w-0 flex-col">
-        <span className="font-medium">{label}</span>
-        {helperText ? <span className="text-xs text-muted">{helperText}</span> : null}
-      </span>
+      <span>{label}</span>
     </label>
   );
 }
@@ -108,11 +105,12 @@ export function SubmitButton({ children, loading }: { children: ReactNode; loadi
 export function PasswordStrength({ value }: { value: string }) {
   const score = Math.min(
     4,
-    [value.length >= 8, /[A-Z]/.test(value), /\d/.test(value), /[^A-Za-z0-9]/.test(value)].filter(Boolean).length,
+    [value.length >= 8, /[A-Z]/.test(value), /\d/.test(value), /[^A-Za-z0-9]/.test(value)].filter(
+      Boolean,
+    ).length,
   );
 
-  const label =
-    score <= 1 ? 'Muito fraca' : score === 2 ? 'Fraca' : score === 3 ? 'Boa' : 'Forte';
+  const label = score <= 1 ? 'Muito fraca' : score === 2 ? 'Fraca' : score === 3 ? 'Boa' : 'Forte';
 
   return (
     <div className="flex items-center gap-2 text-xs text-muted">
@@ -123,9 +121,15 @@ export function PasswordStrength({ value }: { value: string }) {
             key={item}
             className={cn(
               'h-1.5 flex-1 rounded-full',
-              item < score ?
-                score <= 1 ? 'bg-red-400' : score === 2 ? 'bg-amber-400' : score === 3 ? 'bg-sky-400' : 'bg-emerald-500' :
-                'bg-slate-200',
+              item < score
+                ? score <= 1
+                  ? 'bg-red-400'
+                  : score === 2
+                    ? 'bg-amber-400'
+                    : score === 3
+                      ? 'bg-sky-400'
+                      : 'bg-emerald-500'
+                : 'bg-slate-200',
             )}
           />
         ))}

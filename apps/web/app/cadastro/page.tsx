@@ -98,18 +98,12 @@ export default function CadastroPage() {
           {password ? <PasswordStrength value={password} /> : null}
         </div>
 
-        <CheckboxField
-          checked={remember}
-          onChange={setRemember}
-          label="Lembrar de mim"
-          helperText="Mantém a sessão ativa no navegador"
-        />
+        <CheckboxField checked={remember} onChange={setRemember} label="Lembrar de mim" />
 
         <CheckboxField
           checked={acceptTerms}
           onChange={setAcceptTerms}
-          label="Aceito os termos e políticas da plataforma"
-          helperText="Você concorda com o uso responsável da conta"
+          label="Aceito os termos e políticas"
         />
 
         <FormError message={error} />

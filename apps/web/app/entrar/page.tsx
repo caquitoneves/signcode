@@ -65,20 +65,15 @@ export default function EntrarPage() {
           placeholder="••••••••"
         />
 
-        <div className="flex items-center justify-between gap-4">
-          <CheckboxField
-            checked={remember}
-            onChange={setRemember}
-            label="Lembrar de mim"
-            helperText="Mantém a sessão ativa por mais tempo"
-          />
+        <div className="flex items-center justify-between gap-3">
+          <CheckboxField checked={remember} onChange={setRemember} label="Lembrar de mim" />
+          <Link href="/recuperar-senha" className="text-sm text-muted hover:text-brand">
+            Esqueci a senha
+          </Link>
         </div>
 
         <FormError message={error} />
         <SubmitButton loading={loading}>Entrar</SubmitButton>
-        <Link href="/recuperar-senha" className="text-center text-sm text-muted hover:text-brand">
-          Esqueci minha senha
-        </Link>
       </form>
     </AuthShell>
   );
